@@ -3,472 +3,73 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>NTE27 Partner Forms</title>
+  <title>NTE27 Form Review Hub</title>
+  <meta name="description" content="NTE27 client-review hub for the proposed Salesforce Web-to-Lead journeys.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-  <style>
-    :root { --blue:#1470af; --blue-dark:#0c5588; --ink:#302d2a; --muted:#6b6864; --paper:#fff; --soft:#f3f7fa; --line:#d6dde2; --error:#a61b2b; font-family:"Urbanist",Arial,sans-serif; color:var(--ink); }
-    * { box-sizing:border-box; }
-    body { margin:0; background:#fff; line-height:1.5; }
-    .hero { min-height:330px; display:grid; place-items:center; padding:48px 24px; color:var(--blue); text-align:center; background:#fff; }
-    .hero a { display:inline-block; }
-    .hero img { width:300px; max-width:80vw; padding:10px; background:#fff; }
-    .hero h1 { margin:24px 0 4px; font-size:clamp(2rem,5vw,3.5rem); line-height:1.05; letter-spacing:.08em; text-transform:uppercase; }
-    .hero p { margin:0; font-size:1.2rem; }
-    main { width:min(100% - 32px,980px); margin:-46px auto 50px; position:relative; }
-    .card { margin-bottom:22px; padding:clamp(22px,4vw,42px); background:var(--paper); box-shadow:0 12px 35px rgba(18,55,78,.10); }
-    .notice { border:0; background:#fff; }
-    .form-choice { display:grid; grid-template-columns:1fr; gap:18px; margin-bottom:22px; }
-    .form-choice button { position:relative; display:flex; min-height:220px; padding:0; overflow:hidden; border:0; color:#fff; background:var(--blue); cursor:pointer; align-items:center; justify-content:center; transition:opacity .2s ease,transform .25s ease,box-shadow .25s ease; }
-    .form-choice button::after { position:absolute; z-index:1; inset:0; content:""; background:rgba(20,112,175,.62); transition:background .2s ease; }
-    .form-choice button:hover { transform:translateY(-5px); box-shadow:0 14px 30px rgba(20,112,175,.25); }
-    .form-choice button:hover::after { background:rgba(20,112,175,.76); }
-    .form-choice img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .45s ease; }
-    .form-choice button:hover img { transform:scale(1.045); }
-    .form-choice span { position:relative; z-index:2; max-width:85%; padding:20px; font:600 1.45rem/1.25 "Urbanist",Arial,sans-serif; text-shadow:0 2px 5px rgba(0,0,0,.4); }
-    .form-choice button.is-dismissing { opacity:0; transform:scale(.98); }
-    .form-choice.has-selection button[aria-pressed="true"] { width:100%; }
-    .form-panel { opacity:1; transform:translateY(0); transition:opacity .22s ease,transform .22s ease; }
-    .form-panel.is-entering { opacity:0; transform:translateY(12px); }
-    h2 { margin:0 0 18px; color:var(--blue); font-size:1.45rem; letter-spacing:.04em; text-align:center; text-transform:uppercase; }
-    h3 { margin:26px 0 12px; font-size:1.08rem; }
-    p { margin:0 0 14px; }
-    .muted,.help { color:var(--muted); }
-    .help { display:block; margin-top:5px; font-size:.86rem; }
-    .required::after { content:" *"; color:var(--error); }
-    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px 22px; }
-    .field { min-width:0; }
-    .full { grid-column:1/-1; }
-    label,.label { display:block; margin-bottom:6px; font-weight:600; }
-    input,select,textarea { width:100%; min-height:46px; padding:10px 12px; border:1px solid var(--line); border-radius:3px; color:var(--ink); background:#fff; font:inherit; }
-    textarea { min-height:105px; resize:vertical; }
-    input:focus,select:focus,textarea:focus,button:focus-visible { outline:3px solid rgba(20,112,175,.28); outline-offset:2px; border-color:var(--blue); }
-    .space-multiselect { position:relative; }
-    .space-trigger { display:flex; width:100%; min-height:48px; padding:11px 13px; border:1px solid var(--line); color:var(--ink); background:#fff; font:inherit; text-align:left; cursor:pointer; align-items:center; justify-content:space-between; }
-    .space-trigger::after { margin-left:15px; content:"▾"; transition:transform .18s ease; }
-    .space-multiselect.is-open .space-trigger::after { transform:rotate(180deg); }
-    .space-options { position:absolute; z-index:30; top:calc(100% + 5px); right:0; left:0; max-height:390px; padding:8px 0; overflow:auto; border:1px solid var(--line); background:#fff; box-shadow:0 12px 28px rgba(18,55,78,.16); }
-    .space-option { display:flex; gap:10px; margin:0; padding:11px 14px; font-weight:500; cursor:pointer; align-items:flex-start; }
-    .space-option:hover,.space-option:has(input:checked) { background:var(--soft); }
-    .space-option input { width:auto; min-height:auto; margin-top:4px; flex:0 0 auto; }
-    .conditional { opacity:1; transform:translateY(0); transition:opacity .2s ease,transform .2s ease; }
-    .conditional[hidden] { display:none; }
-    .section-intro { margin-top:-8px; color:var(--muted); }
-    .summary { padding:18px; background:var(--soft); border-left:4px solid var(--blue); }
-    .terms { display:flex; gap:12px; align-items:flex-start; }
-    .terms input { width:auto; min-height:auto; margin-top:5px; }
-    .submit { width:100%; padding:15px 20px; border:0; color:#fff; background:var(--blue); font:600 1rem "Urbanist",Arial,sans-serif; cursor:pointer; transition:background .18s ease,transform .18s ease; }
-    .submit:hover { background:var(--blue-dark); transform:translateY(-2px); }
-    #status { margin-top:16px; font-weight:600; }
-    footer { padding:10px 20px 42px; color:var(--muted); text-align:center; }
-    footer img { width:120px; }
-    [hidden] { display:none !important; }
-    @media(max-width:720px){ .grid{grid-template-columns:1fr}.hero{min-height:280px}main{margin-top:-28px}.card{padding:24px 20px} }
-    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20260809-2">
 </head>
 <body>
-  <header class="hero">
-    <div>
-      <a href="https://www.nationaltransitionevent.com/">
-        <img src="https://images.squarespace-cdn.com/content/v1/61dd88820367827d3ba67b59/364c57ee-417d-488d-8b75-2c957155756e/MM-NTE-lgo.png?format=1500w" alt="Mission Community">
-      </a>
-      <h1>NTE27</h1>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="index.html"><img class="brand-logo" src="assets/nte-logo-white.png" alt="The National Transition Event"></a>
+      <a class="nav-link" href="https://www.nationaltransitionevent.com/">nationaltransitionevent.com</a>
+    </nav>
+    <div class="hero">
+      <p class="eyebrow">Client review package · NTE27</p>
+      <h1>NTE 27</h1>
     </div>
   </header>
 
-  <main>
-    <section class="card notice" aria-labelledby="welcome-title">
-      <h2 id="welcome-title">Join us at The Wing, Silverstone</h2>
-      <p>Join us for an exciting in-person event on Monday 1st March 2027. The National Transition Event is the largest annual gathering of the UK Armed Forces community, delivered by Mission Community and Mission Motorsport.</p>
-      <p>Incorporating the Troops' Track Day, NTE27 brings together Service Leavers, Veterans, Reservists, spouses and partners, family members and Cadets with Armed Forces-friendly organisations.</p>
-      <p>Please read the full terms and conditions and fees in the separate NTE27 Exhibitor Pack. Questions should be directed to <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a>.</p>
-      <p>Attendance is at the discretion of the organisers. Your space will not be confirmed until applicable payment has been received.</p>
+  <main class="page-shell">
+    <section class="card" aria-labelledby="review-heading">
+      <h2 id="review-heading">Review the proposed form journeys</h2>
+      <p class="lede">These pages demonstrate the full front-end experience. They are deliberately in review mode: pressing submit validates the form but cannot create a Lead.</p>
     </section>
 
-    <form id="web-to-lead-form">
-      <div class="form-choice" role="group" aria-label="Choose a partner form">
-        <button type="button" data-form-choice="application" aria-pressed="false">
-          <img src="https://images.squarespace-cdn.com/content/v1/67f7e2493c8e3b25a4ea037e/4caef384-0bf2-4426-bd4b-8eac5b37a034/53569175152_bb003d936d_c.jpg?format=750w" alt="">
-          <span>Partner Sponsor Application Form</span>
-        </button>
-        <button type="button" data-form-choice="exhibition" aria-pressed="false">
-          <img src="https://images.squarespace-cdn.com/content/v1/67f7e2493c8e3b25a4ea037e/1751362329431-ZR3MWMT9AB2I1LNATST9/MC_IMAGE_1.jpg?format=750w" alt="">
-          <span>Partner Sponsor Exhibition Space Questions</span>
-        </button>
-      </div>
-
-      <p id="required-message" class="card" hidden><strong>Fields marked with an asterisk (*) are required.</strong></p>
-
-      <div class="form-panel" data-form-panel="application" hidden>
-        <input type="hidden" value="Partner Sponsor Application Form" data-sf-field="Web_Form_Type__c">
-        <section class="card" aria-labelledby="sponsor-title">
-          <h2 id="sponsor-title">Partner Sponsor Application Form</h2>
-          <div class="grid">
-            <div class="field"><label class="required" for="sponsor-company">Organisation Name</label><input id="sponsor-company" required autocomplete="organization" data-sf-field="Company"></div>
-            <div class="field"><label class="required" for="sponsor-name">Name of person applying for Sponsorship</label><input id="sponsor-name" required autocomplete="name" data-sf-field="Sponsored_Name__c" data-copy-to-last-name="true"></div>
-            <div class="field"><label class="required" for="sponsor-email">Contact Email Address</label><input id="sponsor-email" type="email" required autocomplete="email" data-sf-field="Email"></div>
-            <div class="field"><label class="required" for="sponsor-phone">Contact Telephone Number</label><input id="sponsor-phone" type="tel" required autocomplete="tel" data-sf-field="Phone"></div>
-            <div class="field full">
-              <div id="sponsor-package-multiselect" class="space-multiselect">
-                <span class="label" id="sponsor-package-label">Sponsorship Package</span>
-                <p class="help"><a href="https://www.nationaltransitionevent.com/sponsorship" target="_blank" rel="noopener noreferrer">Find out more about our Sponsorship Packages here</a>.</p>
-                <button id="sponsor-package-trigger" class="space-trigger" type="button" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="sponsor-package-label sponsor-package-trigger">Select sponsorship packages</button>
-                <div id="sponsor-package-options" class="space-options" role="listbox" aria-multiselectable="true" hidden>
-                  <label class="space-option"><input type="checkbox" value="Headline Partner" data-sf-field="Sponsor_Package__c"><span>Headline Partner</span></label>
-                  <label class="space-option"><input type="checkbox" value="Gold Partner" data-sf-field="Sponsor_Package__c"><span>Gold Partner</span></label>
-                  <label class="space-option"><input type="checkbox" value="Premier Partner" data-sf-field="Sponsor_Package__c"><span>Premier Partner</span></label>
-                  <label class="space-option"><input type="checkbox" value="Champion Partner" data-sf-field="Sponsor_Package__c"><span>Champion Partner</span></label>
-                  <label class="space-option"><input type="checkbox" value="Zone Sponsor" data-sf-field="Sponsor_Package__c"><span>Zone Sponsor</span></label>
-                  <label class="space-option"><input type="checkbox" value="Troops' Track Day Partner" data-sf-field="Sponsor_Package__c"><span>Troops' Track Day Partner</span></label>
-                  <label class="space-option"><input type="checkbox" value="Community Stage Sponsor" data-sf-field="Sponsor_Package__c"><span>Community Stage Sponsor</span></label>
-                  <label class="space-option"><input type="checkbox" value="Event Guide Sponsor" data-sf-field="Sponsor_Package__c"><span>Event Guide Sponsor</span></label>
-                  <label class="space-option"><input type="checkbox" value="Delegate Tote Bag Sponsor" data-sf-field="Sponsor_Package__c"><span>Delegate Tote Bag Sponsor</span></label>
-                  <label class="space-option"><input type="checkbox" value="Helmet Bay Sponsor" data-sf-field="Sponsor_Package__c"><span>Helmet Bay Sponsor</span></label>
-                  <label class="space-option"><input type="checkbox" value="Auditorium Sponsor" data-sf-field="Sponsor_Package__c"><span>Auditorium Sponsor</span></label>
-                  <label class="space-option"><input type="checkbox" value="Live Stream Sponsor" data-sf-field="Sponsor_Package__c"><span>Live Stream Sponsor</span></label>
-                  <label class="space-option"><input type="checkbox" value="Wristband Sponsor" data-sf-field="Sponsor_Package__c"><span>Wristband Sponsor</span></label>
-                </div>
-              </div>
-            </div>
-            <div class="field full"><label for="sponsor-invoice-required">Does your organisation require a quotation before an invoice can be raised?</label><select id="sponsor-invoice-required" data-sf-field="Invoice_Required__c"><option value="">Select an option</option><option>Yes</option><option>No</option></select></div>
-          </div>
-        </section>
-        <section id="sponsor-invoice-details" class="card conditional" aria-labelledby="sponsor-invoice-title" hidden>
-          <h2 id="sponsor-invoice-title">Quotation and Invoice Details</h2>
-          <div class="grid">
-            <div class="field"><label for="sponsor-invoice-company">Name of Organisation for quotation/invoicing purposes</label><input id="sponsor-invoice-company" data-sf-field="Invoiced_Company__c"></div>
-            <div class="field"><label for="sponsor-invoice-person">Name of person to whom the quotation/invoice should be addressed</label><input id="sponsor-invoice-person" data-sf-field="Invoiced_Person__c"></div>
-            <div class="field full"><label for="sponsor-invoice-address">Postal address, including postcode, which should appear on the quotation/invoice</label><textarea id="sponsor-invoice-address" data-sf-field="Invoice_Address__c"></textarea></div>
-            <div class="field"><label for="sponsor-invoice-email">Email address of the person to whom the quotation/invoice should be addressed</label><input id="sponsor-invoice-email" type="email" data-sf-field="Invoiced_Email__c"></div>
-            <div class="field"><label for="sponsor-purchase-order">Does your organisation wish to use a Purchase Order for invoicing?</label><select id="sponsor-purchase-order" data-sf-field="Purchase_Order__c"><option value="">Select an option</option><option>Yes</option><option>No</option></select></div>
-          </div>
-        </section>
-      </div>
-
-      <div class="form-panel" data-form-panel="exhibition" hidden>
-      <input type="hidden" value="Partner Sponsor Exhibition Space Questions" data-sf-field="Web_Form_Type__c">
-      <section class="card" aria-labelledby="organisation-title">
-        <h2 id="organisation-title">1. Organisation Details</h2>
-        <div class="grid">
-          <div class="field full"><label class="required" for="company">Company or Organisation Name as it will appear on promotional literature, social media and websites</label><input id="company" required autocomplete="organization" data-sf-field="Company"></div>
-          <div class="field"><label for="alternative-name">Alternative or former organisation name, if applicable</label><input id="alternative-name" data-sf-field="Alternative_Organisation_Name__c"></div>
-          <div class="field"><label class="required" for="category">Most appropriate sector for your organisation</label><select id="category" required data-sf-field="Exhibitor_Organisation_Category__c"><option value="">Select a category</option></select></div>
-          <div class="field full"><label for="website">Organisation website or relevant part of the organisation</label><input id="website" type="url" placeholder="https://" autocomplete="url" data-sf-field="Website"></div>
-        </div>
-      </section>
-
-      <section class="card" aria-labelledby="contact-title">
-        <h2 id="contact-title">2. Main Contact</h2>
-        <div class="grid">
-          <div class="field"><label for="prefix">Prefix</label><input id="prefix" autocomplete="honorific-prefix" data-sf-field="Salutation"></div>
-          <div class="field"><label class="required" for="contact-name">Full Name</label><input id="contact-name" required autocomplete="name" data-sf-field="Event_Contact_Name__c" data-copy-to-last-name="true"></div>
-          <div class="field"><label class="required" for="job-title">Job Title</label><input id="job-title" required autocomplete="organization-title" data-sf-field="Title"></div>
-          <div class="field"><label class="required" for="email">Email Address</label><input id="email" type="email" required autocomplete="email" data-sf-field="Event_Contact_Email__c" data-copy-to-standard-email="true"></div>
-          <div class="field"><label class="required" for="mobile">Mobile Phone</label><input id="mobile" type="tel" required autocomplete="tel" data-sf-field="Event_Contact_Mobile__c"></div>
-          <div class="field"><label class="required" for="phone">Landline or Work Phone</label><input id="phone" type="tel" required data-sf-field="Phone"></div>
-        </div>
-        <h3>Second contact person</h3>
-        <label class="terms"><input id="add-second-contact" type="checkbox"><span>Add a second contact person (optional)</span></label>
-        <div id="second-contact" class="grid conditional" hidden>
-          <div class="field"><label for="second-prefix">Second Contact Prefix</label><input id="second-prefix" data-sf-field="Secondary_Contact_Prefix__c"></div>
-          <div class="field"><label for="second-name">Second Contact Full Name</label><input id="second-name" data-sf-field="Secondary_Contact_Name__c"></div>
-          <div class="field"><label for="second-title">Second Contact Job Title</label><input id="second-title" data-sf-field="Secondary_Contact_Title__c"></div>
-          <div class="field"><label for="second-email">Second Contact Email Address</label><input id="second-email" type="email" data-sf-field="Secondary_Contact_Email__c"></div>
-          <div class="field"><label for="second-mobile">Second Contact Mobile Phone</label><input id="second-mobile" type="tel" data-sf-field="Secondary_Contact_Mobile__c"></div>
-          <div class="field"><label for="second-phone">Second Contact Landline or Work Phone</label><input id="second-phone" type="tel" data-sf-field="Secondary_Contact_Phone__c"></div>
-        </div>
-      </section>
-
-      <section class="card" aria-labelledby="history-title">
-        <h2 id="history-title">3. Previous NTE Attendance</h2>
-        <div class="grid">
-          <div class="field full">
-            <div id="history-multiselect" class="space-multiselect">
-              <span class="label required" id="history-label">Did you Exhibit to any previous NTE Events?</span>
-              <button id="history-trigger" class="space-trigger" type="button" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="history-label history-trigger">Select previous NTE events</button>
-              <div id="history-options" class="space-options" role="listbox" aria-multiselectable="true" hidden>
-                <label class="space-option"><input type="checkbox" name="previous-nte-event" value="No"><span>No</span></label>
-                <label class="space-option"><input type="checkbox" name="previous-nte-event" value="NTE2024"><span>NTE2024</span></label>
-                <label class="space-option"><input type="checkbox" name="previous-nte-event" value="NTE2025"><span>NTE2025</span></label>
-                <label class="space-option"><input type="checkbox" name="previous-nte-event" value="NTE2026"><span>NTE2026</span></label>
-              </div>
-            </div>
-          </div>
-          <div class="field full"><label class="required" for="planned-staff">How many people do you plan to bring to NTE, including yourself?</label><select id="planned-staff" required data-sf-field="Planned_Exhibitor_Count__c"><option value="">Select</option></select><small class="help">This can be changed later.</small></div>
-        </div>
-      </section>
-
-      <section class="card" aria-labelledby="space-title">
-        <h2 id="space-title">4. Book Exhibitor Space</h2>
-        <p class="section-intro">Select one or more spaces. Space is not confirmed until applicable payment has been received.</p>
-        <div id="space-multiselect" class="space-multiselect">
-          <span class="label required" id="space-label">Exhibitor space</span>
-          <button id="space-trigger" class="space-trigger" type="button" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="space-label space-trigger">Select exhibitor spaces</button>
-          <div id="space-options" class="space-options" role="listbox" aria-multiselectable="true" hidden></div>
-        </div>
-        <div id="space-summary" class="summary" hidden aria-live="polite"></div>
-      </section>
-
-      <section class="card" aria-labelledby="requirements-title">
-        <h2 id="requirements-title">5. Power, Staff and Stand Requirements</h2>
-        <div class="grid">
-          <div id="power-field" class="field full conditional" hidden><label class="required" for="power" id="power-label">Will you need power on your stand?</label><select id="power" data-sf-field="Stand_Power__c"><option value="">Select</option><option>Yes</option><option>No</option></select><small id="power-help" class="help"></small></div>
-          <div class="field"><label class="required" for="additional-staff">Additional exhibitor staff above the number included with your space</label><select id="additional-staff" required data-sf-field="Additional_Staff_Required__c"><option value="">Select</option><option>Yes</option><option>No</option><option>Don't know</option></select></div>
-          <div id="additional-count-field" class="field conditional" hidden><label class="required" for="additional-count">Number of additional exhibitor staff required</label><select id="additional-count" data-sf-field="Additional_Staff_Count__c"><option value="">Select</option></select></div>
-          <div class="field full"><label class="required" for="colleagues">Names of colleagues who are coming or likely to attend</label><textarea id="colleagues" required data-sf-field="Stand_Colleagues__c"></textarea><small class="help">Enter one name per line. Names may be changed later.</small></div>
-          <div class="field full"><label for="setup">For garage exhibits and large stands, setup between 14:00–18:00 on Sunday is required. Are you able to do this?</label><select id="setup" data-sf-field="Exhibitor_Hall_Schedule__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
-          <div class="field full"><label class="required" for="equipment">Equipment beyond display stands and laptops</label><textarea id="equipment" required placeholder="State None if nothing further" data-sf-field="Stand_Equipment__c"></textarea></div>
-          <div class="field"><label class="required" for="special">Do you have special requirements, such as disabled-access parking?</label><select id="special" required data-sf-field="Has_Special_Requirements__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
-          <div id="special-details-field" class="field conditional" hidden><label class="required" for="special-details">Please describe your requirements</label><textarea id="special-details" data-sf-field="Stand_Special_Requirements__c"></textarea></div>
-        </div>
-      </section>
-
-      <section class="card" aria-labelledby="invoice-title">
-        <h2 id="invoice-title">6. Invoicing and Purchase Orders</h2>
-        <p class="section-intro">We want to ensure invoices contain the correct billing details. This section becomes mandatory when your booking includes a charge.</p>
-        <div class="grid">
-          <div class="field"><label for="invoice-company">Name of Organisation for invoicing purposes</label><input id="invoice-company" data-invoice-required data-sf-field="Invoiced_Company__c"></div>
-          <div class="field"><label for="invoice-person">Person to whom the invoice should be addressed</label><input id="invoice-person" data-invoice-required data-sf-field="Invoiced_Person__c"></div>
-          <div class="field full"><label for="invoice-address">Postal address, including postcode, to appear on the invoice</label><textarea id="invoice-address" data-invoice-required data-sf-field="Invoice_Address__c"></textarea></div>
-          <div class="field"><label for="invoice-email">Email address to which the invoice should be sent</label><input id="invoice-email" type="email" data-invoice-required data-sf-field="Invoiced_Email__c"></div>
-          <div class="field"><label for="invoice-phone">Landline number for accounts contact or department</label><input id="invoice-phone" type="tel" data-sf-field="Invoice_Contact_Phone__c"></div>
-          <div class="field"><label class="required" for="purchase-order">Does your organisation require a Purchase Order Number prior to being invoiced?</label><select id="purchase-order" required data-sf-field="Purchase_Order__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
-          <div id="po-details" class="field conditional" hidden><label for="po-number">Purchase order number, if known</label><input id="po-number" data-sf-field="Purchase_Order_Number__c"></div>
-          <div id="quote-field" class="field conditional" hidden><label class="required" for="quote">Do you require a quote to raise a purchase order number?</label><select id="quote" data-sf-field="Invoice_Required__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
-          <div class="field"><label class="required" for="supplier-agreement">Will there be a requirement to complete a Supplier Agreement?</label><select id="supplier-agreement" required data-sf-field="Supplier_Agreement_Required__c"><option value="">Select</option><option>Yes</option><option>No</option><option>Don't know</option></select></div>
-          <div class="field"><label class="required" for="industry-body">Are you a member of an Industry Body or Trade Association?</label><input id="industry-body" required placeholder="Enter details or No" data-sf-field="Industry_Body_Details__c"></div>
-        </div>
-      </section>
-
-      <section class="card" aria-labelledby="declaration-title">
-        <h2 id="declaration-title">7. Event Discovery and Declaration</h2>
-        <div class="grid">
-          <div class="field full"><label class="required" for="discovery">How did you hear about this event?</label><select id="discovery" required data-sf-field="Event_Discovery_Source__c"><option value="">Select</option><option>Previous exhibitor</option><option>E-mail invitation</option><option>Word of mouth from previous exhibitor</option><option>Word of mouth from previous attendees</option><option>Website</option><option>LinkedIn</option><option>Facebook</option><option>Instagram</option></select></div>
-          <div class="field full"><label class="terms required"><input id="terms" type="checkbox" required data-sf-field="Terms_and_Conditions__c"><span>I have read and agree to the Terms and Conditions and payment terms of being an exhibitor at NTE27.</span></label></div>
-          <div class="field full"><label class="required" for="declaration">Declaration name</label><input id="declaration" required autocomplete="name" data-sf-field="Declaration_Name__c"><small class="help">By entering your name and submitting this form, you agree to the full terms and payment conditions.</small></div>
-        </div>
-      </section>
-      </div>
-
-      <section id="submit-card" class="card" hidden>
-        <button class="submit" type="submit">Submit application</button>
-        <div id="status" role="status" tabindex="-1"></div>
-      </section>
-    </form>
+    <section class="hub-grid" aria-label="NTE27 form journeys">
+      <a class="journey" href="exhibitor-application.html">
+        <span class="tag">Public application</span>
+        <h2>Exhibitor application</h2>
+        <p>Standalone NTE27 exhibitor intake with space, power, staff, access, finance and logistics indicators.</p>
+        <span class="arrow">Review form →</span>
+      </a>
+      <a class="journey" href="partner-sponsor-application.html">
+        <span class="tag">Direct link only</span>
+        <h2>Partner / sponsor application</h2>
+        <p>One combined onboarding form with priced packages and the included exhibition-space requirements.</p>
+        <span class="arrow">Review form →</span>
+      </a>
+      <a class="journey" href="staff-update.html">
+        <span class="tag">Later-stage update</span>
+        <h2>Exhibitor staff details update</h2>
+        <p>A later-stage form for confirmed exhibitors to update attendee names nearer the event.</p>
+        <span class="arrow">Review form →</span>
+      </a>
+      <a class="journey" href="heavy-vehicle-details.html">
+        <span class="tag">Later-stage logistics</span>
+        <h2>Heavy vehicle details</h2>
+        <p>All 26 questions from the current vehicle, equipment and haulier Microsoft Form.</p>
+        <span class="arrow">Review form →</span>
+      </a>
+      <a class="journey" href="logo-upload.html">
+        <span class="tag">After approval</span>
+        <h2>Logo upload</h2>
+        <p>A branded hand-off to a Microsoft File Request so logos reach one controlled SharePoint folder.</p>
+        <span class="arrow">Review page →</span>
+      </a>
+      <a class="journey blocked-panel" href="guest-registration.html">
+        <span class="tag blocked">Awaiting questions</span>
+        <h2>Guest registration</h2>
+        <p>Journey reserved without inventing Tony's form fields. The final questionnaire is still required.</p>
+        <span class="arrow">View dependency →</span>
+      </a>
+    </section>
   </main>
 
-  <footer>
-    <a href="https://www.missioncommunity.org/">
-      <img src="https://images.squarespace-cdn.com/content/v1/67f7e2493c8e3b25a4ea037e/8571ea85-2264-4f71-91ee-a1a38d49ba52/MC_lgo_col.jpg?format=750w" alt="Mission Community">
-    </a>
-    <p>missioncommunity.org | missionmotorsport.org | nationaltransitionevent.com</p>
-  </footer>
-
-  <script>
-    window.WEB_TO_LEAD_CONFIG = {
-      endpoint: "https://test.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8",
-      orgId: "00DAd00000A95Vl",
-      returnUrl: "https://missioncommunity.org/",
-      customFieldIds: {
-        Web_Form_Type__c: "00NAd00000HZSWDMA5", Sponsored_Name__c: "00NAd00000HZSW6MAP", Sponsor_Package__c: "00NAd00000HZSW5MAP",
-        Invoice_Required__c: "00NAd00000HZSW0MAP", Invoiced_Company__c: "00NAd00000HZSW1MAP", Invoice_Address__c: "00NAd00000HZSVzMAP",
-        Invoiced_Person__c: "00NAd00000HZSW3MAP", Invoiced_Email__c: "00NAd00000HZSW2MAP", Purchase_Order__c: "00NAd00000HZSW4MAP",
-        Event_Contact_Name__c: "00NAd00000HZSVvMAP", Event_Contact_Email__c: "00NAd00000HZSVtMAP", Event_Contact_Mobile__c: "00NAd00000HZSVuMAP",
-        Exhibitor_Hall_Schedule__c: "00NAd00000HZSVwMAP", Stand_Power__c: "00NAd00000HZSWAMA5", Stand_Equipment__c: "00NAd00000HZSW8MAP",
-        Stand_Special_Requirements__c: "00NAd00000HZSWBMA5", Stand_Colleagues__c: "00NAd00000HZSW7MAP", Terms_and_Conditions__c: "00NAd00000HZSWCMA5",
-        Alternative_Organisation_Name__c: "00NAd00000Ham19MAB", Exhibitor_Organisation_Category__c: "00NAd00000Ham1CMAR",
-        Secondary_Contact_Prefix__c: "00NAd00000Ham1OMAR", Secondary_Contact_Name__c: "00NAd00000Ham1MMAR", Secondary_Contact_Title__c: "00NAd00000Ham1PMAR",
-        Secondary_Contact_Email__c: "00NAd00000Ham1KMAR", Secondary_Contact_Mobile__c: "00NAd00000Ham1LMAR", Secondary_Contact_Phone__c: "00NAd00000Ham1NMAR",
-        Previous_NTE_Events__c: "00NAd00000Ham1IMAR", Planned_Exhibitor_Count__c: "00NAd00000Ham1HMAR", Exhibitor_Space_Selections__c: "00NAd00000Ham1DMAR",
-        Additional_Staff_Required__c: "00NAd00000Ham18MAB", Additional_Staff_Count__c: "00NAd00000Ham17MAB", Has_Special_Requirements__c: "00NAd00000Ham1EMAR",
-        Invoice_Contact_Phone__c: "00NAd00000Ham1GMAR", Purchase_Order_Number__c: "00NAd00000Ham1JMAR", Supplier_Agreement_Required__c: "00NAd00000Ham1QMAR",
-        Industry_Body_Details__c: "00NAd00000Ham1FMAR", Event_Discovery_Source__c: "00NAd00000Ham1BMAR", Declaration_Name__c: "00NAd00000Ham1AMAR"
-      }
-    };
-    (function () {
-      "use strict";
-      var config=window.WEB_TO_LEAD_CONFIG;
-      var categories = ["Charity - member of Cobseo","Charity - not a member of Cobseo","Employer - Automotive Sector","Employer - Manufacturing Sector","Employer - Renewable & Clean Energy Sector","Employer - Defence","Employer - Built Environment","Employer - Facilities Management","Employer - Financial and Professional Services","Employer - Digital & Technologies","Employer - Training Provider from any industry","Employer - Landbased industry","Employer - Blue Light & NHS","Employer - Other Sectors not denoted above","Government or Government Agency","Local Government or LG related","Trade Association","CIC or Not for Profit","Regular or Reserve Services, or Cadets"];
-      var spaces = [
-        "Garage Space, reduced depth & width WITH POWER and suitable for trestle table stands. Cost £600 + VAT.",
-        "Single Garage space Paddock Side WITH POWER and suitable for vans, cars and smaller tractors. Cost £800 + VAT.",
-        "Double Garage space Paddock Side WITH POWER suitable for multiple vans, cars and tractors. Cost £1,300 + VAT.",
-        "Single Garage Space Track Side with no included power. Cost £800 + VAT; power may be booked separately.",
-        "Double Garage Space Track Side with no included power. Cost £1,300 + VAT; power may be booked separately.",
-        "Clean Energy Zone - Single Exhibitor Space. Cost £499 + VAT.","Clean Energy Zone - Double Exhibitor Space. Cost £849 + VAT.",
-        "Built Environment Zone - Single Exhibitor Space. Cost £499 + VAT.","Built Environment Zone - Double Exhibitor Space. Cost £849 + VAT.",
-        "Manufacturing Zone - Single Exhibitor Space. Cost £499 + VAT.","Manufacturing Zone - Double Exhibitor Space. Cost £849 + VAT.",
-        "Defence & Security Zone - Single Exhibitor Space. Cost £499 + VAT.","Defence & Security Zone - Double Exhibitor Space. Cost £849 + VAT.",
-        "Digital and Technologies Zone - Single Exhibitor Space. Cost £499 + VAT.","Digital and Technologies Zone - Double Exhibitor Space. Cost £849 + VAT.",
-        "FM Zone - Single Exhibitor Space. Cost £499 + VAT.","FM Zone - Double Exhibitor Space. Cost £849 + VAT.",
-        "Professional & Financial Zone - Single Exhibitor Space. Cost £499 + VAT.","Professional & Financial Zone - Double Exhibitor Space. Cost £849 + VAT.",
-        "Training & Education Zone - Single Exhibitor Space. Cost £499 + VAT.",
-        "Any other business - Single Exhibitor Space. Cost £499 + VAT.","Any other business - Double Exhibitor Space. Cost £849 + VAT.",
-        "Extra Large Exhibitor Space in any Hall. Price on application.",
-        "Local Government Authority - Single Exhibitor Space. Cost £249.50 + VAT (50% discount).",
-        "Blue Light - Single Exhibitor Space. Cost £249.50 + VAT (50% discount).",
-        "Trade Association - Single Exhibitor Space. Cost £499 + VAT.",
-        "COBSEO Charity - Single Exhibitor Space. Free of charge.",
-        "Non COBSEO Charity - Single Exhibitor Space. Free of charge."
-      ];
-      var spaceValues = [
-        "Garage Space - reduced size with power - £600 + VAT","Single Garage - Paddock Side with power - £800 + VAT","Double Garage - Paddock Side with power - £1,300 + VAT","Single Garage - Track Side - £800 + VAT","Double Garage - Track Side - £1,300 + VAT","Clean Energy Zone - Single - £499 + VAT","Clean Energy Zone - Double - £849 + VAT","Built Environment Zone - Single - £499 + VAT","Built Environment Zone - Double - £849 + VAT","Manufacturing Zone - Single - £499 + VAT","Manufacturing Zone - Double - £849 + VAT","Defence & Security Zone - Single - £499 + VAT","Defence & Security Zone - Double - £849 + VAT","Digital and Technologies Zone - Single - £499 + VAT","Digital and Technologies Zone - Double - £849 + VAT","FM Zone - Single - £499 + VAT","FM Zone - Double - £849 + VAT","Professional & Financial Zone - Single - £499 + VAT","Professional & Financial Zone - Double - £849 + VAT","Training & Education Zone - Single - £499 + VAT","Any other business - Single - £499 + VAT","Any other business - Double - £849 + VAT","Extra Large Exhibitor Space - POA","Local Government Authority - Single - £249.50 + VAT","Blue Light - Single - £249.50 + VAT","Trade Association - Single - £499 + VAT","COBSEO Charity - Single - Free","Non COBSEO Charity - Single - Free"
-      ];
-      var category = document.getElementById("category");
-      categories.forEach(function (value) { category.add(new Option(value, value)); });
-      ["planned-staff","additional-count"].forEach(function (id) {
-        var select = document.getElementById(id);
-        var maximum=id==="planned-staff"?9:8;
-        for (var i=1;i<=maximum;i+=1) select.add(new Option(String(i),String(i)));
-        if (id === "planned-staff") select.add(new Option("More than 9","More than 9"));
-      });
-      var spaceContainer = document.getElementById("space-options");
-      spaces.forEach(function (value,index) {
-        var label=document.createElement("label"); label.className="space-option";
-        var input=document.createElement("input"); input.type="checkbox"; input.name="exhibitor-space"; input.value=spaceValues[index]; input.dataset.spaceIndex=String(index); input.dataset.sfField="Exhibitor_Space_Selections__c";
-        var text=document.createElement("span"); text.textContent=(index+1)+". "+value;
-        label.appendChild(input); label.appendChild(text); spaceContainer.appendChild(label);
-      });
-      var spaceMultiselect=document.getElementById("space-multiselect");
-      var spaceTrigger=document.getElementById("space-trigger");
-      function setSpaceOpen(open){spaceMultiselect.classList.toggle("is-open",open);spaceContainer.hidden=!open;spaceTrigger.setAttribute("aria-expanded",String(open));}
-      spaceTrigger.addEventListener("click",function(){setSpaceOpen(spaceContainer.hidden);});
-      document.addEventListener("click",function(event){if(!spaceMultiselect.contains(event.target))setSpaceOpen(false);});
-      spaceMultiselect.addEventListener("keydown",function(event){if(event.key==="Escape"){setSpaceOpen(false);spaceTrigger.focus();}});
-      var historyMultiselect=document.getElementById("history-multiselect");
-      var historyTrigger=document.getElementById("history-trigger");
-      var historyOptions=document.getElementById("history-options");
-      historyOptions.querySelectorAll('input[name="previous-nte-event"]').forEach(function(input){input.dataset.sfField="Previous_NTE_Events__c";});
-      var sponsorPackageMultiselect=document.getElementById("sponsor-package-multiselect");
-      var sponsorPackageTrigger=document.getElementById("sponsor-package-trigger");
-      var sponsorPackageOptions=document.getElementById("sponsor-package-options");
-      function setSponsorPackageOpen(open){sponsorPackageMultiselect.classList.toggle("is-open",open);sponsorPackageOptions.hidden=!open;sponsorPackageTrigger.setAttribute("aria-expanded",String(open));}
-      sponsorPackageTrigger.addEventListener("click",function(){setSponsorPackageOpen(sponsorPackageOptions.hidden);});
-      document.addEventListener("click",function(event){if(!sponsorPackageMultiselect.contains(event.target))setSponsorPackageOpen(false);});
-      sponsorPackageMultiselect.addEventListener("keydown",function(event){if(event.key==="Escape"){setSponsorPackageOpen(false);sponsorPackageTrigger.focus();}});
-      sponsorPackageOptions.addEventListener("change",function(){
-        var selected=Array.prototype.slice.call(sponsorPackageOptions.querySelectorAll('input[type="checkbox"]:checked')).map(function(input){return input.value;});
-        sponsorPackageTrigger.textContent=selected.length?selected.length+" sponsorship package"+(selected.length===1?"":"s")+" selected":"Select sponsorship packages";
-      });
-      function setHistoryOpen(open){historyMultiselect.classList.toggle("is-open",open);historyOptions.hidden=!open;historyTrigger.setAttribute("aria-expanded",String(open));}
-      historyTrigger.addEventListener("click",function(){setHistoryOpen(historyOptions.hidden);});
-      document.addEventListener("click",function(event){if(!historyMultiselect.contains(event.target))setHistoryOpen(false);});
-      historyMultiselect.addEventListener("keydown",function(event){if(event.key==="Escape"){setHistoryOpen(false);historyTrigger.focus();}});
-      historyOptions.addEventListener("change",function(event){
-        if(event.target.name!=="previous-nte-event")return;
-        var options=Array.prototype.slice.call(historyOptions.querySelectorAll('input[name="previous-nte-event"]'));
-        if(event.target.checked&&event.target.value==="No")options.forEach(function(option){if(option!==event.target)option.checked=false;});
-        if(event.target.checked&&event.target.value!=="No")options.forEach(function(option){if(option.value==="No")option.checked=false;});
-        var selected=options.filter(function(option){return option.checked;}).map(function(option){return option.value;});
-        historyTrigger.textContent=selected.length?selected.join(", "):"Select previous NTE events";
-      });
-      var choiceGroup=document.querySelector(".form-choice");
-      var choiceButtons=Array.prototype.slice.call(document.querySelectorAll("[data-form-choice]"));
-      var formPanels=Array.prototype.slice.call(document.querySelectorAll("[data-form-panel]"));
-      function setPanelActive(panel,active){
-        panel.hidden=!active;
-        panel.querySelectorAll("input,select,textarea,button").forEach(function(control){control.disabled=!active;});
-      }
-      formPanels.forEach(function(panel){setPanelActive(panel,false);});
-      choiceButtons.forEach(function(button){
-        button.addEventListener("click",function(){
-          var selected=button.dataset.formChoice;
-          choiceButtons.forEach(function(other){
-            var active=other===button; other.setAttribute("aria-pressed",String(active));
-            if(!active){other.classList.add("is-dismissing");window.setTimeout(function(){other.hidden=true;},190);}
-          });
-          choiceGroup.classList.add("has-selection");
-          formPanels.forEach(function(panel){setPanelActive(panel,panel.dataset.formPanel===selected);});
-          var incoming=document.querySelector('[data-form-panel="'+selected+'"]');
-          incoming.classList.add("is-entering");
-          window.requestAnimationFrame(function(){window.requestAnimationFrame(function(){incoming.classList.remove("is-entering");});});
-          document.getElementById("submit-card").hidden=false;
-          document.getElementById("required-message").hidden=false;
-          if(selected==="application")syncSponsorInvoice();
-          if(selected==="exhibition"){
-            toggle(secondToggle,document.getElementById("second-contact"));
-            toggle(additional,additionalTarget,"Yes");
-            toggle(special,specialTarget,"Yes");
-            toggle(po,poDetails,"Yes");toggle(po,quoteField,"Yes");
-            document.getElementById("power").disabled=document.getElementById("power-field").hidden;
-          }
-        });
-      });
-      var sponsorInvoice=document.getElementById("sponsor-invoice-required");
-      function syncSponsorInvoice(){
-        var target=document.getElementById("sponsor-invoice-details"),show=sponsorInvoice.value==="Yes";
-        target.hidden=!show;
-        target.querySelectorAll("input,select,textarea").forEach(function(control){control.disabled=!show;});
-        if(show){target.classList.add("is-entering");window.requestAnimationFrame(function(){window.requestAnimationFrame(function(){target.classList.remove("is-entering");});});}
-      }
-      sponsorInvoice.addEventListener("change",syncSponsorInvoice);
-      function toggle(trigger,target,showValue) {
-        var show=trigger.type === "checkbox" ? trigger.checked : trigger.value === showValue;
-        target.hidden=!show;
-        target.querySelectorAll("input,select,textarea").forEach(function(control){control.disabled=!show;if(control.dataset.conditionalRequired !== undefined)control.required=show;});
-      }
-      var secondToggle=document.getElementById("add-second-contact");
-      secondToggle.addEventListener("change",function(){toggle(secondToggle,document.getElementById("second-contact"));});
-      var additional=document.getElementById("additional-staff");
-      var additionalTarget=document.getElementById("additional-count-field");
-      document.getElementById("additional-count").dataset.conditionalRequired="";
-      additional.addEventListener("change",function(){toggle(additional,additionalTarget,"Yes");});
-      var special=document.getElementById("special");
-      var specialTarget=document.getElementById("special-details-field");
-      document.getElementById("special-details").dataset.conditionalRequired="";
-      special.addEventListener("change",function(){toggle(special,specialTarget,"Yes");});
-      var po=document.getElementById("purchase-order");
-      var poDetails=document.getElementById("po-details");
-      var quoteField=document.getElementById("quote-field");
-      document.getElementById("quote").dataset.conditionalRequired="";
-      po.addEventListener("change",function(){toggle(po,poDetails,"Yes");toggle(po,quoteField,"Yes");});
-      spaceContainer.addEventListener("change",function(event){
-        if(event.target.name!=="exhibitor-space") return;
-        var selectedInputs=Array.prototype.slice.call(spaceContainer.querySelectorAll('input[name="exhibitor-space"]:checked'));
-        var selectedIndexes=selectedInputs.map(function(input){return Number(input.dataset.spaceIndex);});
-        var selectedSpaces=selectedIndexes.map(function(index){return spaces[index];});
-        var included=selectedIndexes.length>0&&selectedIndexes.every(function(index){return index>=0&&index<=2;});
-        var discounted=selectedIndexes.length>0&&selectedIndexes.every(function(index){return index===23||index===24||index===26||index===27;});
-        var summary=document.getElementById("space-summary"); summary.hidden=selectedSpaces.length===0; summary.textContent=selectedSpaces.length ? "Selected: "+selectedSpaces.join(" • ") : "";
-        spaceTrigger.textContent=selectedSpaces.length ? selectedSpaces.length+" space option"+(selectedSpaces.length===1?"":"s")+" selected" : "Select exhibitor spaces";
-        var powerField=document.getElementById("power-field"), power=document.getElementById("power"); powerField.hidden=selectedSpaces.length===0||included; power.disabled=powerField.hidden; power.required=selectedSpaces.length>0&&!included;
-        document.getElementById("power-label").textContent=discounted?"Will you need a discounted power socket on your stand?":"Will you need power on your stand for an additional £100 + VAT per socket?";
-        document.getElementById("power-help").textContent=included?"Power is included with this space.":(discounted?"The spreadsheet indicates a 50% discount for this category.":"Power must be requested in advance and may not otherwise be available.");
-        var freeOnly=selectedIndexes.length>0&&selectedIndexes.every(function(index){return index===26||index===27;});
-        document.querySelectorAll("[data-invoice-required]").forEach(function(control){ control.required=!freeOnly&&selectedIndexes.length>0; var label=control.closest(".field").querySelector("label"); label.classList.toggle("required",control.required); });
-      });
-      document.getElementById("web-to-lead-form").addEventListener("submit",function(event){
-        event.preventDefault(); var status=document.getElementById("status");
-        var exhibitionActive=!document.querySelector('[data-form-panel="exhibition"]').hidden;
-        var hasHistory=historyOptions.querySelector('input[name="previous-nte-event"]:checked');
-        if(exhibitionActive&&!hasHistory){status.textContent="Please select your previous NTE attendance.";status.style.color="var(--error)";historyTrigger.focus();return;}
-        var hasSpace=spaceContainer.querySelector('input[name="exhibitor-space"]:checked');
-        if(exhibitionActive&&!hasSpace){status.textContent="Please select at least one exhibitor space.";status.style.color="var(--error)";spaceTrigger.focus();return;}
-        if(!event.currentTarget.reportValidity()){status.textContent="Please complete the highlighted required fields.";status.style.color="var(--error)";status.focus();return;}
-        var activePanel=document.querySelector('[data-form-panel]:not([hidden])');
-        var controls=Array.prototype.slice.call(activePanel.querySelectorAll('[data-sf-field]')).filter(function(control){return !control.disabled;});
-        var errors=[];
-        controls.forEach(function(control){var api=control.dataset.sfField;if(api.slice(-3)==="__c"&&!config.customFieldIds[api]&&errors.indexOf(api)===-1)errors.push(api);});
-        if(errors.length){status.textContent="Form configuration is incomplete: "+errors.join(", ")+".";status.style.color="var(--error)";status.focus();return;}
-        var postForm=document.createElement("form");postForm.method="post";postForm.action=config.endpoint;postForm.hidden=true;
-        function append(name,value){var input=document.createElement("input");input.type="hidden";input.name=name;input.value=value;postForm.appendChild(input);}
-        var standardNames={Company:"company",Email:"email",Phone:"phone",Title:"title",Website:"URL",Salutation:"salutation"};
-        var selectedFormType=activePanel.querySelector('[data-sf-field="Web_Form_Type__c"]').value;
-        append("oid",config.orgId);append("retURL",config.returnUrl);append("lead_source",selectedFormType);
-        controls.forEach(function(control){
-          if((control.type==="checkbox"||control.type==="radio")&&!control.checked)return;
-          var api=control.dataset.sfField,name=api.slice(-3)==="__c"?config.customFieldIds[api]:(standardNames[api]||api);
-          append(name,control.type==="checkbox"&&api==="Terms_and_Conditions__c"?"1":control.value);
-        });
-        var contactName=activePanel.querySelector('[data-copy-to-last-name="true"]');
-        if(contactName&&contactName.value)append("last_name",contactName.value);
-        var standardEmailSource=activePanel.querySelector('[data-copy-to-standard-email="true"]');
-        if(standardEmailSource&&standardEmailSource.value)append("email",standardEmailSource.value);
-        document.body.appendChild(postForm);postForm.submit();
-      });
-    }());
-  </script>
+  <footer class="site-footer">NTE27 form prototype · Mission Community · <span data-current-year></span></footer>
+  <script src="assets/config.js?v=20260809-2"></script>
+  <script src="assets/forms.js?v=20260809-2"></script>
 </body>
 </html>
