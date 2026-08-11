@@ -207,7 +207,7 @@
           return !group.querySelector('input[type="checkbox"]:checked');
         });
         if (incompleteGroup) {
-          setStatus(form, "Please select at least one package.", "error");
+          setStatus(form, incompleteGroup.dataset.requiredMessage || "Please select at least one option.", "error");
           var firstBox = incompleteGroup.querySelector('input[type="checkbox"]');
           if (firstBox) firstBox.focus();
           return;

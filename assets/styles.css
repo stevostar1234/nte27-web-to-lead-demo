@@ -134,6 +134,22 @@ input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="
 .status.error { color: #6f1823; background: #ffeaed; }
 .status.success { color: #174c35; background: #e7f5ed; }
 
+.email-preview-panel {
+  margin: 28px 0 22px;
+  padding: clamp(24px, 4vw, 36px);
+  border: 1px solid rgba(146,121,63,.28);
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, #1b181b, #292329);
+  color: #fff;
+  box-shadow: var(--shadow);
+}
+.email-preview-panel .eyebrow { margin-top: 0; }
+.email-preview-panel h2 { margin: 0 0 8px; font-size: clamp(1.45rem, 3vw, 2rem); line-height: 1.15; letter-spacing: -.025em; }
+.email-preview-panel p:not(.eyebrow) { max-width: 720px; margin: 0; color: #ded8d2; }
+.email-preview-panel .button-row { margin-top: 20px; }
+.email-preview-panel .button-secondary { border-color: var(--gold-soft); color: var(--ink); background: var(--gold-soft); }
+.email-preview-panel .button-secondary:hover { border-color: #fff; color: #fff; background: transparent; }
+
 .progress { margin: 0; padding: 0; list-style: none; counter-reset: steps; }
 .progress li { position: relative; margin: 0 0 13px; padding-left: 28px; color: var(--ink-soft); font-size: .86rem; }
 .progress li::before { position: absolute; left: 0; width: 18px; height: 18px; border: 1px solid var(--line); border-radius: 50%; content: counter(steps); counter-increment: steps; font-size: .68rem; text-align: center; line-height: 17px; }
@@ -170,5 +186,5 @@ input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="
   .package-option .price { white-space: normal; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .journey, .button { transition: transform .18s ease, border-color .18s ease, background .18s ease; }
+  .journey, .button, .button-secondary { transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease; }
 }
