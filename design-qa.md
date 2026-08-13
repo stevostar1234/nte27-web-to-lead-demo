@@ -5,7 +5,7 @@
 - Implementation route: `logo-upload.html`
 - Reference image: 1904 × 937 pixels
 - Browser viewport used: 1903 × 937 CSS pixels at device scale factor 1
-- Implementation capture: `C:\Users\skyba\.codex\visualizations\2026\08\09\019fe5f5-844f-7a91-88c1-07b508df7489\logo-upload-natural-final-v2.png`
+- Implementation capture: 1888 × 930 pixels at `C:\Users\skyba\.codex\visualizations\2026\08\09\019fe5f5-844f-7a91-88c1-07b508df7489\logo-upload-natural-final-v2.png`
 - Side-by-side comparison: `C:\Users\skyba\.codex\visualizations\2026\08\09\019fe5f5-844f-7a91-88c1-07b508df7489\logo-upload-reference-comparison-final.png`
 
 ## State compared
