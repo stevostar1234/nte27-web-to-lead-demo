@@ -105,8 +105,8 @@ This is the direct-link application used after Mission Community has discussed a
 
 ### Exhibition space and operations
 
-- **Space size** — combined client partner/sponsor exhibition-space form. It remains independent of package selection because the client has not supplied an entitlement matrix linking each package to a fixed space size; the project lead directed that applicants remain free to select the requested size for now.
-- **Preferred position, Sunday setup, power, equipment, accessibility requirement/details, colleague names and other space notes** — combined client partner/sponsor exhibition-space form and Kate’s written feedback.
+- **Space size and preferred position** — removed following the client review on 13 August 2026. Mission Community confirmed that the selected partner/sponsor package already includes the appropriate exhibition space, so applicants do not need to choose a size or position.
+- **Sunday setup, power, equipment, accessibility requirement/details, colleague names and other space notes** — combined client partner/sponsor exhibition-space form and Kate’s written feedback.
 - **Heavy vehicles/items indicator and later logistics-form notice** — Kate’s written feedback. Detailed questions remain in the separate later-stage form.
 
 ### Quotation, invoicing and agreement
@@ -176,6 +176,7 @@ This page has no Salesforce form fields.
 
 - **Secure upload link** — project-added response to Kate’s request for a single place to collect approved organisations’ logos without handling email attachments manually.
 - **Preferred formats and filename guidance** — project-added operational guidance.
+- **Visible copy and layout** — simplified after the client review on 13 August 2026 to use short, natural instructions and mention the secure upload only once. Approval-stage explanations were removed because only approved organisations receive this page.
 - **Microsoft 365 File Request destination** — proposed implementation. Mission Community must supply the final File Request URL and confirm the controlled SharePoint/OneDrive folder and access rules.
 
 ## Email-template provenance
@@ -196,6 +197,5 @@ This page has no Salesforce form fields.
 - Salesforce field IDs, object/record model and automation for every proposed custom field.
 - Reconciliation rules for staff and logistics updates.
 - Approved sender, reply-to address, subject lines and final copy for each email.
-- Package-to-space entitlement rules, if Mission Community later wants space selections restricted by package.
 - Any approved Escapade ticket add-on price, VAT, quantity and capacity rules; the current sponsor package is not the same as a bookable ticket add-on.
 - End-to-end security review, privacy review, accessibility testing and user acceptance testing before production submissions are enabled.
