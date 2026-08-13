@@ -45,7 +45,7 @@
       } else {
         link.href = "#logo-link-required";
         link.setAttribute("aria-disabled", "true");
-        link.title = "The secure upload link is not available in this review.";
+        link.title = "The secure upload link is not currently available.";
         link.addEventListener("click", function (event) { event.preventDefault(); });
       }
     });

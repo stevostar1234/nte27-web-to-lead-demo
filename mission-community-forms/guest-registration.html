@@ -53,7 +53,7 @@
           <div class="field full"><label class="required" for="guest-accessibility">Do you or anyone in your party have accessibility needs so we can make appropriate arrangements?</label><select id="guest-accessibility" required data-sf-field="Guest_Accessibility_Required__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
         </div>
         <div class="conditional" data-conditional-for="guest-accessibility" data-conditional-value="Yes">
-          <div class="field full"><label class="required" for="guest-accessibility-details">Please tell us what arrangements would help</label><textarea id="guest-accessibility-details" data-required-when-visible data-sf-field="Guest_Accessibility_Details__c" placeholder="For example: disabled-access parking, step-free access, seating or other support."></textarea></div>
+          <div class="field full"><label class="required" for="guest-accessibility-details">Please tell us what arrangements would help</label><textarea id="guest-accessibility-details" data-required-when-visible data-sf-field="Guest_Accessibility_Details__c" placeholder="Please provide any relevant details."></textarea></div>
         </div>
         <div class="checkline"><input id="guest-declaration" type="checkbox" value="Yes" required data-sf-field="Guest_Information_Declaration__c"><label for="guest-declaration">I confirm that these details are accurate and, where I have provided another person's details, I have their permission to do so.</label></div>
         <div class="button-row"><button class="button" type="submit">Submit guest registration</button><a class="button-secondary" href="https://www.nationaltransitionevent.com/">Visit the NTE website</a></div>
@@ -61,8 +61,8 @@
       </section>
 
       <section class="email-preview-panel" aria-labelledby="guest-email-heading">
-        <p class="eyebrow">Email examples</p><h2 id="guest-email-heading">See the messages connected to this form</h2><p>Open the example registration acknowledgement or the alert sent to the NTE team.</p>
-        <div class="button-row"><a class="button-secondary" target="_blank" rel="noopener" href="email-templates/examples/guest-registration-applicant-confirmation.html">Guest confirmation</a><a class="button-secondary" target="_blank" rel="noopener" href="email-templates/examples/guest-registration-internal-notification.html">Internal notification</a></div>
+        <h2 id="guest-email-heading">Email messages</h2>
+        <div class="button-row"><a class="button-secondary" target="_blank" rel="noopener" href="email-templates/examples/guest-registration-applicant-confirmation.html">Registration received</a><a class="button-secondary" target="_blank" rel="noopener" href="email-templates/examples/guest-registration-internal-notification.html">Internal notification</a></div>
       </section>
     </form>
   </main>
