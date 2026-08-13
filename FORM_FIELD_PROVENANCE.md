@@ -31,8 +31,7 @@ This is the public, pre-qualification journey. Kate explicitly said the priced p
 - **Job title, email address and telephone number** — adapted from the client’s commercial contact questions.
 - **Partnering, sponsoring or both** — project-added to distinguish the enquiry before packages are discussed.
 - **Areas of interest** — project-added multi-select covering partnership, headline/gold/premier/champion opportunities, zone sponsorship, stage/content, event assets, Escapade, Troops’ Track Day and other ideas. It intentionally does not show prices because this is pre-qualification.
-- **Why the organisation would like to participate** — user-requested/project-added narrative qualification question.
-- **What the organisation would like the relationship to achieve** — user-requested/project-added narrative qualification question.
+- **Additional comments regarding desired sponsorship or partnership** — user-directed replacement for the two earlier narrative questions. It remains required and maps to the proposed partnership-interest detail field.
 - **Preferred contact method and best time to contact** — project-added follow-up fields.
 - **How the applicant heard about NTE27** — adapted from the exhibitor questionnaire.
 - **Permission for Mission Community to make contact** — project-added journey-specific consent. The final privacy wording still requires client/legal approval.
