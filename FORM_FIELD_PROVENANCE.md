@@ -133,19 +133,19 @@ This form implements Tony’s supplied `Guests Question (002).docx`.
 - **Accuracy and permission declaration** — project-added safeguard because a registrant may submit another person’s personal details. The exact wording should receive client/privacy approval before production.
 - **Fallback organisation value for individual guests** — project implementation detail required because Web-to-Lead requires a company value.
 
-## 5. Exhibitor staff details update
+## 5. Staff details update
 
-Kate asked how attendee names could be updated nearer the event and suggested that this might need a separate form. This is the resulting later-stage update journey.
+Kate asked how attendee names could be updated nearer the event and suggested that this might need a separate form. During the client review on 13 August 2026, Mission Community confirmed that the same update journey must work for exhibitor and partner/sponsor applications.
 
 ### Fields
 
-- **Organisation name, submitting contact first name, surname and original application email** — adapted from the original application so Salesforce can identify the booking.
+- **Organisation name, submitting contact first name, surname and original application email** — adapted from the initial applications so Salesforce can identify either an exhibitor or partner/sponsor booking.
 - **Application reference** — project-added reconciliation key; it is optional until the Salesforce process confirms how references will be issued.
 - **Total attending, whether the total exceeds the allocation, number above allocation and full attendee list** — adapted from Kate’s staff questions and £50 + VAT additional-staff rule.
 
 ### Important boundary
 
-Web-to-Lead cannot reopen the original browser submission. Phase 3 automation must match this supplementary submission to exactly one booking or send it to a manual reconciliation queue.
+Web-to-Lead cannot reopen the original browser submission. Phase 3 automation must search both exhibitor and partner/sponsor applications, prioritise an exact application-reference match, and otherwise use the organisation and original email. It must update exactly one booking or send the submission to a manual reconciliation queue.
 
 ## 6. Heavy Vehicle, Equipment and Haulier details
 
