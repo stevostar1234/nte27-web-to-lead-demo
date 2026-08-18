@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20260811-1">
+  <link rel="stylesheet" href="assets/styles.css?v=20260818-1">
 </head>
 <body>
   <header class="site-header">
@@ -16,9 +16,10 @@
     <div class="hero"><p class="eyebrow">Monday 1 March 2027 · Silverstone</p><h1>Guest registration</h1><p>Register yourself and, if applicable, one accompanying guest for NTE27.</p></div>
   </header>
   <main class="page-shell">
-    <form class="main-column" data-web-to-lead data-form-kind="guest" data-lead-source="NTE27 Guest Registration" data-confirmation-preview="Thank you. We have received your NTE27 guest registration. The event team will send further information closer to the event.">
+    <form class="main-column" data-web-to-lead data-form-kind="guest" data-lead-source="Customer Event" data-confirmation-preview="Thank you. We have received your NTE27 guest registration. The event team will send further information closer to the event.">
       <input type="hidden" value="Guest Registration" data-sf-field="Web_Form_Type__c">
-      <input type="hidden" value="NTE27-guest-registration-v1" data-sf-field="Form_Version__c">
+      <input type="hidden" value="guest-registration-v2" data-sf-field="Form_Version__c">
+      <input type="hidden" data-sf-field="NTE_Event_Code__c">
       <input type="hidden" data-combine-fields="guest-companion-first-name,guest-companion-last-name" data-sf-field="Accompanying_Guest_Name__c">
 
       <section class="card">
@@ -40,8 +41,8 @@
         </div>
         <div class="conditional" data-conditional-for="guest-accompanying" data-conditional-value="Yes">
           <div class="grid">
-            <div class="field"><label class="required" for="guest-companion-first-name">First name</label><input id="guest-companion-first-name" data-required-when-visible autocomplete="given-name"></div>
-            <div class="field"><label class="required" for="guest-companion-last-name">Surname</label><input id="guest-companion-last-name" data-required-when-visible autocomplete="family-name"></div>
+            <div class="field"><label class="required" for="guest-companion-first-name">First name</label><input id="guest-companion-first-name" maxlength="40" data-required-when-visible autocomplete="given-name"></div>
+            <div class="field"><label class="required" for="guest-companion-last-name">Surname</label><input id="guest-companion-last-name" maxlength="80" data-required-when-visible autocomplete="family-name"></div>
             <div class="field full"><label class="required" for="guest-companion-email">Email address</label><input id="guest-companion-email" type="email" data-required-when-visible autocomplete="email" data-sf-field="Accompanying_Guest_Email__c"></div>
           </div>
         </div>
@@ -60,13 +61,9 @@
         <div data-form-status hidden aria-live="polite"></div>
       </section>
 
-      <section class="email-preview-panel" aria-labelledby="guest-email-heading">
-        <h2 id="guest-email-heading">Email messages</h2>
-        <div class="button-row"><a class="button-secondary" target="_blank" rel="noopener" href="email-templates/examples/guest-registration-applicant-confirmation.html">Registration received</a><a class="button-secondary" target="_blank" rel="noopener" href="email-templates/examples/guest-registration-internal-notification.html">Internal notification</a></div>
-      </section>
     </form>
   </main>
   <footer class="site-footer">Questions? <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a></footer>
-  <script src="assets/config.js?v=20260811-1"></script><script src="assets/forms.js?v=20260811-1"></script>
+  <script src="assets/config.js?v=20260818-1"></script><script src="assets/forms.js?v=20260818-1"></script>
 </body>
 </html>

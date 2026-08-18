@@ -59,6 +59,8 @@ button { cursor: pointer; }
 .hero p { max-width: 720px; margin: 22px 0 0; color: #e5e0da; font-size: clamp(1.02rem, 2vw, 1.28rem); }
 
 .page-shell { position: relative; z-index: 3; margin-top: -62px; padding-bottom: 70px; }
+.sandbox-notice { position: relative; z-index: 4; width: min(1180px, calc(100% - 34px)); margin: 18px auto 0; padding: 13px 17px; border: 1px solid #e7b15a; border-radius: 10px; color: #5f3b08; background: #fff4df; font-weight: 700; }
+.sandbox-notice + .page-shell { margin-top: 18px; }
 .layout { display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 28px; align-items: start; }
 .main-column { min-width: 0; }
 .sidebar { position: sticky; top: 20px; display: grid; gap: 14px; }

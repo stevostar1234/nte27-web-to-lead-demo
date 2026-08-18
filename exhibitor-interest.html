@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NTE27 Exhibitor Expression of Interest</title>
+  <meta name="description" content="Tell Mission Community how your organisation would like to exhibit at the National Transition Event 2027.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20260818-1">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav"><a class="brand" href="https://www.nationaltransitionevent.com/"><img class="brand-logo" src="assets/nte-logo-white.png" alt="The National Transition Event"></a><a class="nav-link" href="https://www.nationaltransitionevent.com/">nationaltransitionevent.com</a></nav>
+    <div class="hero"><p class="eyebrow">Monday 1 March 2027 · The Wing, Silverstone</p><h1>Exhibitor expression of interest</h1><p>Tell us about your organisation and what you would like to bring to NTE27.</p></div>
+  </header>
+
+  <main class="page-shell">
+    <form class="main-column" data-web-to-lead data-lead-source="Customer Event" data-confirmation-preview="Thank you. We have received your NTE27 exhibitor expression of interest. The NTE team will review it and contact you about the next step.">
+      <input type="hidden" value="Exhibitor Expression of Interest" data-sf-field="Web_Form_Type__c">
+      <input type="hidden" value="exhibitor-interest-v1" data-sf-field="Form_Version__c">
+      <input type="hidden" data-sf-field="NTE_Event_Code__c">
+
+      <section class="card"><h2>About this form</h2><p class="lede">Use this form if you are interested in exhibiting but have not yet been invited to complete the full application. There are no package or pricing choices at this stage.</p></section>
+
+      <section class="card">
+        <h2><span class="section-number">1</span>Organisation and contact</h2>
+        <div class="grid">
+          <div class="field full"><label class="required" for="exhibitor-interest-company">Organisation name</label><input id="exhibitor-interest-company" required autocomplete="organization" data-sf-field="Company"></div>
+          <div class="field"><label class="required" for="exhibitor-interest-type">Organisation type</label><select id="exhibitor-interest-type" required data-sf-field="Organisation_Type__c"><option value="">Select</option><option>Commercial business</option><option>Charity or non-profit</option><option>Government or public body</option><option>Industry body or trade association</option><option>Education or training provider</option><option>Other</option></select></div>
+          <div class="field"><label for="exhibitor-interest-website">Website</label><input id="exhibitor-interest-website" type="url" placeholder="https://" autocomplete="url" data-sf-field="Website"></div>
+          <div class="field"><label class="required" for="exhibitor-interest-first-name">First name</label><input id="exhibitor-interest-first-name" required autocomplete="given-name" data-sf-field="FirstName"></div>
+          <div class="field"><label class="required" for="exhibitor-interest-last-name">Surname</label><input id="exhibitor-interest-last-name" required autocomplete="family-name" data-sf-field="LastName"></div>
+          <div class="field"><label class="required" for="exhibitor-interest-title">Job title</label><input id="exhibitor-interest-title" required autocomplete="organization-title" data-sf-field="Title"></div>
+          <div class="field"><label class="required" for="exhibitor-interest-email">Email address</label><input id="exhibitor-interest-email" type="email" required autocomplete="email" data-sf-field="Email"></div>
+          <div class="field"><label class="required" for="exhibitor-interest-phone">Telephone number</label><input id="exhibitor-interest-phone" type="tel" required autocomplete="tel" data-sf-field="Phone"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2><span class="section-number">2</span>What you would bring to NTE27</h2>
+        <div class="field full"><span class="label required">Which areas best describe your organisation?</span><div class="choice-grid" data-required-checkbox-group data-required-message="Please select at least one area.">
+          <label class="choice"><input type="checkbox" value="Careers and recruitment" data-sf-field="Exhibitor_Interest_Areas__c"> Careers and recruitment</label>
+          <label class="choice"><input type="checkbox" value="Training and education" data-sf-field="Exhibitor_Interest_Areas__c"> Training and education</label>
+          <label class="choice"><input type="checkbox" value="Automotive and mobility" data-sf-field="Exhibitor_Interest_Areas__c"> Automotive and mobility</label>
+          <label class="choice"><input type="checkbox" value="Manufacturing and engineering" data-sf-field="Exhibitor_Interest_Areas__c"> Manufacturing and engineering</label>
+          <label class="choice"><input type="checkbox" value="Renewable and clean energy" data-sf-field="Exhibitor_Interest_Areas__c"> Renewable and clean energy</label>
+          <label class="choice"><input type="checkbox" value="Defence and security" data-sf-field="Exhibitor_Interest_Areas__c"> Defence and security</label>
+          <label class="choice"><input type="checkbox" value="Built environment and facilities" data-sf-field="Exhibitor_Interest_Areas__c"> Built environment and facilities</label>
+          <label class="choice"><input type="checkbox" value="Financial and professional services" data-sf-field="Exhibitor_Interest_Areas__c"> Financial and professional services</label>
+          <label class="choice"><input type="checkbox" value="Digital and technology" data-sf-field="Exhibitor_Interest_Areas__c"> Digital and technology</label>
+          <label class="choice"><input type="checkbox" value="Armed Forces charity or support" data-sf-field="Exhibitor_Interest_Areas__c"> Armed Forces charity or support</label>
+          <label class="choice"><input type="checkbox" value="Other" data-sf-field="Exhibitor_Interest_Areas__c"> Other</label>
+        </div></div>
+        <div class="grid">
+          <div class="field full"><label class="required" for="exhibitor-interest-detail">What would you like to showcase or discuss with attendees?</label><textarea id="exhibitor-interest-detail" required data-sf-field="Exhibitor_Interest_Detail__c"></textarea></div>
+          <div class="field full"><label class="required" for="exhibitor-community-contribution">How would your organisation benefit the Armed Forces community attending NTE27?</label><textarea id="exhibitor-community-contribution" required data-sf-field="Exhibitor_Community_Contribution__c"></textarea></div>
+          <div class="field full"><span class="label">Have you exhibited at a recent NTE?</span><div class="choice-grid"><label class="choice"><input type="checkbox" value="NTE2024" data-sf-field="Previous_NTE_Events__c"> NTE2024</label><label class="choice"><input type="checkbox" value="NTE2025" data-sf-field="Previous_NTE_Events__c"> NTE2025</label><label class="choice"><input type="checkbox" value="NTE2026" data-sf-field="Previous_NTE_Events__c"> NTE2026</label></div></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2><span class="section-number">3</span>Follow-up</h2>
+        <div class="grid">
+          <div class="field"><label class="required" for="exhibitor-contact-method">Preferred contact method</label><select id="exhibitor-contact-method" required data-sf-field="Preferred_Contact_Method__c"><option value="">Select</option><option>Email</option><option>Telephone</option><option>Video call</option><option>No preference</option></select></div>
+          <div class="field"><label for="exhibitor-contact-time">Best time to contact you</label><input id="exhibitor-contact-time" placeholder="For example, weekday mornings" data-sf-field="Preferred_Contact_Time__c"></div>
+          <div class="field full"><label class="required" for="exhibitor-interest-discovery">How did you hear about NTE27?</label><select id="exhibitor-interest-discovery" required data-sf-field="Event_Discovery_Source__c"><option value="">Select</option><option>Previous NTE event</option><option>NTE webinar or brochure</option><option>Email invitation</option><option>Recommendation or word of mouth</option><option>National Transition Event website</option><option>Mission Community website</option><option>LinkedIn</option><option>Other social media</option><option>Other</option></select></div>
+        </div>
+        <div class="checkline"><input id="exhibitor-interest-consent" type="checkbox" value="Yes" required data-sf-field="Contact_Consent__c"><label for="exhibitor-interest-consent">I agree that Mission Community may contact me about exhibiting at NTE27.</label></div>
+        <div class="button-row"><button class="button" type="submit">Submit expression of interest</button><a class="button-secondary" href="https://www.nationaltransitionevent.com/">Visit the NTE website</a></div>
+        <div data-form-status hidden aria-live="polite"></div>
+      </section>
+    </form>
+  </main>
+  <footer class="site-footer">Questions? <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a></footer>
+  <script src="assets/config.js?v=20260818-1"></script><script src="assets/forms.js?v=20260818-1"></script>
+</body>
+</html>
