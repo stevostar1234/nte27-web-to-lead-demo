@@ -130,7 +130,7 @@ window.NTE_CONFIG = {
     Guest_Accessibility_Details__c: "00NAd00000Hy98OMAR",
     Guest_Information_Declaration__c: "00NAd00000Hy98RMAR",
     Logo_Upload_URL__c: "00NAd00000Hy98lMAB",
-    Trading_Name__c: "00NAd00000I3cSzMAJ",
+    Trading_Name__c: "00NAd00000I3jizMAB",
     Invoice_Additional_Information__c: "00NAd00000I3dqTMAR",
     Power_Socket_Count__c: "00NAd00000Hy98tMAB",
     Quote_Required_for_PO__c: "00NAd00000Hy98wMAB",
