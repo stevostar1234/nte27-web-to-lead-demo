@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20260818-1">
+  <link rel="stylesheet" href="assets/styles.css?v=20260818-2">
 </head>
 <body>
   <header class="site-header">
@@ -18,7 +18,7 @@
   <main class="page-shell">
     <form class="main-column" data-web-to-lead data-form-kind="exhibitor" data-lead-source="Customer Event" data-confirmation-preview="Thank you. We have received your NTE27 exhibitor application. This acknowledgement confirms receipt only; your application has not yet been approved. The NTE team will contact you after review.">
       <input type="hidden" value="Exhibitor Application" data-sf-field="Web_Form_Type__c">
-      <input type="hidden" value="exhibitor-application-v5" data-sf-field="Form_Version__c">
+      <input type="hidden" value="exhibitor-application-v6" data-sf-field="Form_Version__c">
       <input type="hidden" data-sf-field="NTE_Event_Code__c">
       <input type="hidden" data-sf-field="Booking_Reference__c">
       <input type="hidden" data-combine-fields="contact-first-name,contact-last-name" data-sf-field="Event_Contact_Name__c">
@@ -39,7 +39,7 @@
         <h2>Join us at NTE27</h2>
         <p class="lede">Join us at The Wing, Silverstone, on Monday 1 March 2027. The National Transition Event is the largest annual gathering of the UK Armed Forces community, delivered by Mission Community and Mission Motorsport.</p>
         <p>Incorporating the Troops' Track Day, NTE27 will bring together more than 1,000 Service Leavers, Veterans, Reservists, spouses and partners, family members and Cadets with Armed Forces-friendly companies, government agencies and Armed Forces charities. It is not a typical jobs fair but an opportunity to network, collaborate, and build lasting relationships.</p>
-        <p>Please read the full Terms and Conditions and fees in the NTE27 Exhibitor Pack. Attendance is at the organisers' discretion. If your application is accepted, you will receive an invoice unless you have been allocated a free space. Payment is due within 30 days of the invoice, or before attending if the booking is made within 30 days of the event. Paid space is confirmed only after full payment.</p>
+        <p>Please read the full Terms and Conditions and fees in the NTE27 Exhibitor Pack. Attendance is at the organisers' discretion. Unless you have been allocated a free space, you will receive an invoice for your booking. Payment is due within 30 days of the invoice, or before attending if the booking is made within 30 days of the event. Paid space is confirmed only after full payment.</p>
       </section>
 
       <section class="card" id="organisation">
@@ -150,7 +150,7 @@
       <section class="card" id="billing">
         <h2><span class="section-number">7</span>Quotation and invoicing</h2>
         <div class="grid">
-          <div class="field full"><label class="required" for="invoice-required">If your application is accepted, will you require a quotation or invoice?</label><select id="invoice-required" required data-sf-field="Invoice_Required__c"><option value="">Select</option><option>Yes</option><option>No</option></select><span class="help">Select No only if neither will be needed, for example where a free exhibitor space and no additional charges are selected.</span></div>
+          <div class="field full"><label class="required" for="invoice-required">Will you require a quotation or invoice?</label><select id="invoice-required" required data-sf-field="Invoice_Required__c"><option value="">Select</option><option>Yes</option><option>No</option></select><span class="help">Select No only if neither will be needed, for example where a free exhibitor space and no additional charges are selected.</span></div>
         </div>
         <div class="conditional" data-conditional-for="invoice-required" data-conditional-value="Yes">
           <div class="grid">
@@ -176,7 +176,8 @@
         <div class="grid">
           <div class="field"><label class="required" for="industry-body">Industry body or trade association membership</label><input id="industry-body" required placeholder="Enter details or No" data-sf-field="Industry_Body_Details__c"></div>
           <div class="field"><label class="required" for="discovery">How did you hear about NTE27?</label><select id="discovery" required data-sf-field="Event_Discovery_Source__c"><option value="">Select</option><option>Previous exhibitor</option><option>E-mail invitation</option><option>Word of mouth from previous exhibitor</option><option>Word of mouth from previous attendees</option><option>Website</option><option>LinkedIn</option><option>Facebook</option><option>Instagram</option></select></div>
-          <div class="field full"><label class="required" for="declaration-name">Declaration name</label><input id="declaration-name" required data-sf-field="Declaration_Name__c"><span class="help">Entering your name confirms that the information supplied is accurate and you have authority to proceed with booking.</span></div>
+          <div class="field"><label class="required" for="declaration-name">Digital signature (full name)</label><input id="declaration-name" required autocomplete="name" data-sf-field="Declaration_Name__c"><span class="help">Entering your name confirms that the information supplied is accurate and you have authority to proceed with booking.</span></div>
+          <div class="field"><label class="required" for="declaration-date">Date</label><input id="declaration-date" type="date" required data-sf-field="Declaration_Date__c"></div>
         </div>
         <div class="checkline"><input id="terms" type="checkbox" required data-sf-field="Terms_and_Conditions__c"><label for="terms">I have read and agree to the <a data-config-link="terms" target="_blank" rel="noopener">NTE27 Terms and Conditions and Privacy Policy</a>.</label></div>
         <div class="button-row"><button class="button" type="submit">Submit exhibitor application</button><a class="button-secondary" href="https://www.nationaltransitionevent.com/">Visit the NTE website</a></div>
@@ -187,6 +188,6 @@
   </main>
 
   <footer class="site-footer">Questions? <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a></footer>
-  <script src="assets/config.js?v=20260818-1"></script><script src="assets/forms.js?v=20260818-1"></script>
+  <script src="assets/config.js?v=20260818-2"></script><script src="assets/forms.js?v=20260818-2"></script>
 </body>
 </html>

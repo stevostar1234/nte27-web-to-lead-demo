@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
   <title>NTE27 Heavy Vehicle, Equipment and Haulier Details</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/styles.css?v=20260818-1">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/styles.css?v=20260818-2">
 </head>
 <body>
   <header class="site-header"><nav class="nav"><a class="brand" href="https://www.nationaltransitionevent.com/"><img class="brand-logo" src="assets/nte-logo-white.png" alt="The National Transition Event"></a><a class="nav-link" href="https://www.nationaltransitionevent.com/">nationaltransitionevent.com</a></nav><div class="hero"><h1>Heavy vehicle details</h1><p>Vehicle, equipment and haulier information required for paddock access at The Wing.</p></div></header>
   <main class="page-shell">
     <form class="main-column" data-web-to-lead data-lead-source="Customer Event" data-confirmation-preview="Thank you. We have received your heavy vehicle, equipment and haulier details. The NTE team will reconcile them with your booking and contact you if anything further is needed.">
-      <input type="hidden" value="Heavy Vehicle Details" data-sf-field="Web_Form_Type__c"><input type="hidden" value="heavy-vehicle-details-v4" data-sf-field="Form_Version__c"><input type="hidden" data-sf-field="NTE_Event_Code__c"><input type="hidden" data-combine-fields="vehicle-first-name,vehicle-last-name" data-sf-field="Event_Contact_Name__c"><input type="hidden" data-copy-value-from="vehicle-email" data-sf-field="Event_Contact_Email__c"><input type="hidden" data-copy-value-from="vehicle-phone" data-sf-field="Event_Contact_Mobile__c">
+      <input type="hidden" value="Heavy Vehicle Details" data-sf-field="Web_Form_Type__c"><input type="hidden" value="heavy-vehicle-details-v5" data-sf-field="Form_Version__c"><input type="hidden" data-sf-field="NTE_Event_Code__c"><input type="hidden" data-combine-fields="vehicle-first-name,vehicle-last-name" data-sf-field="Event_Contact_Name__c"><input type="hidden" data-copy-value-from="vehicle-email" data-sf-field="Event_Contact_Email__c"><input type="hidden" data-copy-value-from="vehicle-phone" data-sf-field="Event_Contact_Mobile__c">
       <section class="card"><h2>Delivery and collection</h2><p class="lede">Complete this form for every heavy vehicle or item of equipment being exhibited at NTE27. The information will be shared with Silverstone to arrange paddock-side access.</p><div class="callout warning"><strong>Timing:</strong> delivery is Sunday 28 February 2027, 14:00-18:00 (preferred), or Monday 1 March, 06:30-07:15. All vehicles and equipment must be collected by 17:30 on Monday 1 March.</div></section>
       <section class="card">
         <h2><span class="section-number">1</span>Organisation and contacts</h2>
@@ -42,11 +42,13 @@
           <div class="field"><label class="required" for="haulier-weight">Gross weight without exhibition item</label><input id="haulier-weight" required placeholder="Enter N/A if not applicable" data-sf-field="Haulier_Vehicle_Gross_Weight__c"></div>
           <div class="field"><label class="required" for="haulier-dimensions">Haulier vehicle dimensions (L × W × H)</label><input id="haulier-dimensions" required placeholder="Enter N/A if not applicable" data-sf-field="Haulier_Vehicle_Dimensions__c"></div>
           <div class="field"><label for="haulier-registration">Haulier vehicle registration, if known</label><input id="haulier-registration" data-sf-field="Haulier_Vehicle_Registration__c"><span class="help">A registration will be needed before the delivery date.</span></div>
+          <div class="field"><label class="required" for="vehicle-signature">Digital signature (full name)</label><input id="vehicle-signature" required autocomplete="name" data-sf-field="Declaration_Name__c"></div>
+          <div class="field"><label class="required" for="vehicle-signature-date">Date</label><input id="vehicle-signature-date" type="date" required data-sf-field="Declaration_Date__c"></div>
         </div>
         <div class="button-row"><button class="button" type="submit">Submit logistics details</button><a class="button-secondary" href="https://www.nationaltransitionevent.com/">Visit the NTE website</a></div><div data-form-status hidden aria-live="polite"></div>
       </section>
     </form>
   </main>
-  <footer class="site-footer">Operational queries: Kate · 07708 864365</footer><script src="assets/config.js?v=20260818-1"></script><script src="assets/forms.js?v=20260818-1"></script>
+  <footer class="site-footer">Operational queries: Kate · 07708 864365</footer><script src="assets/config.js?v=20260818-2"></script><script src="assets/forms.js?v=20260818-2"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20260818-1">
+  <link rel="stylesheet" href="assets/styles.css?v=20260818-2">
 </head>
 <body>
   <header class="site-header">
@@ -19,7 +19,7 @@
   <main class="page-shell">
     <form class="main-column" data-web-to-lead data-lead-source="Customer Event" data-confirmation-preview="Thank you. We have received your NTE27 exhibitor expression of interest. The NTE team will review it and contact you about the next step.">
       <input type="hidden" value="Exhibitor Expression of Interest" data-sf-field="Web_Form_Type__c">
-      <input type="hidden" value="exhibitor-interest-v1" data-sf-field="Form_Version__c">
+      <input type="hidden" value="exhibitor-interest-v2" data-sf-field="Form_Version__c">
       <input type="hidden" data-sf-field="NTE_Event_Code__c">
 
       <section class="card"><h2>About this form</h2><p class="lede">Use this form if you are interested in exhibiting but have not yet been invited to complete the full application. There are no package or pricing choices at this stage.</p></section>
@@ -68,12 +68,16 @@
           <div class="field full"><label class="required" for="exhibitor-interest-discovery">How did you hear about NTE27?</label><select id="exhibitor-interest-discovery" required data-sf-field="Event_Discovery_Source__c"><option value="">Select</option><option>Previous NTE event</option><option>NTE webinar or brochure</option><option>Email invitation</option><option>Recommendation or word of mouth</option><option>National Transition Event website</option><option>Mission Community website</option><option>LinkedIn</option><option>Other social media</option><option>Other</option></select></div>
         </div>
         <div class="checkline"><input id="exhibitor-interest-consent" type="checkbox" value="Yes" required data-sf-field="Contact_Consent__c"><label for="exhibitor-interest-consent">I agree that Mission Community may contact me about exhibiting at NTE27.</label></div>
+        <div class="grid">
+          <div class="field"><label class="required" for="exhibitor-interest-signature">Digital signature (full name)</label><input id="exhibitor-interest-signature" required autocomplete="name" data-sf-field="Declaration_Name__c"></div>
+          <div class="field"><label class="required" for="exhibitor-interest-signature-date">Date</label><input id="exhibitor-interest-signature-date" type="date" required data-sf-field="Declaration_Date__c"></div>
+        </div>
         <div class="button-row"><button class="button" type="submit">Submit expression of interest</button><a class="button-secondary" href="https://www.nationaltransitionevent.com/">Visit the NTE website</a></div>
         <div data-form-status hidden aria-live="polite"></div>
       </section>
     </form>
   </main>
   <footer class="site-footer">Questions? <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a></footer>
-  <script src="assets/config.js?v=20260818-1"></script><script src="assets/forms.js?v=20260818-1"></script>
+  <script src="assets/config.js?v=20260818-2"></script><script src="assets/forms.js?v=20260818-2"></script>
 </body>
 </html>

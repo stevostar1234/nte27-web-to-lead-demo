@@ -108,6 +108,7 @@ window.NTE_CONFIG = {
     Industry_Body_Details__c: "00NAd00000Ham1FMAR",
     Event_Discovery_Source__c: "00NAd00000Ham1BMAR",
     Declaration_Name__c: "00NAd00000Ham1AMAR",
+    Declaration_Date__c: "00NAd00000I3SbkMAF",
 
     /* Existing Salesforce fields used by the refreshed forms. */
     Exhibitor_Space_Size__c: "00NAd00000HZSVyMAP",

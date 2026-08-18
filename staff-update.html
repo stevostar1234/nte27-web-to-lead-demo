@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
   <title>NTE27 Staff Details Update</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/styles.css?v=20260818-1">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/styles.css?v=20260818-2">
 </head>
 <body>
   <header class="site-header"><nav class="nav"><a class="brand" href="https://www.nationaltransitionevent.com/"><img class="brand-logo" src="assets/nte-logo-white.png" alt="The National Transition Event"></a><a class="nav-link" href="https://www.nationaltransitionevent.com/">nationaltransitionevent.com</a></nav><div class="hero"><h1>Staff details update</h1><p>Confirm or change the people attending NTE27 with your organisation.</p></div></header>
   <main class="page-shell">
     <form class="main-column" data-web-to-lead data-form-kind="staff-update" data-lead-source="Customer Event" data-confirmation-preview="Thank you. We have received your staff update.">
-      <input type="hidden" value="Staff Details Update" data-sf-field="Web_Form_Type__c"><input type="hidden" value="staff-details-update-v5" data-sf-field="Form_Version__c"><input type="hidden" data-sf-field="NTE_Event_Code__c">
+      <input type="hidden" value="Staff Details Update" data-sf-field="Web_Form_Type__c"><input type="hidden" value="staff-details-update-v6" data-sf-field="Form_Version__c"><input type="hidden" data-sf-field="NTE_Event_Code__c">
       <input type="hidden" value="0" data-sf-field="Additional_Staff_Unit_Price__c"><input type="hidden" value="0" data-sf-field="Additional_Staff_Total__c"><input type="hidden" value="NTE27-2026-08-17" data-sf-field="Pricing_Version__c">
-      <section class="card"><h2>Before you begin</h2><p class="lede">You need the booking reference shown in the original application acknowledgement email. This separate form only submits updated attendee details; it does not give access to the original application.</p></section>
+      <section class="card"><h2>Before you begin</h2><p class="lede">Have the booking reference from your application acknowledgement email ready, together with the full names of everyone attending.</p></section>
       <section class="card">
         <h2><span class="section-number">1</span>Find your application</h2>
         <div class="grid">
@@ -28,12 +28,14 @@
           <div class="field"><label class="required" for="staff-total">Total number attending, including you</label><select id="staff-total" required data-sf-field="Planned_Exhibitor_Count__c"><option value="">Select</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>More than 9</option></select></div>
           <div class="field"><label class="required" for="staff-additional">Does this include additional staff above your allocation?</label><select id="staff-additional" required data-sf-field="Additional_Staff_Required__c"><option value="">Select</option><option>Yes</option><option>No</option><option>Don't know</option></select></div>
           <div class="field conditional" data-conditional-for="staff-additional" data-conditional-value="Yes"><label class="required" for="staff-additional-count">Number above your allocation</label><select id="staff-additional-count" data-required-when-visible data-sf-field="Additional_Staff_Count__c"><option value="">Select</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select><span class="help">Additional staff are invoiced at £50 + VAT per person.</span></div>
-          <div class="field full"><label class="required" for="updated-staff-names">Full list of people attending</label><textarea id="updated-staff-names" required placeholder="Enter one name per line. Names may be changed later." data-sf-field="Stand_Colleagues__c"></textarea><span class="help"><strong>Enter one name per line.</strong> This submission replaces the earlier list after reconciliation.</span></div>
+          <div class="field full"><label class="required" for="updated-staff-names">Full list of people attending</label><textarea id="updated-staff-names" required placeholder="Enter one name per line. Names may be changed later." data-sf-field="Stand_Colleagues__c"></textarea><span class="help"><strong>Enter one name per line.</strong> The names entered here will replace the attendee list previously supplied.</span></div>
+          <div class="field"><label class="required" for="staff-signature">Digital signature (full name)</label><input id="staff-signature" required autocomplete="name" data-sf-field="Declaration_Name__c"></div>
+          <div class="field"><label class="required" for="staff-signature-date">Date</label><input id="staff-signature-date" type="date" required data-sf-field="Declaration_Date__c"></div>
         </div>
         <div class="button-row"><button class="button" type="submit">Submit staff update</button><a class="button-secondary" href="https://www.nationaltransitionevent.com/">Visit the NTE website</a></div><div data-form-status hidden aria-live="polite"></div>
       </section>
     </form>
   </main>
-  <footer class="site-footer">Questions? <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a></footer><script src="assets/config.js?v=20260818-1"></script><script src="assets/forms.js?v=20260818-1"></script>
+  <footer class="site-footer">Questions? <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a></footer><script src="assets/config.js?v=20260818-2"></script><script src="assets/forms.js?v=20260818-2"></script>
 </body>
 </html>
