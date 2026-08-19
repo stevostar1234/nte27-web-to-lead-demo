@@ -20,7 +20,7 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; min-width: 320px; background: var(--mist); line-height: 1.55; }
+body { margin: 0; background: var(--mist); line-height: 1.55; }
 a { color: var(--gold-dark); text-underline-offset: 3px; }
 a:hover { color: var(--ink); }
 button, input, select, textarea { font: inherit; }
@@ -101,6 +101,8 @@ input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="
 .package-option { align-items: center; justify-content: space-between; }
 .package-option small { margin-left: 26px; }
 .package-option .price { color: var(--gold-dark); font-weight: 800; white-space: nowrap; }
+.package-option.option-unavailable { color: #706b6d; background: #efede9; cursor: not-allowed; opacity: .68; }
+.package-option.option-unavailable:hover { border-color: var(--line); background: #efede9; }
 
 .conditional[hidden], [hidden] { display: none !important; }
 .conditional { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }

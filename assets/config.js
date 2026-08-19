@@ -1,6 +1,7 @@
 window.NTE_CONFIG = {
   mode: "sandbox",
   eventCode: "NTE2027",
+  salesforceDateFormat: "DMY",
   declarationMinDate: "2026-01-01",
   endpoint: "https://test.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8",
   orgId: "00DAd00000A95Vl",

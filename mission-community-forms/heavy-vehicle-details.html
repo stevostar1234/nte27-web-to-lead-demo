@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
   <title>NTE27 Heavy Vehicle, Equipment and Haulier Details</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/styles.css?v=20260818-2">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/styles.css?v=20260819-2">
 </head>
 <body>
   <header class="site-header"><nav class="nav"><a class="brand" href="https://www.nationaltransitionevent.com/"><img class="brand-logo" src="assets/nte-logo-white.png" alt="The National Transition Event"></a><a class="nav-link" href="https://www.nationaltransitionevent.com/">nationaltransitionevent.com</a></nav><div class="hero"><h1>Heavy vehicle details</h1><p>Vehicle, equipment and haulier information required for paddock access at The Wing.</p></div></header>
@@ -19,7 +19,7 @@
           <div class="field"><label class="required" for="vehicle-last-name">Main contact surname</label><input id="vehicle-last-name" required data-sf-field="LastName"></div>
           <div class="field"><label class="required" for="vehicle-email">Main contact email</label><input id="vehicle-email" type="email" required data-sf-field="Email"></div>
           <div class="field"><label class="required" for="vehicle-phone">Main contact direct phone</label><input id="vehicle-phone" type="tel" required data-sf-field="Phone"></div>
-          <div class="field"><label class="required" for="vehicle-reference">Booking reference</label><input id="vehicle-reference" required autocomplete="off" data-sf-field="Target_Booking_Reference__c"><span class="help">Enter the exact reference beginning NTE- from your application acknowledgement.</span></div>
+          <div class="field"><label class="required" for="vehicle-reference">Booking reference</label><input id="vehicle-reference" required autocomplete="off" pattern="NTE-[A-Za-z0-9-]{3,}" data-sf-field="Target_Booking_Reference__c"><span class="help">Enter the exact reference beginning NTE- from your application acknowledgement.</span></div>
           <div class="field"><label class="required" for="vehicle-second-contact">Second contact</label><input id="vehicle-second-contact" required data-sf-field="Secondary_Contact_Name__c"></div>
           <div class="field"><label class="required" for="vehicle-second-email">Second contact email</label><input id="vehicle-second-email" type="email" required data-sf-field="Secondary_Contact_Email__c"></div>
           <div class="field"><label class="required" for="vehicle-second-phone">Second contact phone</label><input id="vehicle-second-phone" type="tel" required data-sf-field="Secondary_Contact_Phone__c"></div>
@@ -55,6 +55,6 @@
       </section>
     </form>
   </main>
-  <footer class="site-footer">Operational queries: Kate · 07708 864365</footer><script src="assets/config.js?v=20260818-2"></script><script src="assets/forms.js?v=20260818-2"></script>
+  <footer class="site-footer">Operational queries: Kate · 07708 864365</footer><script src="assets/config.js?v=20260819-2"></script><script src="assets/forms.js?v=20260819-2"></script>
 </body>
 </html>

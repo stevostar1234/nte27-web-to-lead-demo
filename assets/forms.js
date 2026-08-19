@@ -359,11 +359,18 @@
       if ((control.type === "checkbox" || control.type === "radio") && !control.checked) return;
       var value = control.type === "checkbox" && api === "Terms_and_Conditions__c" ? "1" : control.value;
       if (typeof value === "string") value = value.trim();
+      if (control.type === "date") value = formatWebToLeadDate(value);
       if (value === "") return;
       if (!grouped[api]) grouped[api] = [];
       grouped[api].push(value);
     });
     return grouped;
+  }
+
+  function formatWebToLeadDate(value) {
+    var match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!match || config.salesforceDateFormat !== "DMY") return value;
+    return match[3] + "/" + match[2] + "/" + match[1];
   }
 
   function hasBlankRequiredText(form) {
@@ -566,6 +573,7 @@
     bookingReference: bookingReference,
     calculatePartnerPricing: calculatePartnerPricing,
     calculateExhibitorPricing: calculateExhibitorPricing,
-    eligibleCategoriesForSpace: eligibleCategoriesForSpace
+    eligibleCategoriesForSpace: eligibleCategoriesForSpace,
+    formatWebToLeadDate: formatWebToLeadDate
   };
 }());

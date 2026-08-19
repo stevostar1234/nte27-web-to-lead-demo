@@ -1,5 +1,8 @@
 window.NTE_CONFIG = {
   mode: "sandbox",
+  eventCode: "NTE2027",
+  salesforceDateFormat: "DMY",
+  declarationMinDate: "2026-01-01",
   endpoint: "https://test.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8",
   orgId: "00DAd00000A95Vl",
   returnUrl: "https://stevostar1234.github.io/nte27-web-to-lead-demo/thank-you.html",
@@ -108,6 +111,7 @@ window.NTE_CONFIG = {
     Industry_Body_Details__c: "00NAd00000Ham1FMAR",
     Event_Discovery_Source__c: "00NAd00000Ham1BMAR",
     Declaration_Name__c: "00NAd00000Ham1AMAR",
+    Declaration_Date__c: "00NAd00000I3SbkMAF",
 
     /* Existing Salesforce fields used by the refreshed forms. */
     Exhibitor_Space_Size__c: "00NAd00000HZSVyMAP",
