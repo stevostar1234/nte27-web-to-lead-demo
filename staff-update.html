@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
   <title>NTE27 Staff Details Update</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/styles.css?v=20260818-2">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/styles.css?v=20260819-1">
 </head>
 <body>
   <header class="site-header"><nav class="nav"><a class="brand" href="https://www.nationaltransitionevent.com/"><img class="brand-logo" src="assets/nte-logo-white.png" alt="The National Transition Event"></a><a class="nav-link" href="https://www.nationaltransitionevent.com/">nationaltransitionevent.com</a></nav><div class="hero"><h1>Staff details update</h1><p>Confirm or change the people attending NTE27 with your organisation.</p></div></header>
@@ -19,14 +19,14 @@
           <div class="field"><label class="required" for="staff-first-name">Your first name</label><input id="staff-first-name" required autocomplete="given-name" data-sf-field="FirstName"></div>
           <div class="field"><label class="required" for="staff-last-name">Your surname</label><input id="staff-last-name" required autocomplete="family-name" data-sf-field="LastName"></div>
           <div class="field"><label class="required" for="staff-email">Your email address</label><input id="staff-email" type="email" required autocomplete="email" data-sf-field="Email"></div>
-          <div class="field"><label class="required" for="application-reference">Booking reference</label><input id="application-reference" required autocomplete="off" data-sf-field="Target_Booking_Reference__c"><span class="help">This is the exact reference beginning NTE- from your application acknowledgement.</span></div>
+          <div class="field"><label class="required" for="application-reference">Booking reference</label><input id="application-reference" required autocomplete="off" pattern="NTE-[A-Za-z0-9-]{3,}" data-sf-field="Target_Booking_Reference__c"><span class="help">This is the exact reference beginning NTE- from your application acknowledgement.</span></div>
         </div>
       </section>
       <section class="card">
         <h2><span class="section-number">2</span>Attendee details</h2>
         <div class="grid">
           <div class="field"><label class="required" for="staff-total">Total number attending, including you</label><select id="staff-total" required data-sf-field="Planned_Exhibitor_Count__c"><option value="">Select</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>More than 9</option></select></div>
-          <div class="field"><label class="required" for="staff-additional">Does this include additional staff above your allocation?</label><select id="staff-additional" required data-sf-field="Additional_Staff_Required__c"><option value="">Select</option><option>Yes</option><option>No</option><option>Don't know</option></select></div>
+          <div class="field"><label class="required" for="staff-additional">Does this include additional staff above your allocation?</label><select id="staff-additional" required data-sf-field="Additional_Staff_Required__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
           <div class="field conditional" data-conditional-for="staff-additional" data-conditional-value="Yes"><label class="required" for="staff-additional-count">Number above your allocation</label><select id="staff-additional-count" data-required-when-visible data-sf-field="Additional_Staff_Count__c"><option value="">Select</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select><span class="help">Additional staff are invoiced at £50 + VAT per person.</span></div>
           <div class="field full"><label class="required" for="updated-staff-names">Full list of people attending</label><textarea id="updated-staff-names" required placeholder="Enter one name per line. Names may be changed later." data-sf-field="Stand_Colleagues__c"></textarea><span class="help"><strong>Enter one name per line.</strong> The names entered here will replace the attendee list previously supplied.</span></div>
           <div class="field"><label class="required" for="staff-signature">Digital signature (full name)</label><input id="staff-signature" required autocomplete="name" data-sf-field="Declaration_Name__c"></div>
@@ -42,6 +42,6 @@
       </section>
     </form>
   </main>
-  <footer class="site-footer">Questions? <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a></footer><script src="assets/config.js?v=20260818-2"></script><script src="assets/forms.js?v=20260818-2"></script>
+  <footer class="site-footer">Questions? <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a></footer><script src="assets/config.js?v=20260819-1"></script><script src="assets/forms.js?v=20260819-1"></script>
 </body>
 </html>

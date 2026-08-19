@@ -1,5 +1,7 @@
 window.NTE_CONFIG = {
   mode: "sandbox",
+  eventCode: "NTE2027",
+  declarationMinDate: "2026-01-01",
   endpoint: "https://test.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8",
   orgId: "00DAd00000A95Vl",
   returnUrl: "https://stevostar1234.github.io/nte27-web-to-lead-demo/thank-you.html",

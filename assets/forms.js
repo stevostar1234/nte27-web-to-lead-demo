@@ -73,25 +73,34 @@
   }
 
   function enableConditionalSections() {
-    document.querySelectorAll("[data-conditional-for]").forEach(function (target) {
-      var source = document.getElementById(target.dataset.conditionalFor);
-      if (!source) return;
-      function sync() {
+    var targets = Array.prototype.slice.call(document.querySelectorAll("[data-conditional-for]"));
+
+    function syncAll() {
+      targets.forEach(function (target) {
+        var source = document.getElementById(target.dataset.conditionalFor);
+        if (!source) return;
         var expected = (target.dataset.conditionalValue || "Yes").split("|");
         var value = source.type === "checkbox" ? (source.checked ? "Yes" : "No") : (source.type === "radio" ? (source.checked ? source.value : "") : source.value);
-        var show = expected.indexOf(value) !== -1;
+        var parentConditional = target.parentElement && target.parentElement.closest("[data-conditional-for]");
+        var show = expected.indexOf(value) !== -1 && (!parentConditional || !parentConditional.hidden);
         target.hidden = !show;
         target.querySelectorAll("input, select, textarea, button").forEach(function (control) {
+          if (control.closest("[data-conditional-for]") !== target) return;
           control.disabled = !show;
           if (control.hasAttribute("data-required-when-visible")) control.required = show;
         });
-      }
-      source.addEventListener("change", sync);
+      });
+    }
+
+    targets.forEach(function (target) {
+      var source = document.getElementById(target.dataset.conditionalFor);
+      if (!source) return;
+      source.addEventListener("change", syncAll);
       if (source.type === "radio" && source.name) {
-        document.querySelectorAll('input[type="radio"][name="' + source.name + '"]').forEach(function (radio) { radio.addEventListener("change", sync); });
+        document.querySelectorAll('input[type="radio"][name="' + source.name + '"]').forEach(function (radio) { radio.addEventListener("change", syncAll); });
       }
-      sync();
     });
+    syncAll();
   }
 
   function configureFieldConstraints() {
@@ -99,6 +108,16 @@
       if (!/^(INPUT|TEXTAREA)$/.test(control.tagName) || /^(checkbox|radio|hidden)$/i.test(control.type || "")) return;
       var limit = standardFieldLimits[control.dataset.sfField] || (config.fieldLimits || {})[control.dataset.sfField];
       if (limit && !control.hasAttribute("maxlength")) control.maxLength = limit;
+    });
+    var londonDateParts = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/London", year: "numeric", month: "2-digit", day: "2-digit"
+    }).formatToParts(new Date());
+    var londonDate = ["year", "month", "day"].map(function (partName) {
+      return londonDateParts.find(function (part) { return part.type === partName; }).value;
+    }).join("-");
+    document.querySelectorAll('[data-sf-field="Declaration_Date__c"]').forEach(function (control) {
+      control.max = londonDate;
+      if (config.declarationMinDate) control.min = config.declarationMinDate;
     });
   }
 
@@ -152,9 +171,11 @@
 
   function populateSystemFields(form) {
     var eventField = form.querySelector('[data-sf-field="NTE_Event_Code__c"]');
-    if (eventField) eventField.value = eventCodeFor(new Date());
+    if (eventField) eventField.value = config.eventCode || eventCodeFor(new Date());
     var bookingField = form.querySelector('[data-sf-field="Booking_Reference__c"]');
     if (bookingField && !bookingField.value) bookingField.value = bookingReference();
+    var logoField = form.querySelector('[data-sf-field="Logo_Upload_URL__c"]');
+    if (logoField) logoField.value = config.logoFileRequestUrl || "";
   }
 
   function setPricingField(form, api, value) {
@@ -187,16 +208,44 @@
     var staffUnitPrice = options.staffRequired === "Yes" ? 50 : 0;
     var powerTotal = powerUnitPrice * socketCount;
     var staffTotal = staffUnitPrice * staffCount;
+    var listedTotal = (Number.isFinite(spacePrice) ? spacePrice : 0) + powerTotal + staffTotal;
     return {
       spacePrice: Number.isFinite(spacePrice) ? spacePrice : 0,
       powerUnitPrice: powerUnitPrice,
       powerTotal: powerTotal,
       staffUnitPrice: staffUnitPrice,
       staffTotal: staffTotal,
-      total: (Number.isFinite(spacePrice) ? spacePrice : 0) + powerTotal + staffTotal,
+      total: listedTotal,
       discounted: discounted,
-      priceOnRequest: priceOnRequest
+      priceOnRequest: priceOnRequest,
+      invoiceRequired: priceOnRequest || listedTotal > 0
     };
+  }
+
+  function eligibleCategoriesForSpace(spaceName) {
+    var restrictions = {
+      "Local Government Authority - Single - £249.50 + VAT": ["Local Government or LG related"],
+      "Blue Light - Single - £249.50 + VAT": ["Employer - Blue Light & NHS"],
+      "Trade Association - Single - £499 + VAT": ["Trade Association"],
+      "COBSEO Charity - Single - Free": ["Charity - member of Cobseo"],
+      "Non COBSEO Charity - Single - Free": ["Charity - not a member of Cobseo"]
+    };
+    return restrictions[spaceName] || [];
+  }
+
+  function syncExhibitorEligibility(form, category) {
+    form.querySelectorAll('[name="exhibitor-space"]').forEach(function (space) {
+      var allowed = eligibleCategoriesForSpace(space.value);
+      var unavailable = Boolean(category) && allowed.length > 0 && allowed.indexOf(category) === -1;
+      if (unavailable && space.checked) space.checked = false;
+      space.disabled = unavailable;
+      var option = space.closest("label");
+      if (option) {
+        option.classList.toggle("option-unavailable", unavailable);
+        if (unavailable) option.setAttribute("aria-disabled", "true");
+        else option.removeAttribute("aria-disabled");
+      }
+    });
   }
 
   function setupPackageSummary() {
@@ -233,13 +282,14 @@
       return node ? node.value : "";
     }
     function sync() {
+      var category = document.getElementById("organisation-category");
+      syncExhibitorEligibility(form, category ? category.value : "");
       var space = form.querySelector('[name="exhibitor-space"]:checked');
       var powerIncluded = space && space.dataset.powerIncluded === "true";
       var powerLabel = document.getElementById("power-question-label");
       var powerHelp = document.getElementById("power-question-help");
       if (powerLabel) powerLabel.textContent = powerIncluded ? "Do you need any additional power sockets for £100 + VAT per socket?" : "Do you need power on your stand for an additional £100 + VAT per socket?";
       if (powerHelp) powerHelp.textContent = powerIncluded ? "Your selected space includes standard power. Select Yes only if you need additional sockets. Charities, government and blue light organisations qualify for a 50% discount on additional sockets." : "Unless indicated here, power may not be possible. Charities, government and blue light organisations qualify for a 50% discount.";
-      var category = document.getElementById("organisation-category");
       var socketCount = Number((document.getElementById("power-count") || {}).value || 0);
       var staffCount = Number((document.getElementById("additional-staff-count") || {}).value || 0);
       var pricing = calculateExhibitorPricing({
@@ -262,6 +312,15 @@
       setPricingField(form, "Price_On_Request__c", priceOnApplication ? "1" : "0");
       setPricingField(form, "Pricing_Status__c", priceOnApplication ? "Price on request" : "Calculated");
       setPricingField(form, "Pricing_Version__c", pricingVersion);
+      var invoiceField = document.getElementById("invoice-required");
+      if (invoiceField) {
+        var noInvoiceOption = Array.prototype.find.call(invoiceField.options, function (option) { return option.value === "No"; });
+        if (noInvoiceOption) noInvoiceOption.disabled = pricing.invoiceRequired;
+        if (pricing.invoiceRequired && invoiceField.value !== "Yes") {
+          invoiceField.value = "Yes";
+          invoiceField.dispatchEvent(new Event("change", {bubbles: true}));
+        }
+      }
       if (output) {
         if (!space) output.textContent = "Select a space to see an indicative ex-VAT total.";
         else if (priceOnApplication && total) output.textContent = "Listed add-ons: " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"}).format(total) + " plus the space price on application.";
@@ -305,6 +364,74 @@
       grouped[api].push(value);
     });
     return grouped;
+  }
+
+  function hasBlankRequiredText(form) {
+    var blank = Array.prototype.slice.call(form.querySelectorAll("input[required], textarea[required]")).find(function (control) {
+      if (control.disabled || control.type === "checkbox" || control.type === "radio") return false;
+      return String(control.value || "").trim() === "";
+    });
+    if (!blank) return false;
+    blank.setCustomValidity("Please enter a value.");
+    blank.reportValidity();
+    blank.focus();
+    return true;
+  }
+
+  function normalizeBookingReferences(form) {
+    form.querySelectorAll('[data-sf-field="Target_Booking_Reference__c"]').forEach(function (control) {
+      control.value = String(control.value || "").trim().toUpperCase();
+    });
+  }
+
+  function setRuleError(form, control, message) {
+    if (control) {
+      control.setCustomValidity(message);
+      control.reportValidity();
+      control.focus();
+    }
+    setStatus(form, message, "error");
+    return false;
+  }
+
+  function validateStaffUpdate(form) {
+    if (form.dataset.formKind !== "staff-update") return true;
+    var totalControl = document.getElementById("staff-total");
+    var namesControl = document.getElementById("updated-staff-names");
+    var additionalControl = document.getElementById("staff-additional");
+    var additionalCountControl = document.getElementById("staff-additional-count");
+    var total = Number(totalControl && totalControl.value);
+    var names = String((namesControl || {}).value || "").split(/\r?\n/).filter(function (name) { return name.trim(); });
+    if (Number.isFinite(total) && total > 0 && names.length !== total) {
+      return setRuleError(form, namesControl, "Enter one attendee name per line so the list matches the total attending.");
+    }
+    if (additionalControl && additionalControl.value === "Yes") {
+      var additional = Number((additionalCountControl || {}).value);
+      if (!Number.isFinite(additional) || additional <= 0 || (Number.isFinite(total) && total > 0 && additional > total)) {
+        return setRuleError(form, additionalCountControl, "The additional-staff count must not exceed the total attending.");
+      }
+    }
+    return true;
+  }
+
+  function validateHeavyItems(form) {
+    if (!form.querySelector("#item1-description")) return true;
+    for (var itemNumber = 2; itemNumber <= 3; itemNumber++) {
+      var description = document.getElementById("item" + itemNumber + "-description");
+      var registration = document.getElementById("item" + itemNumber + "-registration");
+      var dimensions = document.getElementById("item" + itemNumber + "-dimensions");
+      var weight = document.getElementById("item" + itemNumber + "-weight");
+      var controls = [description, registration, dimensions, weight];
+      var hasAnyValue = controls.some(function (control) { return control && String(control.value || "").trim(); });
+      if (hasAnyValue && (!String(description.value || "").trim() || !String(dimensions.value || "").trim() || !String(weight.value || "").trim())) {
+        return setRuleError(form, !String(description.value || "").trim() ? description : (!String(dimensions.value || "").trim() ? dimensions : weight),
+          "Each additional item needs a description, dimensions and gross weight.");
+      }
+      if (itemNumber === 3 && hasAnyValue && !String((document.getElementById("item2-description") || {}).value || "").trim()) {
+        return setRuleError(form, document.getElementById("item2-description"), "Enter item 2 before adding item 3.");
+      }
+    }
+    return true;
   }
 
   function missingFieldIds(grouped) {
@@ -370,6 +497,7 @@
         }
         populateSystemFields(form);
         syncCombinedFields(form);
+        normalizeBookingReferences(form);
         var incompleteGroup = Array.prototype.slice.call(form.querySelectorAll("[data-required-checkbox-group]")).find(function (group) {
           return !group.querySelector('input[type="checkbox"]:checked');
         });
@@ -379,6 +507,14 @@
           if (firstBox) firstBox.focus();
           return;
         }
+        form.querySelectorAll("input[required], textarea[required]").forEach(function (control) {
+          control.setCustomValidity("");
+        });
+        if (hasBlankRequiredText(form)) {
+          setStatus(form, "Please complete the highlighted required fields.", "error");
+          return;
+        }
+        if (!validateStaffUpdate(form) || !validateHeavyItems(form)) return;
         if (!form.reportValidity()) {
           setStatus(form, "Please complete the highlighted required fields.", "error");
           return;
@@ -410,7 +546,10 @@
         });
         submitToSalesforce(form, grouped);
       });
-      form.addEventListener("input", function () { syncCombinedFields(form); });
+      form.addEventListener("input", function (event) {
+        syncCombinedFields(form);
+        if (event.target && event.target.setCustomValidity && String(event.target.value || "").trim()) event.target.setCustomValidity("");
+      });
     });
   }
 
@@ -426,6 +565,7 @@
     eventCodeFor: eventCodeFor,
     bookingReference: bookingReference,
     calculatePartnerPricing: calculatePartnerPricing,
-    calculateExhibitorPricing: calculateExhibitorPricing
+    calculateExhibitorPricing: calculateExhibitorPricing,
+    eligibleCategoriesForSpace: eligibleCategoriesForSpace
   };
 }());
