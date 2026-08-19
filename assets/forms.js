@@ -144,15 +144,48 @@
     });
   }
 
-  function eventCodeFor(date) {
+  function eventCodeFromParts(year, month) {
+    return "NTE" + String(month >= 4 ? year + 1 : year);
+  }
+
+  function pureDateParts(value) {
+    var match = typeof value === "string" && /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+    if (!match) return null;
+    var year = Number(match[1]);
+    var month = Number(match[2]);
+    var day = Number(match[3]);
+    var check = new Date(Date.UTC(year, month - 1, day));
+    if (check.getUTCFullYear() !== year || check.getUTCMonth() !== month - 1 || check.getUTCDate() !== day) {
+      throw new RangeError("Invalid calendar date: " + value);
+    }
+    return {year: year, month: month, day: day};
+  }
+
+  function eventCodeFor(date, timeZone) {
+    var pureDate = pureDateParts(date);
+    if (pureDate) return eventCodeFromParts(pureDate.year, pureDate.month);
+
+    var instant = date == null ? new Date() : date;
+    if (!(instant instanceof Date) || Number.isNaN(instant.getTime())) {
+      throw new TypeError("eventCodeFor requires a valid Date or YYYY-MM-DD value");
+    }
     var parts = new Intl.DateTimeFormat("en-GB", {
-      timeZone: "Europe/London",
+      timeZone: timeZone || "Europe/London",
       year: "numeric",
       month: "numeric"
-    }).formatToParts(date || new Date());
+    }).formatToParts(instant);
     var year = Number(parts.find(function (part) { return part.type === "year"; }).value);
     var month = Number(parts.find(function (part) { return part.type === "month"; }).value);
-    return "NTE" + String(month >= 4 ? year + 1 : year);
+    return eventCodeFromParts(year, month);
+  }
+
+  function resolveEventCode(date) {
+    var override = String(config.eventCodeOverride || "").trim();
+    if (override) {
+      if (!/^NTE\d{4}$/.test(override)) throw new Error("NTE event code override must use the format NTEYYYY");
+      return override;
+    }
+    return eventCodeFor(date, config.eventCodeTimeZone || "Europe/London");
   }
 
   function bookingReference() {
@@ -171,7 +204,7 @@
 
   function populateSystemFields(form) {
     var eventField = form.querySelector('[data-sf-field="NTE_Event_Code__c"]');
-    if (eventField) eventField.value = config.eventCode || eventCodeFor(new Date());
+    if (eventField) eventField.value = resolveEventCode(new Date());
     var bookingField = form.querySelector('[data-sf-field="Booking_Reference__c"]');
     if (bookingField && !bookingField.value) bookingField.value = bookingReference();
     var logoField = form.querySelector('[data-sf-field="Logo_Upload_URL__c"]');
@@ -570,6 +603,7 @@
 
   window.NTEFormUtils = {
     eventCodeFor: eventCodeFor,
+    resolveEventCode: resolveEventCode,
     bookingReference: bookingReference,
     calculatePartnerPricing: calculatePartnerPricing,
     calculateExhibitorPricing: calculateExhibitorPricing,
