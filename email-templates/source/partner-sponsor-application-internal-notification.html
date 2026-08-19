@@ -1,0 +1,20 @@
+<html>
+<body style="margin:0;padding:0;background:#eef3f6;font-family:Arial,Helvetica,sans-serif;color:#263746;">
+  <div style="display:none;max-height:0;overflow:hidden;">A new NTE partner / sponsor application from {!Lead.Company} is ready for review.</div>
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#eef3f6;"><tr><td align="center" style="padding:28px 12px;">
+    <table role="presentation" width="640" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:640px;background:#ffffff;">
+      <tr><td style="padding:34px 42px;background:#0b3553;color:#ffffff;"><div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#ffd17c;">Internal notification • {!Lead.NTE_Event_Code__c}</div><h1 style="margin:12px 0 0;font-size:32px;line-height:39px;">New partner / sponsor application</h1></td></tr>
+      <tr><td style="padding:34px 42px;"><p style="font-size:17px;line-height:27px;">{!Lead.Company} has submitted an NTE partner / sponsor application.</p>
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="8" border="0" style="border-collapse:collapse;font-size:15px;line-height:22px;">
+          <tr><td style="border-bottom:1px solid #e4edf2;font-weight:bold;">Booking reference</td><td style="border-bottom:1px solid #e4edf2;">{!Lead.Booking_Reference__c}</td></tr>
+          <tr><td style="border-bottom:1px solid #e4edf2;font-weight:bold;">Applicant</td><td style="border-bottom:1px solid #e4edf2;">{!Lead.FirstName} {!Lead.LastName}</td></tr>
+          <tr><td style="border-bottom:1px solid #e4edf2;font-weight:bold;">Email</td><td style="border-bottom:1px solid #e4edf2;">{!Lead.Email}</td></tr>
+          <tr><td style="border-bottom:1px solid #e4edf2;font-weight:bold;">Package(s)</td><td style="border-bottom:1px solid #e4edf2;">{!Lead.Sponsor_Package__c}</td></tr>
+          <tr><td style="font-weight:bold;">Event contact</td><td>{!Lead.Event_Contact_Name__c} · {!Lead.Event_Contact_Email__c}</td></tr>
+        </table>
+        <p style="margin:26px 0 0;font-size:15px;line-height:24px;">Open the Lead in Salesforce to review all commercial, operational and billing information.</p>
+      </td></tr>
+    </table>
+  </td></tr></table>
+</body>
+</html>
