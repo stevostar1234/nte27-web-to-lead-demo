@@ -12,7 +12,9 @@
     MobilePhone: "mobile",
     Title: "title",
     Website: "URL",
-    Salutation: "salutation"
+    Salutation: "salutation",
+    Street: "street",
+    PostalCode: "zip"
   };
   var standardFieldLimits = {
     Company: 255,
@@ -23,7 +25,9 @@
     MobilePhone: 40,
     Title: 128,
     Website: 255,
-    Salutation: 40
+    Salutation: 40,
+    Street: 255,
+    PostalCode: 20
   };
 
   function setStatus(form, message, type) {
@@ -119,6 +123,10 @@
       control.max = londonDate;
       if (config.declarationMinDate) control.min = config.declarationMinDate;
     });
+    document.querySelectorAll('[data-sf-field="Date_of_Birth__c"]').forEach(function (control) {
+      control.max = londonDate;
+      control.min = config.dateOfBirthMinDate || "1900-01-01";
+    });
   }
 
   function syncCombinedFields(form) {
@@ -132,6 +140,11 @@
     form.querySelectorAll("[data-copy-value-from]").forEach(function (target) {
       var source = document.getElementById(target.dataset.copyValueFrom);
       target.value = source ? source.value : "";
+    });
+    form.querySelectorAll("[data-checkbox-copy-from]").forEach(function (target) {
+      var source = document.getElementById(target.dataset.checkboxCopyFrom);
+      var selected = source && (source.type === "checkbox" ? source.checked : source.value === "Yes");
+      target.value = selected ? "1" : "";
     });
     form.querySelectorAll("[data-switch-copy]").forEach(function (target) {
       var switcher = document.getElementById(target.dataset.switchCopy);
@@ -400,12 +413,6 @@
     return grouped;
   }
 
-  function formatWebToLeadDate(value) {
-    var match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
-    if (!match || config.salesforceDateFormat !== "DMY") return value;
-    return match[3] + "/" + match[2] + "/" + match[1];
-  }
-
   function hasBlankRequiredText(form) {
     var blank = Array.prototype.slice.call(form.querySelectorAll("input[required], textarea[required]")).find(function (control) {
       if (control.disabled || control.type === "checkbox" || control.type === "radio") return false;
@@ -422,6 +429,12 @@
     form.querySelectorAll('[data-sf-field="Target_Booking_Reference__c"]').forEach(function (control) {
       control.value = String(control.value || "").trim().toUpperCase();
     });
+  }
+
+  function formatWebToLeadDate(value) {
+    var match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!match || config.salesforceDateFormat !== "DMY") return value;
+    return match[3] + "/" + match[2] + "/" + match[1];
   }
 
   function setRuleError(form, control, message) {
@@ -484,9 +497,23 @@
     var missing = [];
     if (!config.endpoint) missing.push("Salesforce endpoint");
     if (!config.orgId) missing.push("Salesforce organisation ID");
-    if (!config.returnUrl) missing.push("post-submission return URL");
+    if (!resolveReturnUrl(form)) missing.push("post-submission return URL");
     if (form.querySelector('[data-config-link="terms"]') && !config.termsUrl) missing.push("Terms and Conditions PDF URL");
     return missing;
+  }
+
+  function resolveReturnUrl(form) {
+    var requestedPath = String((form && form.dataset.returnPath) || "").trim();
+    if (!requestedPath) return config.returnUrl || "";
+    try {
+      if (!window.location || !window.location.href) return config.returnUrl || "";
+      var current = new URL(window.location.href);
+      var resolved = new URL(requestedPath, current.href);
+      if (!/^https?:$/.test(resolved.protocol) || resolved.origin !== current.origin) return config.returnUrl || "";
+      return resolved.href;
+    } catch (error) {
+      return config.returnUrl || "";
+    }
   }
 
   function submitToSalesforce(form, grouped) {
@@ -502,9 +529,9 @@
       postForm.appendChild(input);
     }
     append("oid", config.orgId);
-    append("retURL", config.returnUrl);
+    append("retURL", resolveReturnUrl(form));
     append("lead_source", form.dataset.leadSource || "Web");
-    append("useDefaultRule", "1");
+    append("useDefaultRule", form.dataset.useDefaultRule === "0" ? "0" : "1");
     Object.keys(grouped).forEach(function (api) {
       var name = /__c$/.test(api) ? config.customFieldIds[api] : (standardNames[api] || api);
       append(name, grouped[api].join(";"));
@@ -608,6 +635,7 @@
     calculatePartnerPricing: calculatePartnerPricing,
     calculateExhibitorPricing: calculateExhibitorPricing,
     eligibleCategoriesForSpace: eligibleCategoriesForSpace,
-    formatWebToLeadDate: formatWebToLeadDate
+    formatWebToLeadDate: formatWebToLeadDate,
+    resolveReturnUrl: resolveReturnUrl
   };
 }());
