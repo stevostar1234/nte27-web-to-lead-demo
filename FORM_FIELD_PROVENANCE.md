@@ -1,8 +1,8 @@
 # NTE27 Form Field Provenance and Change Rationale
 
-Last reviewed: 13 August 2026
+Last reviewed: 18 August 2026
 
-This document records why every visible form field exists and where it came from. It is a requirements-traceability record, not legal or compliance approval. The Salesforce API names shown in the HTML are proposed mappings until the Phase 3 Salesforce fields and automation are implemented and validated.
+This document records why every visible form field exists and where it came from. It is a requirements-traceability record, not legal or compliance approval. The Salesforce API names shown in the HTML are deployed MMUAT mappings unless a section explicitly identifies an outstanding dependency.
 
 ## Source register
 
@@ -47,7 +47,7 @@ This is the standalone exhibitor application Kate explicitly requested, separate
 ### Organisation and applicant
 
 - **Organisation name for marketing** — Kate exhibitor workbook.
-- **Alternative or former organisation name** — Kate exhibitor workbook.
+- **Alternative or former organisation name** — removed from the public exhibitor application following Kate's 18 August feedback. The existing Salesforce field is retained for historical data and is no longer populated by new applications.
 - **Organisation category** — Kate exhibitor workbook, adapted to support commercial, charity, government and blue-light pricing rules described in Kate’s feedback.
 - **Organisation website** — Kate exhibitor workbook.
 - **Title/prefix, first name, surname, job title, email, mobile and work/landline phone** — Kate exhibitor workbook. First and surname are separate in line with Kate’s email-personalisation question.
@@ -55,7 +55,7 @@ This is the standalone exhibitor application Kate explicitly requested, separate
 
 ### Event history and application details
 
-- **Previously attended NTE2024, NTE2025 and NTE2026** — Kate’s workbook originally contained three separate year questions. The project lead directed that they be presented as three independent checkboxes. Each checked year maps to its own proposed Salesforce checkbox; an unchecked year means No. No separate “None” option is needed.
+- **Previously attended NTE24, NTE25 and NTE26** — Kate’s workbook originally contained three separate year questions. The shorter client-facing labels retain the deployed Salesforce values NTE2024, NTE2025 and NTE2026 so existing reporting remains compatible. Each year is an independent checkbox; an unchecked year means No.
 - **Planned number of exhibitor staff** — Kate exhibitor workbook.
 - **Exhibition-space selection** — Kate exhibitor workbook and client pricing material. Prices are shown in the interface to support the application decision.
 - **Power required and number of sockets** — Kate’s written feedback: £100 + VAT per socket, availability not guaranteed unless requested, with a 50% discount for charities, government and blue-light organisations. Conditional display and the indicative calculation are project implementation choices.
@@ -72,11 +72,16 @@ This is the standalone exhibitor application Kate explicitly requested, separate
 
 ### Quotation and invoicing
 
-- **Quotation or invoice required** — Kate exhibitor workbook. The help text was clarified by the project lead to cover free space with no chargeable sockets or staff.
-- **Invoice organisation, addressee, postal address, email and telephone** — Kate exhibitor workbook.
-- **Purchase order required and purchase-order number** — Kate exhibitor workbook.
-- **Quotation required to raise a purchase order** — Kate exhibitor workbook.
-- **Supplier agreement required** — Kate exhibitor workbook.
+- **Quotation required before an invoice can be raised** — retained as a separate question at Kate's request on 28 August 2026 so quotation work is not inferred from the invoice choice.
+- **Invoice required** — retained as a separate question. Until the proposed Stripe route is approved and implemented in Salesforce, No is reserved for applications where no charge is due; chargeable applications continue to enter the invoice workflow.
+- **Legal organisation name for quotation and invoicing, billing address and trading name** — Mission Motorsport Customer Finance Information Sheet supplied on 18 August 2026, with the legal-name label clarified by Kate on 28 August 2026. Trading name uses a new field rather than repurposing the historical alternative-organisation-name field.
+- **Main contact name, email and telephone** — the same finance sheet; these are already captured in section 2 and are not duplicated.
+- **Finance contact name, email and telephone** — the same finance sheet. Kate's 28 August 2026 direction explicitly asks for these details even when the finance contact is the same as the main NTE contact.
+- **Purchase order or reference requirement and details** — the same finance sheet, extending the existing purchase-order fields without removing their earlier data.
+- **Additional information required on the quotation or invoice** — the same finance sheet; stored in a new long-text field.
+- **Supplier agreement required** — explicitly retained at Kate's request.
+- **Question order** — quotation, invoice, purchase-order/reference and supplier-agreement requirements now appear before the billing identity and finance-contact fields, following Kate's 28 August 2026 direction.
+- **Declaration name and automatic submission date** — fulfil the finance sheet's signature, name and date intent within the online form; no paper signature field is duplicated.
 - **Conditional display of billing details** — project implementation choice so applicants who genuinely need neither a quote nor invoice are not asked for irrelevant billing fields.
 
 ### Final details and declaration
@@ -110,13 +115,12 @@ This is the direct-link application used after Mission Community has discussed a
 
 ### Quotation, invoicing and agreement
 
-- **Quotation before invoice, invoice organisation, invoice addressee, postal address, invoice email, purchase-order requirement and purchase-order number** — combined client partner/sponsor application form.
+- **Quotation requirement, purchase-order/reference requirement and supplier-agreement requirement** — the same revised Customer Finance Information questions used on the exhibitor application, reordered following Kate's 28 August 2026 direction.
+- **Legal organisation name, billing address, trading name and finance contact details** — the same revised Customer Finance Information questions used on the exhibitor application. The form explicitly asks for a finance contact different from the main NTE contact, following Kate's 28 August 2026 direction.
+- **Invoice requirement** — partner/sponsor applications remain in the existing invoice workflow while the proposed Stripe route is awaiting a client decision and Salesforce implementation.
+- **Main contact name, email and telephone** — already captured in section 1 and not duplicated in the finance section.
+- **Declaration name and automatic submission date** — fulfil the finance sheet's signature, name and date intent within the online form.
 - **Agreement to NTE27 Terms and Conditions and Privacy Policy** — Kate’s terms-link requirement plus the project lead’s current wording direction. Final URLs and wording still need client/legal approval.
-
-### Deliberately absent
-
-- **Declaration name** — not included because no supplied partner/sponsor source explicitly required a separate declaration-name field.
-- **Internal submission alert** — not currently linked because this application follows staff qualification and is sent directly by Mission Community. The immediate applicant receipt and later confirmed-application message are provided.
 
 ## 4. Guest registration
 
@@ -144,7 +148,7 @@ Kate asked how attendee names could be updated nearer the event and suggested th
 
 ### Important boundary
 
-Web-to-Lead cannot reopen the original browser submission. Phase 3 automation must search both exhibitor and partner/sponsor applications, prioritise an exact application-reference match, and otherwise use the organisation and original email. It must update exactly one booking or send the submission to a manual reconciliation queue.
+Web-to-Lead cannot reopen the original browser submission. The deployed automation matches the exact application reference to one converted Opportunity. It updates exactly one booking; unmatched or failed submissions remain visible for manual reconciliation.
 
 ## 6. Heavy Vehicle, Equipment and Haulier details
 
@@ -153,7 +157,7 @@ Kate supplied the current Microsoft Form and asked for its questions to be captu
 ### Identification and contacts
 
 - **Exhibiting organisation, main contact, email and direct phone** — heavy-vehicle Microsoft Form. Main-contact name is split into first and surname as a Salesforce adaptation.
-- **Application reference** — project-added reconciliation key.
+- **Application reference** — project-added reconciliation key. It is the automatically generated booking reference shown in the application email. It is not a password and does not open or reveal the original application; the update form can only submit supplementary details against an exact matching approved booking.
 - **Second contact name, email and phone** — heavy-vehicle Microsoft Form.
 - **Planned delivery window** — heavy-vehicle Microsoft Form.
 
@@ -167,7 +171,7 @@ Kate supplied the current Microsoft Form and asked for its questions to be captu
 
 ### Important boundary
 
-Phase 3 automation must associate this supplementary submission with the correct approved exhibitor or partner/sponsor booking.
+The deployed automation associates this supplementary submission with the exact application reference of an approved exhibitor or partner/sponsor Opportunity.
 
 ## 7. Logo upload
 
@@ -184,7 +188,7 @@ This page has no Salesforce form fields.
 - **Approved paid exhibitor confirmation** — based on the supplied exhibitor confirmation wording, including invoice, power, additional staff, logo and final-event-detail messages.
 - **Approved government/charity confirmation** — based on the supplied government/charity confirmation wording.
 - **Partner/sponsor expression-of-interest receipt and internal notification** — project-added for the public pre-qualification journey requested by the project lead; field summaries reflect that new form.
-- **Partner/sponsor application received** — adapted from the supplied sponsor applicant confirmation and renamed to make clear that receipt is not approval.
+- **Partner/sponsor application confirmation** — adapted from the supplied sponsor applicant confirmation and Kate's 18 August direction that the application link is only issued after the partnership or sponsorship has been agreed. It confirms the organisation, repeats the submitted package, arrangements and quotation/invoicing details, and places the logo-upload action beside the logo request.
 - **Partner/sponsor application confirmed** — project-added at the project lead’s current request, based on Kate’s described post-approval process: confirm the application, state that a quotation/invoice will follow where applicable, and request the latest logo.
 - **Guest registration receipt and internal notification** — project-added around Tony’s supplied questionnaire.
 - **Staff-update and heavy-vehicle receipts** — project-added acknowledgements for the later-stage forms.
@@ -193,8 +197,9 @@ This page has no Salesforce form fields.
 
 - Final NTE27 Terms and Conditions URL, Privacy Policy URL and approved agreement wording.
 - Final Microsoft 365 File Request URL and storage ownership/access rules.
-- Salesforce field IDs, object/record model and automation for every proposed custom field.
-- Reconciliation rules for staff and logistics updates.
+- Final decision on whether Stripe will be offered. Enabling it requires a distinct payment-method value, a no-charge option for complimentary applications, Stripe notification/reconciliation rules, and updates to invoice, payment, completion, report and dashboard logic; it must not be represented by the existing Invoice Required field alone.
+- Confirmation whether finance needs dedicated quote number, invoice number and manually entered issue-date fields. The current actions record the quote-provided, invoice-provided and paid milestones with an automatic action timestamp and user, but do not store external document numbers or a separately chosen finance date.
+- Confirmation whether partner/sponsor application submission should also automatically move or convert the Salesforce record, or whether the NTE team will continue to complete that internal step after checking the submitted requirements.
 - Approved sender, reply-to address, subject lines and final copy for each email.
 - Any approved Escapade ticket add-on price, VAT, quantity and capacity rules; the current sponsor package is not the same as a bookable ticket add-on.
 - End-to-end security review, privacy review, accessibility testing and user acceptance testing before production submissions are enabled.

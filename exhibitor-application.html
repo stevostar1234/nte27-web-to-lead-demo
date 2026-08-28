@@ -19,7 +19,7 @@
     <form class="main-column" data-web-to-lead data-form-kind="exhibitor" data-lead-source="Customer Event" data-use-default-rule="0" data-confirmation-preview="Thank you. We have received your NTE27 exhibitor application. This acknowledgement confirms receipt only; your application has not yet been approved. The NTE team will contact you after review.">
       <input type="hidden" data-sf-field="Logo_Upload_URL__c">
       <input type="hidden" value="Exhibitor Application" data-sf-field="Web_Form_Type__c">
-      <input type="hidden" value="exhibitor-application-v6" data-sf-field="Form_Version__c">
+      <input type="hidden" value="exhibitor-application-v7" data-sf-field="Form_Version__c">
       <input type="hidden" data-sf-field="NTE_Event_Code__c">
       <input type="hidden" data-sf-field="Booking_Reference__c">
       <input type="hidden" data-combine-fields="contact-first-name,contact-last-name" data-sf-field="Event_Contact_Name__c">
@@ -151,23 +151,23 @@
       <section class="card" id="billing">
         <h2><span class="section-number">7</span>Quotation and invoicing</h2>
         <div class="grid">
-          <div class="field full"><label class="required" for="invoice-required">Will you require a quotation or invoice?</label><select id="invoice-required" required data-sf-field="Invoice_Required__c"><option value="">Select</option><option>Yes</option><option>No</option></select><span class="help">Select No only if neither will be needed, for example where a free exhibitor space and no additional charges are selected.</span></div>
+          <div class="field"><label class="required" for="quote-for-po">Do you require a quotation before an invoice can be raised?</label><select id="quote-for-po" required data-sf-field="Quote_Required_for_PO__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
+          <div class="field"><label class="required" for="invoice-required">Do you require an invoice to be raised?</label><select id="invoice-required" required data-sf-field="Invoice_Required__c"><option value="">Select</option><option>Yes</option><option>No</option></select><span class="help">Select No only where no charge is due.</span></div>
         </div>
         <div class="conditional" data-conditional-for="invoice-required" data-conditional-value="Yes">
           <div class="grid">
-            <div class="field"><label class="required" for="invoice-company">Organisation or individual name for quotation and invoicing</label><input id="invoice-company" data-required-when-visible data-sf-field="Invoiced_Company__c"></div>
+            <div class="field full"><label class="required" for="purchase-order">Do you require a purchase order or reference before an invoice can be issued?</label><select id="purchase-order" data-required-when-visible data-sf-field="Purchase_Order__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
+            <div class="field full conditional" data-conditional-for="purchase-order" data-conditional-value="Yes"><label class="required" for="purchase-order-number">Purchase order or reference details</label><input id="purchase-order-number" data-required-when-visible data-sf-field="Purchase_Order_Number__c"></div>
+            <div class="field"><label class="required" for="supplier-agreement">Will a supplier agreement be required?</label><select id="supplier-agreement" data-required-when-visible data-sf-field="Supplier_Agreement_Required__c"><option value="">Select</option><option>Yes</option><option>No</option><option>Don't know</option></select></div>
+            <div class="field"><label class="required" for="invoice-company">Legal organisation name for quotation and invoicing</label><input id="invoice-company" data-required-when-visible data-sf-field="Invoiced_Company__c"></div>
             <div class="field"><label for="trading-name">Trading name, if different</label><input id="trading-name" data-sf-field="Trading_Name__c"></div>
             <div class="field full"><label class="required" for="invoice-address">Billing address, including postcode</label><textarea id="invoice-address" data-required-when-visible data-sf-field="Invoice_Address__c"></textarea></div>
-            <div class="field full"><p class="help">The main point of contact is captured in section 2. Please provide the finance contact below, even if it is the same person.</p></div>
+            <div class="field full"><p class="help"><strong>Please provide the finance contact below, even if it is the same person.</strong> The main NTE contact is captured in section 2.</p></div>
             <div class="field"><label class="required" for="invoice-person">Finance contact name</label><input id="invoice-person" data-required-when-visible data-sf-field="Invoiced_Person__c"></div>
             <div class="field"><label class="required" for="invoice-email">Finance contact email address</label><input id="invoice-email" type="email" data-required-when-visible data-sf-field="Invoiced_Email__c"></div>
             <div class="field"><label class="required" for="invoice-phone">Finance contact telephone number</label><input id="invoice-phone" type="tel" data-required-when-visible data-sf-field="Invoice_Contact_Phone__c"></div>
-            <div class="field"><label class="required" for="quote-for-po">Do you require a quotation before an invoice can be issued?</label><select id="quote-for-po" data-required-when-visible data-sf-field="Quote_Required_for_PO__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
-            <div class="field full"><label class="required" for="purchase-order">Do you require a purchase order or reference before an invoice can be issued?</label><select id="purchase-order" data-required-when-visible data-sf-field="Purchase_Order__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
-            <div class="field full conditional" data-conditional-for="purchase-order" data-conditional-value="Yes"><label class="required" for="purchase-order-number">Purchase order or reference details</label><input id="purchase-order-number" data-required-when-visible data-sf-field="Purchase_Order_Number__c"></div>
             <div class="field full"><label class="required" for="invoice-additional-required">Is there any additional information that must appear on the quotation or invoice?</label><select id="invoice-additional-required" data-required-when-visible><option value="">Select</option><option>Yes</option><option>No</option></select></div>
             <div class="field full conditional" data-conditional-for="invoice-additional-required" data-conditional-value="Yes"><label class="required" for="invoice-additional-information">Additional quotation or invoice information</label><textarea id="invoice-additional-information" data-required-when-visible data-sf-field="Invoice_Additional_Information__c"></textarea></div>
-            <div class="field"><label class="required" for="supplier-agreement">Will a supplier agreement be required?</label><select id="supplier-agreement" data-required-when-visible data-sf-field="Supplier_Agreement_Required__c"><option value="">Select</option><option>Yes</option><option>No</option><option>Don't know</option></select></div>
           </div>
         </div>
       </section>

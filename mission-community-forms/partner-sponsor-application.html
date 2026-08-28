@@ -16,7 +16,7 @@
     <form class="main-column" data-web-to-lead data-lead-source="Customer Event" data-use-default-rule="0" data-confirmation-preview="Thank you. Your NTE27 partnership / sponsorship is confirmed. The NTE team will review your requirements and contact you if anything needs clarification.">
       <input type="hidden" data-sf-field="Logo_Upload_URL__c">
       <input type="hidden" value="Partner / Sponsor Application" data-sf-field="Web_Form_Type__c">
-      <input type="hidden" value="partner-sponsor-application-v8" data-sf-field="Form_Version__c">
+      <input type="hidden" value="partner-sponsor-application-v9" data-sf-field="Form_Version__c">
       <input type="hidden" data-sf-field="NTE_Event_Code__c">
       <input type="hidden" data-sf-field="Booking_Reference__c">
       <input type="hidden" data-combine-fields="partner-first-name,partner-last-name" data-sf-field="Sponsored_Name__c">
@@ -101,19 +101,19 @@
       <section class="card">
         <h2><span class="section-number">4</span>Quotation and invoicing</h2>
         <div class="grid">
-          <div class="field"><label class="required" for="partner-invoice-company">Organisation or individual name for quotation and invoicing</label><input id="partner-invoice-company" required data-sf-field="Invoiced_Company__c"></div>
+          <div class="field"><label class="required" for="partner-quote">Do you require a quotation before an invoice can be raised?</label><select id="partner-quote" required data-sf-field="Quote_Required_for_PO__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
+          <div class="field full"><label class="required" for="partner-po">Do you require a purchase order or reference before an invoice can be issued?</label><select id="partner-po" required data-sf-field="Purchase_Order__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
+          <div class="field full conditional" data-conditional-for="partner-po" data-conditional-value="Yes"><label class="required" for="partner-po-number">Purchase order or reference details</label><input id="partner-po-number" data-required-when-visible data-sf-field="Purchase_Order_Number__c"></div>
+          <div class="field"><label class="required" for="partner-supplier-agreement">Will a supplier agreement be required?</label><select id="partner-supplier-agreement" required data-sf-field="Supplier_Agreement_Required__c"><option value="">Select</option><option>Yes</option><option>No</option><option>Don't know</option></select></div>
+          <div class="field"><label class="required" for="partner-invoice-company">Legal organisation name for quotation and invoicing</label><input id="partner-invoice-company" required data-sf-field="Invoiced_Company__c"></div>
           <div class="field"><label for="partner-trading-name">Trading name, if different</label><input id="partner-trading-name" data-sf-field="Trading_Name__c"></div>
           <div class="field full"><label class="required" for="partner-invoice-address">Billing address, including postcode</label><textarea id="partner-invoice-address" required data-sf-field="Invoice_Address__c"></textarea></div>
-          <div class="field full"><p class="help">The main point of contact is captured in section 1. Please provide the finance contact below, even if it is the same person.</p></div>
+          <div class="field full"><p class="help"><strong>Please provide the finance contact below — this should be different to the main contact.</strong> The main NTE contact is captured in section 1.</p></div>
           <div class="field"><label class="required" for="partner-invoice-person">Finance contact name</label><input id="partner-invoice-person" required data-sf-field="Invoiced_Person__c"></div>
           <div class="field"><label class="required" for="partner-invoice-email">Finance contact email address</label><input id="partner-invoice-email" type="email" required data-sf-field="Invoiced_Email__c"></div>
           <div class="field"><label class="required" for="partner-invoice-phone">Finance contact telephone number</label><input id="partner-invoice-phone" type="tel" required data-sf-field="Invoice_Contact_Phone__c"></div>
-          <div class="field"><label class="required" for="partner-quote">Do you require a quotation before an invoice can be issued?</label><select id="partner-quote" required data-sf-field="Quote_Required_for_PO__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
-          <div class="field full"><label class="required" for="partner-po">Do you require a purchase order or reference before an invoice can be issued?</label><select id="partner-po" required data-sf-field="Purchase_Order__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
-          <div class="field full conditional" data-conditional-for="partner-po" data-conditional-value="Yes"><label class="required" for="partner-po-number">Purchase order or reference details</label><input id="partner-po-number" data-required-when-visible data-sf-field="Purchase_Order_Number__c"></div>
           <div class="field full"><label class="required" for="partner-invoice-additional-required">Is there any additional information that must appear on the quotation or invoice?</label><select id="partner-invoice-additional-required" required><option value="">Select</option><option>Yes</option><option>No</option></select></div>
           <div class="field full conditional" data-conditional-for="partner-invoice-additional-required" data-conditional-value="Yes"><label class="required" for="partner-invoice-additional-information">Additional quotation or invoice information</label><textarea id="partner-invoice-additional-information" data-required-when-visible data-sf-field="Invoice_Additional_Information__c"></textarea></div>
-          <div class="field"><label class="required" for="partner-supplier-agreement">Will a supplier agreement be required?</label><select id="partner-supplier-agreement" required data-sf-field="Supplier_Agreement_Required__c"><option value="">Select</option><option>Yes</option><option>No</option><option>Don't know</option></select></div>
         </div>
       </section>
 
