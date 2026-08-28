@@ -360,12 +360,19 @@
       setPricingField(form, "Pricing_Version__c", pricingVersion);
       var invoiceField = document.getElementById("invoice-required");
       if (invoiceField) {
-        var noInvoiceOption = Array.prototype.find.call(invoiceField.options, function (option) { return option.value === "No"; });
-        if (noInvoiceOption) noInvoiceOption.disabled = pricing.invoiceRequired;
-        if (pricing.invoiceRequired && invoiceField.value !== "Yes") {
-          invoiceField.value = "Yes";
+        var invoiceValue = pricing.invoiceRequired ? "Yes" : "No";
+        if (invoiceField.value !== invoiceValue) {
+          invoiceField.value = invoiceValue;
           invoiceField.dispatchEvent(new Event("change", {bubbles: true}));
         }
+      }
+      var paymentMethod = document.getElementById("payment-method");
+      var paymentMethodField = document.querySelector("[data-payment-method-field]");
+      if (paymentMethodField) paymentMethodField.hidden = !pricing.invoiceRequired;
+      if (paymentMethod) {
+        paymentMethod.disabled = !pricing.invoiceRequired;
+        paymentMethod.required = pricing.invoiceRequired;
+        if (!pricing.invoiceRequired) paymentMethod.value = "";
       }
       if (output) {
         if (!space) output.textContent = "Select a space to see an indicative ex-VAT total.";

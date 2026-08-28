@@ -19,7 +19,7 @@
     <form class="main-column" data-web-to-lead data-form-kind="exhibitor" data-lead-source="Customer Event" data-use-default-rule="0" data-confirmation-preview="Thank you. We have received your NTE27 exhibitor application. This acknowledgement confirms receipt only; your application has not yet been approved. The NTE team will contact you after review.">
       <input type="hidden" data-sf-field="Logo_Upload_URL__c">
       <input type="hidden" value="Exhibitor Application" data-sf-field="Web_Form_Type__c">
-      <input type="hidden" value="exhibitor-application-v7" data-sf-field="Form_Version__c">
+      <input type="hidden" value="exhibitor-application-v8" data-sf-field="Form_Version__c">
       <input type="hidden" data-sf-field="NTE_Event_Code__c">
       <input type="hidden" data-sf-field="Booking_Reference__c">
       <input type="hidden" data-combine-fields="contact-first-name,contact-last-name" data-sf-field="Event_Contact_Name__c">
@@ -35,6 +35,7 @@
       <input type="hidden" value="0" data-sf-field="Price_On_Request__c">
       <input type="hidden" value="Calculated" data-sf-field="Pricing_Status__c">
       <input type="hidden" value="NTE27-2026-08-17" data-sf-field="Pricing_Version__c">
+      <input id="invoice-required" type="hidden" value="No" data-sf-field="Invoice_Required__c">
 
       <section class="card">
         <h2>Join us at NTE27</h2>
@@ -152,7 +153,7 @@
         <h2><span class="section-number">7</span>Quotation and invoicing</h2>
         <div class="grid">
           <div class="field"><label class="required" for="quote-for-po">Do you require a quotation before an invoice can be raised?</label><select id="quote-for-po" required data-sf-field="Quote_Required_for_PO__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
-          <div class="field"><label class="required" for="invoice-required">Do you require an invoice to be raised?</label><select id="invoice-required" required data-sf-field="Invoice_Required__c"><option value="">Select</option><option>Yes</option><option>No</option></select><span class="help">Select No only where no charge is due.</span></div>
+          <div class="field" data-payment-method-field hidden><label class="required" for="payment-method">Do you require an invoice to be raised, or will you make payment by Stripe?</label><select id="payment-method" data-sf-field="Payment_Method__c"><option value="">Select</option><option value="Bank transfer">Yes — invoice and payment by bank transfer</option><option value="Stripe">No — payment will be via Stripe</option></select><span class="help">An invoice will be provided for either payment method.</span></div>
         </div>
         <div class="conditional" data-conditional-for="invoice-required" data-conditional-value="Yes">
           <div class="grid">

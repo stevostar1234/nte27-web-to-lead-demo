@@ -73,14 +73,15 @@ This is the standalone exhibitor application Kate explicitly requested, separate
 ### Quotation and invoicing
 
 - **Quotation required before an invoice can be raised** — retained as a separate question at Kate's request on 28 August 2026 so quotation work is not inferred from the invoice choice.
-- **Invoice required** — retained as a separate question. Until the proposed Stripe route is approved and implemented in Salesforce, No is reserved for applications where no charge is due; chargeable applications continue to enter the invoice workflow.
+- **Payment method** — chargeable applicants choose Bank transfer or Stripe. This is stored separately from invoice readiness so both routes can receive an invoice and follow the same finance milestones.
+- **Invoice required** — calculated automatically from the selected space and chargeable extras. Complimentary applications with no chargeable extras remain outside the finance workflow; every chargeable application enters it regardless of payment method.
 - **Legal organisation name for quotation and invoicing, billing address and trading name** — Mission Motorsport Customer Finance Information Sheet supplied on 18 August 2026, with the legal-name label clarified by Kate on 28 August 2026. Trading name uses a new field rather than repurposing the historical alternative-organisation-name field.
 - **Main contact name, email and telephone** — the same finance sheet; these are already captured in section 2 and are not duplicated.
 - **Finance contact name, email and telephone** — the same finance sheet. Kate's 28 August 2026 direction explicitly asks for these details even when the finance contact is the same as the main NTE contact.
 - **Purchase order or reference requirement and details** — the same finance sheet, extending the existing purchase-order fields without removing their earlier data.
 - **Additional information required on the quotation or invoice** — the same finance sheet; stored in a new long-text field.
 - **Supplier agreement required** — explicitly retained at Kate's request.
-- **Question order** — quotation, invoice, purchase-order/reference and supplier-agreement requirements now appear before the billing identity and finance-contact fields, following Kate's 28 August 2026 direction.
+- **Question order** — quotation, payment method, purchase-order/reference and supplier-agreement requirements appear before the billing identity and finance-contact fields, following Kate's 28 August 2026 direction.
 - **Declaration name and automatic submission date** — fulfil the finance sheet's signature, name and date intent within the online form; no paper signature field is duplicated.
 - **Conditional display of billing details** — project implementation choice so applicants who genuinely need neither a quote nor invoice are not asked for irrelevant billing fields.
 
@@ -117,7 +118,7 @@ This is the direct-link application used after Mission Community has discussed a
 
 - **Quotation requirement, purchase-order/reference requirement and supplier-agreement requirement** — the same revised Customer Finance Information questions used on the exhibitor application, reordered following Kate's 28 August 2026 direction.
 - **Legal organisation name, billing address, trading name and finance contact details** — the same revised Customer Finance Information questions used on the exhibitor application. The form explicitly asks for a finance contact different from the main NTE contact, following Kate's 28 August 2026 direction.
-- **Invoice requirement** — partner/sponsor applications remain in the existing invoice workflow while the proposed Stripe route is awaiting a client decision and Salesforce implementation.
+- **Payment method and invoice workflow** — partner/sponsor applicants choose Bank transfer or Stripe. Both remain in the invoice workflow because an invoice accompanies either route; the payment method is copied to the NTE Opportunity on conversion.
 - **Main contact name, email and telephone** — already captured in section 1 and not duplicated in the finance section.
 - **Declaration name and automatic submission date** — fulfil the finance sheet's signature, name and date intent within the online form.
 - **Agreement to NTE27 Terms and Conditions and Privacy Policy** — Kate’s terms-link requirement plus the project lead’s current wording direction. Final URLs and wording still need client/legal approval.
@@ -197,8 +198,8 @@ This page has no Salesforce form fields.
 
 - Final NTE27 Terms and Conditions URL, Privacy Policy URL and approved agreement wording.
 - Final Microsoft 365 File Request URL and storage ownership/access rules.
-- Final decision on whether Stripe will be offered. Enabling it requires a distinct payment-method value, a no-charge option for complimentary applications, Stripe notification/reconciliation rules, and updates to invoice, payment, completion, report and dashboard logic; it must not be represented by the existing Invoice Required field alone.
-- Confirmation whether finance needs dedicated quote number, invoice number and manually entered issue-date fields. The current actions record the quote-provided, invoice-provided and paid milestones with an automatic action timestamp and user, but do not store external document numbers or a separately chosen finance date.
+- Any future automatic Stripe reconciliation requires the selected payment provider and webhook/notification design. Until then, staff use **Invoice / Stripe link provided** after sending the relevant document/link and **Has paid** after payment is confirmed.
+- Confirmation whether finance needs dedicated quote number, invoice number and manually entered issue-date fields. The current actions record the quote-provided, invoice/Stripe-link-provided and paid milestones with an automatic action timestamp and user, but do not store external document numbers or a separately chosen finance date.
 - Confirmation whether partner/sponsor application submission should also automatically move or convert the Salesforce record, or whether the NTE team will continue to complete that internal step after checking the submitted requirements.
 - Approved sender, reply-to address, subject lines and final copy for each email.
 - Any approved Escapade ticket add-on price, VAT, quantity and capacity rules; the current sponsor package is not the same as a bookable ticket add-on.
