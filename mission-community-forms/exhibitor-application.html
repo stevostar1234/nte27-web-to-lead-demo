@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20260823-3">
+  <link rel="stylesheet" href="assets/styles.css?v=20260901-2">
 </head>
 <body>
   <header class="site-header">
@@ -19,7 +19,7 @@
     <form class="main-column" data-web-to-lead data-form-kind="exhibitor" data-lead-source="Customer Event" data-use-default-rule="0" data-confirmation-preview="Thank you. We have received your NTE27 exhibitor application. This acknowledgement confirms receipt only; your application has not yet been approved. The NTE team will contact you after review.">
       <input type="hidden" data-sf-field="Logo_Upload_URL__c">
       <input type="hidden" value="Exhibitor Application" data-sf-field="Web_Form_Type__c">
-      <input type="hidden" value="exhibitor-application-v8" data-sf-field="Form_Version__c">
+      <input type="hidden" value="exhibitor-application-v9" data-sf-field="Form_Version__c">
       <input type="hidden" data-sf-field="NTE_Event_Code__c">
       <input type="hidden" data-sf-field="Booking_Reference__c">
       <input type="hidden" data-combine-fields="contact-first-name,contact-last-name" data-sf-field="Event_Contact_Name__c">
@@ -31,10 +31,14 @@
       <input type="hidden" value="0" data-sf-field="Power_Socket_Total__c">
       <input type="hidden" value="0" data-sf-field="Additional_Staff_Unit_Price__c">
       <input type="hidden" value="0" data-sf-field="Additional_Staff_Total__c">
+      <input type="hidden" value="0" data-sf-field="Included_Staff_Count__c">
+      <input type="hidden" data-copy-value-from="planned-count" data-sf-field="Total_Staff_Count__c">
+      <input type="hidden" value="No" data-sf-field="Additional_Staff_Required__c">
+      <input type="hidden" value="0" data-sf-field="Additional_Staff_Count__c">
       <input type="hidden" value="0" data-sf-field="Listed_Price_Total__c">
       <input type="hidden" value="0" data-sf-field="Price_On_Request__c">
       <input type="hidden" value="Calculated" data-sf-field="Pricing_Status__c">
-      <input type="hidden" value="NTE27-2026-08-17" data-sf-field="Pricing_Version__c">
+      <input type="hidden" value="NTE27-2026-09-01" data-sf-field="Pricing_Version__c">
       <input id="invoice-required" type="hidden" value="No" data-sf-field="Invoice_Required__c">
 
       <section class="card">
@@ -92,7 +96,7 @@
 
       <section class="card" id="space">
         <h2><span class="section-number">4</span>Exhibition space</h2>
-        <div class="field"><label class="required" for="planned-count">How many people do you currently plan to bring, including yourself?</label><select id="planned-count" required data-sf-field="Planned_Exhibitor_Count__c"><option value="">Select</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>More than 9</option></select><span class="help">A standard space allows 1 or 2 people; a large space allows 3 or 4 people. This may be changed later.</span></div>
+        <div class="field"><label class="required" for="planned-count">How many people do you currently plan to bring, including yourself?</label><input id="planned-count" type="number" min="1" max="99" step="1" inputmode="numeric" required data-sf-field="Planned_Exhibitor_Count__c"><span class="help">Your selected space includes a staff allocation. Any places above that allocation are added to your indicative total at £50 + VAT per person.</span></div>
         <h3>Select one space</h3>
         <div class="options-list">
           <label class="choice package-option"><span><input type="radio" name="exhibitor-space" required value="Garage Space - reduced size with power - £600 + VAT" data-price="600" data-power-included="true" data-sf-field="Exhibitor_Space_Selections__c"> Reduced-depth garage space with power<small>Suitable for trestle-table stands.</small></span><span class="price">£600 + VAT</span></label>
@@ -127,13 +131,10 @@
       </section>
 
       <section class="card" id="add-ons">
-        <h2><span class="section-number">5</span>Power and staff</h2>
+        <h2><span class="section-number">5</span>Power and booking total</h2>
         <div class="grid">
           <div class="field"><span class="label required" id="power-question-label">Do you need power on your stand for an additional £100 + VAT per socket?</span><div class="choice-grid"><label class="choice"><input type="radio" name="power-required" id="power-required-yes" value="Yes" required data-sf-field="Stand_Power__c"> Yes</label><label class="choice"><input type="radio" name="power-required" value="No" data-sf-field="Stand_Power__c"> No</label></div><span class="help" id="power-question-help">Unless indicated here, power may not be possible. Charities, government and blue light organisations qualify for a 50% discount.</span></div>
           <div class="field conditional" data-conditional-for="power-required-yes" data-conditional-value="Yes"><label class="required" for="power-count">Number of sockets</label><input id="power-count" type="number" min="1" max="20" data-required-when-visible data-sf-field="Power_Socket_Count__c"></div>
-          <div class="field"><span class="label required">Additional staff above the number included with your space?</span><div class="choice-grid"><label class="choice"><input type="radio" id="additional-staff-yes" name="additional-staff-required" value="Yes" required data-sf-field="Additional_Staff_Required__c"> Yes</label><label class="choice"><input type="radio" name="additional-staff-required" value="No" data-sf-field="Additional_Staff_Required__c"> No</label><label class="choice"><input type="radio" name="additional-staff-required" value="Don't know" data-sf-field="Additional_Staff_Required__c"> Don't know</label></div><span class="help">Additional exhibitor staff will be invoiced at £50 + VAT per person.</span></div>
-          <div class="field conditional" data-conditional-for="additional-staff-yes" data-conditional-value="Yes"><label class="required" for="additional-staff-count">Number of additional staff</label><select id="additional-staff-count" data-required-when-visible data-sf-field="Additional_Staff_Count__c"><option value="">Select</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
-          <div class="field full"><label class="required" for="staff-names">Names of colleagues coming, or likely to come</label><textarea id="staff-names" required placeholder="Enter one name per line. Names may be changed later." data-sf-field="Stand_Colleagues__c"></textarea><span class="help"><strong>Enter one name per line. Names may be changed later.</strong></span></div>
         </div>
         <div class="callout" aria-live="polite"><strong data-estimate>Select a space to see an indicative ex-VAT total.</strong><span class="help" data-power-discount>Charities, government and blue-light organisations qualify for a 50% power discount.</span></div>
       </section>
@@ -154,6 +155,7 @@
         <div class="grid">
           <div class="field"><label class="required" for="quote-for-po">Do you require a quotation before an invoice can be raised?</label><select id="quote-for-po" required data-sf-field="Quote_Required_for_PO__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
           <div class="field" data-payment-method-field hidden><label class="required" for="payment-method">Do you require an invoice to be raised, or will you make payment by Stripe?</label><select id="payment-method" data-sf-field="Payment_Method__c"><option value="">Select</option><option value="Bank transfer">Yes — invoice and payment by bank transfer</option><option value="Stripe">No — payment will be via Stripe</option></select><span class="help">An invoice will be provided for either payment method.</span></div>
+          <div class="field full" data-poa-payment-note hidden><div class="callout">Your custom space and total will be agreed with the NTE team. A quotation and invoice will then be issued manually; Stripe payment is not available for this booking.</div></div>
         </div>
         <div class="conditional" data-conditional-for="invoice-required" data-conditional-value="Yes">
           <div class="grid">
@@ -201,6 +203,6 @@
   </main>
 
   <footer class="site-footer">Questions? <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a></footer>
-  <script src="assets/config.js?v=20260823-3"></script><script src="assets/forms.js?v=20260823-3"></script>
+  <script src="assets/config.js?v=20260901-2"></script><script src="assets/forms.js?v=20260901-2"></script>
 </body>
 </html>

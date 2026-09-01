@@ -2,7 +2,7 @@
   "use strict";
 
   var config = window.NTE_CONFIG || window.NTE27_CONFIG || {};
-  var pricingVersion = "NTE27-2026-08-17";
+  var pricingVersion = "NTE27-2026-09-01";
   var standardNames = {
     Company: "company",
     FirstName: "first_name",
@@ -243,15 +243,35 @@
     return {packageTotal: total, total: total, priceOnRequest: priceOnRequest};
   }
 
+  function qualifiesForPowerDiscount(category) {
+    return /Charity|Government|Blue Light/i.test(String(category || ""));
+  }
+
+  function includedStaffForSpace(spaceName) {
+    var value = String(spaceName || "");
+    if (!value || value === "Extra Large Exhibitor Space - POA") return null;
+    var knownFixedSpace = /^(Garage Space - reduced size with power|Single Garage - Paddock Side with power|Double Garage - Paddock Side with power|Single Garage - Track Side|Double Garage - Track Side|Clean Energy Zone - (Single|Double)|Built Environment Zone - (Single|Double)|Manufacturing Zone - (Single|Double)|Defence & Security Zone - (Single|Double)|Digital and Technologies Zone - (Single|Double)|FM Zone - (Single|Double)|Professional & Financial Zone - (Single|Double)|Training & Education Zone - Single|Any other business - (Single|Double)|Local Government Authority - Single|Blue Light - Single|Trade Association - Single|COBSEO Charity - Single|Non COBSEO Charity - Single)/.test(value);
+    if (!knownFixedSpace) return null;
+    if (/Double Garage| - Double -/.test(value)) return 4;
+    return 2;
+  }
+
   function calculateExhibitorPricing(options) {
     options = options || {};
     var priceOnRequest = options.spacePrice === "poa";
     var spacePrice = priceOnRequest ? 0 : Number(options.spacePrice || 0);
-    var discounted = /Charity|Government|Blue Light/.test(options.category || "");
+    var discounted = qualifiesForPowerDiscount(options.category);
     var socketCount = Math.max(0, Number(options.socketCount || 0));
-    var staffCount = Math.max(0, Number(options.staffCount || 0));
+    var plannedStaffCount = Number(options.plannedStaffCount);
+    var includedStaffCount = Number(options.includedStaffCount);
+    var hasAllocation = Number.isFinite(plannedStaffCount) && plannedStaffCount > 0
+      && Number.isFinite(includedStaffCount) && includedStaffCount >= 0;
+    var staffCount = hasAllocation
+      ? Math.max(0, plannedStaffCount - includedStaffCount)
+      : Math.max(0, Number(options.staffCount || 0));
+    if (priceOnRequest) staffCount = 0;
     var powerUnitPrice = options.powerRequired === "Yes" ? (discounted ? 50 : 100) : 0;
-    var staffUnitPrice = options.staffRequired === "Yes" ? 50 : 0;
+    var staffUnitPrice = staffCount > 0 ? 50 : 0;
     var powerTotal = powerUnitPrice * socketCount;
     var staffTotal = staffUnitPrice * staffCount;
     var listedTotal = (Number.isFinite(spacePrice) ? spacePrice : 0) + powerTotal + staffTotal;
@@ -261,6 +281,8 @@
       powerTotal: powerTotal,
       staffUnitPrice: staffUnitPrice,
       staffTotal: staffTotal,
+      includedStaffCount: hasAllocation ? includedStaffCount : null,
+      additionalStaffCount: staffCount,
       total: listedTotal,
       discounted: discounted,
       priceOnRequest: priceOnRequest,
@@ -313,6 +335,16 @@
         setPricingField(form, "Price_On_Request__c", hasPoa ? "1" : "0");
         setPricingField(form, "Pricing_Status__c", hasPoa ? "Price on request" : "Calculated");
         setPricingField(form, "Pricing_Version__c", pricingVersion);
+        var paymentMethod = document.getElementById("partner-payment-method");
+        var paymentMethodField = document.querySelector("[data-partner-payment-method-field]");
+        var poaPaymentNote = document.querySelector("[data-partner-poa-payment-note]");
+        if (paymentMethodField) paymentMethodField.hidden = pricing.priceOnRequest;
+        if (poaPaymentNote) poaPaymentNote.hidden = !pricing.priceOnRequest;
+        if (paymentMethod) {
+          paymentMethod.disabled = pricing.priceOnRequest;
+          paymentMethod.required = !pricing.priceOnRequest;
+          if (pricing.priceOnRequest) paymentMethod.value = "";
+        }
       }
     }
     checkboxes.forEach(function (box) { box.addEventListener("change", sync); });
@@ -337,14 +369,15 @@
       if (powerLabel) powerLabel.textContent = powerIncluded ? "Do you need any additional power sockets for £100 + VAT per socket?" : "Do you need power on your stand for an additional £100 + VAT per socket?";
       if (powerHelp) powerHelp.textContent = powerIncluded ? "Your selected space includes standard power. Select Yes only if you need additional sockets. Charities, government and blue light organisations qualify for a 50% discount on additional sockets." : "Unless indicated here, power may not be possible. Charities, government and blue light organisations qualify for a 50% discount.";
       var socketCount = Number((document.getElementById("power-count") || {}).value || 0);
-      var staffCount = Number((document.getElementById("additional-staff-count") || {}).value || 0);
+      var plannedStaffCount = Number((document.getElementById("planned-count") || {}).value || 0);
+      var includedStaffCount = space ? includedStaffForSpace(space.value) : null;
       var pricing = calculateExhibitorPricing({
         spacePrice: space ? space.dataset.price : 0,
         category: category ? category.value : "",
         powerRequired: checkedValue("power-required"),
         socketCount: socketCount,
-        staffRequired: checkedValue("additional-staff-required"),
-        staffCount: staffCount
+        plannedStaffCount: plannedStaffCount,
+        includedStaffCount: includedStaffCount
       });
       var priceOnApplication = pricing.priceOnRequest;
       var total = pricing.total;
@@ -354,6 +387,10 @@
       setPricingField(form, "Power_Socket_Total__c", pricing.powerTotal);
       setPricingField(form, "Additional_Staff_Unit_Price__c", pricing.staffUnitPrice);
       setPricingField(form, "Additional_Staff_Total__c", pricing.staffTotal);
+      setPricingField(form, "Included_Staff_Count__c", pricing.includedStaffCount == null ? 0 : pricing.includedStaffCount);
+      setPricingField(form, "Total_Staff_Count__c", plannedStaffCount || 0);
+      setPricingField(form, "Additional_Staff_Required__c", pricing.additionalStaffCount > 0 ? "Yes" : "No");
+      setPricingField(form, "Additional_Staff_Count__c", pricing.additionalStaffCount);
       setPricingField(form, "Listed_Price_Total__c", pricing.total);
       setPricingField(form, "Price_On_Request__c", priceOnApplication ? "1" : "0");
       setPricingField(form, "Pricing_Status__c", priceOnApplication ? "Price on request" : "Calculated");
@@ -368,17 +405,23 @@
       }
       var paymentMethod = document.getElementById("payment-method");
       var paymentMethodField = document.querySelector("[data-payment-method-field]");
-      if (paymentMethodField) paymentMethodField.hidden = !pricing.invoiceRequired;
+      var poaPaymentNote = document.querySelector("[data-poa-payment-note]");
+      if (paymentMethodField) paymentMethodField.hidden = !pricing.invoiceRequired || priceOnApplication;
+      if (poaPaymentNote) poaPaymentNote.hidden = !priceOnApplication;
       if (paymentMethod) {
-        paymentMethod.disabled = !pricing.invoiceRequired;
-        paymentMethod.required = pricing.invoiceRequired;
-        if (!pricing.invoiceRequired) paymentMethod.value = "";
+        paymentMethod.disabled = !pricing.invoiceRequired || priceOnApplication;
+        paymentMethod.required = pricing.invoiceRequired && !priceOnApplication;
+        if (!pricing.invoiceRequired || priceOnApplication) paymentMethod.value = "";
       }
       if (output) {
         if (!space) output.textContent = "Select a space to see an indicative ex-VAT total.";
-        else if (priceOnApplication && total) output.textContent = "Listed add-ons: " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"}).format(total) + " plus the space price on application.";
-        else if (priceOnApplication) output.textContent = "Space price on application.";
-        else output.textContent = "Indicative ex-VAT total: " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"}).format(total);
+        else if (priceOnApplication) output.textContent = "Your custom space and complete booking total will be agreed with the NTE team.";
+        else {
+          var parts = ["space " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"}).format(pricing.spacePrice)];
+          if (pricing.powerTotal) parts.push(socketCount + " socket" + (socketCount === 1 ? "" : "s") + " " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"}).format(pricing.powerTotal));
+          if (pricing.staffTotal) parts.push(pricing.additionalStaffCount + " additional staff " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"}).format(pricing.staffTotal));
+          output.textContent = "Indicative ex-VAT total: " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"}).format(total) + " (" + parts.join(" + ") + ").";
+        }
       }
       var discount = document.querySelector("[data-power-discount]");
       if (discount) discount.textContent = discounted ? "Your selected organisation category appears eligible for the 50% power discount; Mission Community will verify eligibility." : "Charities, government and blue-light organisations qualify for a 50% power discount.";
@@ -388,17 +431,26 @@
     sync();
   }
 
-  function setupStaffEstimate() {
-    var form = document.querySelector('[data-form-kind="staff-update"]');
+  function nonBlankLines(value) {
+    return String(value || "").split(/\r?\n/).filter(function (line) { return line.trim(); });
+  }
+
+  function setupStaffUpdates() {
+    var form = document.querySelector('[data-form-kind="exhibitor-staff-update"]');
     if (!form) return;
     function sync() {
-      var required = (document.getElementById("staff-additional") || {}).value === "Yes";
-      var count = Number((document.getElementById("staff-additional-count") || {}).value || 0);
-      setPricingField(form, "Additional_Staff_Unit_Price__c", required ? 50 : 0);
-      setPricingField(form, "Additional_Staff_Total__c", required ? count * 50 : 0);
-      setPricingField(form, "Pricing_Version__c", pricingVersion);
+      var baseNames = nonBlankLines((document.getElementById("exhibitor-staff-names") || {}).value);
+      var baseCount = document.getElementById("exhibitor-base-count");
+      if (baseCount) baseCount.value = String(baseNames.length);
+      var required = (document.getElementById("top-up-required") || {}).value === "Yes";
+      var count = required ? Number((document.getElementById("top-up-count") || {}).value || 0) : 0;
+      setPricingField(form, "Top_Up_Staff_Unit_Price__c", count > 0 ? 50 : 0);
+      setPricingField(form, "Top_Up_Staff_Total__c", count > 0 ? count * 50 : 0);
+      var estimate = document.querySelector("[data-top-up-estimate]");
+      if (estimate) estimate.textContent = "Top-up total: " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"}).format(count * 50) + " + VAT";
     }
     form.addEventListener("change", sync);
+    form.addEventListener("input", sync);
     sync();
   }
 
@@ -455,20 +507,29 @@
   }
 
   function validateStaffUpdate(form) {
-    if (form.dataset.formKind !== "staff-update") return true;
-    var totalControl = document.getElementById("staff-total");
-    var namesControl = document.getElementById("updated-staff-names");
-    var additionalControl = document.getElementById("staff-additional");
-    var additionalCountControl = document.getElementById("staff-additional-count");
-    var total = Number(totalControl && totalControl.value);
-    var names = String((namesControl || {}).value || "").split(/\r?\n/).filter(function (name) { return name.trim(); });
-    if (Number.isFinite(total) && total > 0 && names.length !== total) {
-      return setRuleError(form, namesControl, "Enter one attendee name per line so the list matches the total attending.");
+    if (form.dataset.formKind === "partner-staff-update") {
+      var partnerTotalControl = document.getElementById("partner-staff-total");
+      var partnerNamesControl = document.getElementById("partner-staff-names");
+      var partnerTotal = Number(partnerTotalControl && partnerTotalControl.value);
+      var partnerNames = nonBlankLines((partnerNamesControl || {}).value);
+      if (!Number.isInteger(partnerTotal) || partnerTotal < 1 || partnerTotal > 99 || partnerNames.length !== partnerTotal) {
+        return setRuleError(form, partnerNamesControl, "Enter one attendee name per line so the list matches the final number attending.");
+      }
     }
-    if (additionalControl && additionalControl.value === "Yes") {
-      var additional = Number((additionalCountControl || {}).value);
-      if (!Number.isFinite(additional) || additional <= 0 || (Number.isFinite(total) && total > 0 && additional > total)) {
-        return setRuleError(form, additionalCountControl, "The additional-staff count must not exceed the total attending.");
+    if (form.dataset.formKind === "exhibitor-staff-update") {
+      var baseNamesControl = document.getElementById("exhibitor-staff-names");
+      if (!nonBlankLines((baseNamesControl || {}).value).length) {
+        return setRuleError(form, baseNamesControl, "Enter the names already covered by your booking, one per line.");
+      }
+      var topUpRequired = (document.getElementById("top-up-required") || {}).value === "Yes";
+      if (topUpRequired) {
+        var topUpCountControl = document.getElementById("top-up-count");
+        var topUpNamesControl = document.getElementById("top-up-names");
+        var topUpCount = Number((topUpCountControl || {}).value);
+        var topUpNames = nonBlankLines((topUpNamesControl || {}).value);
+        if (!Number.isInteger(topUpCount) || topUpCount < 1 || topUpCount > 99 || topUpNames.length !== topUpCount) {
+          return setRuleError(form, topUpNamesControl, "Enter one name per line so the list matches the number of top-up places.");
+        }
       }
     }
     return true;
@@ -632,7 +693,7 @@
   configureFieldConstraints();
   setupPackageSummary();
   setupExhibitorEstimate();
-  setupStaffEstimate();
+  setupStaffUpdates();
   enableForms();
 
   window.NTEFormUtils = {
@@ -641,6 +702,8 @@
     bookingReference: bookingReference,
     calculatePartnerPricing: calculatePartnerPricing,
     calculateExhibitorPricing: calculateExhibitorPricing,
+    includedStaffForSpace: includedStaffForSpace,
+    qualifiesForPowerDiscount: qualifiesForPowerDiscount,
     eligibleCategoriesForSpace: eligibleCategoriesForSpace,
     formatWebToLeadDate: formatWebToLeadDate,
     resolveReturnUrl: resolveReturnUrl
