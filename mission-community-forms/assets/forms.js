@@ -337,9 +337,7 @@
         setPricingField(form, "Pricing_Version__c", pricingVersion);
         var paymentMethod = document.getElementById("partner-payment-method");
         var paymentMethodField = document.querySelector("[data-partner-payment-method-field]");
-        var poaPaymentNote = document.querySelector("[data-partner-poa-payment-note]");
         if (paymentMethodField) paymentMethodField.hidden = pricing.priceOnRequest;
-        if (poaPaymentNote) poaPaymentNote.hidden = !pricing.priceOnRequest;
         if (paymentMethod) {
           paymentMethod.disabled = pricing.priceOnRequest;
           paymentMethod.required = !pricing.priceOnRequest;
@@ -405,9 +403,7 @@
       }
       var paymentMethod = document.getElementById("payment-method");
       var paymentMethodField = document.querySelector("[data-payment-method-field]");
-      var poaPaymentNote = document.querySelector("[data-poa-payment-note]");
       if (paymentMethodField) paymentMethodField.hidden = !pricing.invoiceRequired || priceOnApplication;
-      if (poaPaymentNote) poaPaymentNote.hidden = !priceOnApplication;
       if (paymentMethod) {
         paymentMethod.disabled = !pricing.invoiceRequired || priceOnApplication;
         paymentMethod.required = pricing.invoiceRequired && !priceOnApplication;
@@ -415,7 +411,7 @@
       }
       if (output) {
         if (!space) output.textContent = "Select a space to see an indicative ex-VAT total.";
-        else if (priceOnApplication) output.textContent = "Your custom space and complete booking total will be agreed with the NTE team.";
+        else if (priceOnApplication) output.textContent = "Price on request.";
         else {
           var parts = ["space " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"}).format(pricing.spacePrice)];
           if (pricing.powerTotal) parts.push(socketCount + " socket" + (socketCount === 1 ? "" : "s") + " " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"}).format(pricing.powerTotal));

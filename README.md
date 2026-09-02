@@ -1,5 +1,5 @@
-# NTE27 Partner Forms
+# NTE27 Forms
 
-Public GitHub Pages demo for the NTE27 sponsor and exhibitor Web-to-Lead forms.
+Canonical public source for the NTE27 Web-to-Lead forms and their email previews.
 
 Submissions are sent to the Mission Community UAT Salesforce sandbox.

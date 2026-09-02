@@ -154,8 +154,7 @@
         <h2><span class="section-number">7</span>Quotation and invoicing</h2>
         <div class="grid">
           <div class="field"><label class="required" for="quote-for-po">Do you require a quotation before an invoice can be raised?</label><select id="quote-for-po" required data-sf-field="Quote_Required_for_PO__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
-          <div class="field" data-payment-method-field hidden><label class="required" for="payment-method">Do you require an invoice to be raised, or will you make payment by Stripe?</label><select id="payment-method" data-sf-field="Payment_Method__c"><option value="">Select</option><option value="Bank transfer">Yes — invoice and payment by bank transfer</option><option value="Stripe">No — payment will be via Stripe</option></select><span class="help">An invoice will be provided for either payment method.</span></div>
-          <div class="field full" data-poa-payment-note hidden><div class="callout">Your custom space and total will be agreed with the NTE team. A quotation and invoice will then be issued manually; Stripe payment is not available for this booking.</div></div>
+          <div class="field" data-payment-method-field hidden><label class="required" for="payment-method">Do you require an invoice to be raised, or will you make payment by Stripe?</label><select id="payment-method" data-sf-field="Payment_Method__c"><option value="">Select</option><option value="Bank transfer">Yes — invoice and payment by bank transfer</option><option value="Stripe">No — payment will be via Stripe</option></select></div>
         </div>
         <div class="conditional" data-conditional-for="invoice-required" data-conditional-value="Yes">
           <div class="grid">
