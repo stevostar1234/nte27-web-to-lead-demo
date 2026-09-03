@@ -5,7 +5,7 @@ window.NTE_CONFIG = {
   salesforceDateFormat: "DMY",
   declarationMinDate: "2026-01-01",
   dateOfBirthMinDate: "1900-01-01",
-  endpoint: "https://test.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8",
+  endpoint: "https://missionmotorsportnpc--mmuat.sandbox.my.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8",
   orgId: "00DAd00000A95Vl",
   returnUrl: "https://stevostar1234.github.io/nte27-web-to-lead-demo/thank-you.html",
   termsUrl: "https://stevostar1234.github.io/nte27-web-to-lead-demo/sandbox-testing-terms.html",
