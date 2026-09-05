@@ -36,10 +36,11 @@
       </section>
       <section class="card">
         <h2><span class="section-number">3</span>Additional top-up places</h2>
+        <p>You can request additional staff once for this booking. Check the number before submitting. You can still update names afterwards.</p>
         <div class="grid"><div class="field full"><label class="required" for="top-up-required">Do you want to purchase any additional staff places?</label><select id="top-up-required" required data-sf-field="Top_Up_Staff_Required__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div></div>
         <div class="conditional" data-conditional-for="top-up-required" data-conditional-value="Yes">
           <div class="grid">
-            <div class="field"><label class="required" for="top-up-count">Total number of top-up staff places required</label><input id="top-up-count" type="number" min="1" max="99" step="1" inputmode="numeric" data-required-when-visible data-sf-field="Top_Up_Staff_Count__c"><span class="help">Top-up places cost £50 + VAT per person and are invoiced separately. If you have requested top-up places before, include them in this total.</span></div>
+            <div class="field"><label class="required" for="top-up-count">Total number of top-up staff places required</label><input id="top-up-count" type="number" min="1" max="99" step="1" inputmode="numeric" data-required-when-visible data-sf-field="Top_Up_Staff_Count__c"><span class="help">Top-up places cost £50 + VAT per person and are invoiced separately. To correct names after requesting top-up places, enter the same number of places.</span></div>
             <div class="field full"><label class="required" for="top-up-names">Names for the top-up places</label><textarea id="top-up-names" data-required-when-visible placeholder="Enter one name per line." data-sf-field="Top_Up_Staff_Names__c"></textarea><span class="help">The number of names must match the top-up total.</span></div>
           </div>
           <div class="callout" aria-live="polite"><strong data-top-up-estimate>Top-up total: £0.00 + VAT</strong></div>
