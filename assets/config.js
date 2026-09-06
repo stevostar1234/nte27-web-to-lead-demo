@@ -208,7 +208,6 @@ window.NTE_CONFIG = {
     Top_Up_Staff_Unit_Price__c: "00NAd00000IWa68MAD",
     Top_Up_Staff_Total__c: "00NAd00000IWa67MAD",
     Listed_Price_Total__c: "00NAd00000HzgexMAB",
-    Price_On_Request__c: "00NAd00000Hzgf0MAB",
     Pricing_Status__c: "00NAd00000Hzgf1MAB",
     Pricing_Version__c: "00NAd00000Hzgf2MAB"
   }
