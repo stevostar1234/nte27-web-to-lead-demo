@@ -724,6 +724,7 @@
   }
 
   function syncFormState(form) {
+    configureFieldConstraints();
     syncConditionalSections();
     form.querySelectorAll('input[type="number"]').forEach(function (control) {
       if (control.disabled || !String(control.value || "").trim()) return;
@@ -843,6 +844,9 @@
       }
       form.addEventListener("input", changed);
       form.addEventListener("change", changed);
+      form.addEventListener("focusin", function (event) {
+        if (event.target && event.target.type === "date") configureFieldConstraints();
+      });
     });
     if (window.addEventListener) window.addEventListener("pageshow", function () {
       configureFieldConstraints();
