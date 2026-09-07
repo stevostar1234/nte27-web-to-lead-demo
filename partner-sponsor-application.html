@@ -4,7 +4,7 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>NTE27 Partner / Sponsor Application</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/styles.css?v=20260906-1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/styles.css?v=20260907-1">
 </head>
 <body>
   <header class="site-header">
@@ -65,9 +65,9 @@
       </section>
 
       <section class="card">
-        <h2><span class="section-number">2</span>Packages</h2>
+        <h2 id="partner-packages-heading"><span class="section-number">2</span>Packages</h2>
         <p>Select all agreed packages. Your exhibitor space is included in the package price. All package benefits are listed in the NTE27 Partner and Sponsor Brochure.</p>
-        <div class="options-list" data-required-checkbox-group data-required-message="Please select at least one package.">
+        <div class="options-list" role="group" aria-labelledby="partner-packages-heading" data-required-checkbox-group data-required-message="Please select at least one package.">
           <label class="choice package-option"><span><input type="checkbox" value="Headline Partner" data-package-price="30000" data-sf-field="Sponsor_Package__c"> Headline Partner</span><span class="price">£30,000</span></label>
           <label class="choice package-option"><span><input type="checkbox" value="Gold Partner" data-package-price="15000" data-sf-field="Sponsor_Package__c"> Gold Partner</span><span class="price">£15,000</span></label>
           <label class="choice package-option"><span><input type="checkbox" value="Premier Partner" data-package-price="7000" data-sf-field="Sponsor_Package__c"> Premier Partner</span><span class="price">£7,000</span></label>
@@ -92,7 +92,7 @@
           <div class="field"><label class="required" for="partner-sunday">Can you set up between 14:00 and 18:00 on Sunday 28 February 2027 if your stand requires it?</label><select id="partner-sunday" required data-sf-field="Exhibitor_Hall_Schedule__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
           <div class="field"><label class="required" for="partner-power">Will you require power on your stand?</label><select id="partner-power" required data-sf-field="Stand_Power__c"><option value="">Select</option><option>Yes</option><option>No</option></select><span class="help">There is no additional charge for this partner/sponsor request.</span></div>
           <div class="field full"><label class="required" for="partner-equipment">Equipment beyond display stands and laptops</label><textarea id="partner-equipment" required placeholder="State None if nothing further" data-sf-field="Stand_Equipment__c"></textarea></div>
-          <div class="field full"><label class="required" for="partner-heavy-vehicle">Will you bring cars, tractors or heavy items that need to be dropped off on a flatbed or trailer?</label><select id="partner-heavy-vehicle" required data-sf-field="Heavy_Vehicle_Required__c"><option value="">Select</option><option>Yes</option><option>No</option><option>Not known yet</option></select><div class="callout">Mission Community will send the separate <a href="heavy-vehicle-details.html">Heavy Vehicle, Equipment and Haulier form</a> nearer the event.</div></div>
+          <div class="field full"><label class="required" for="partner-heavy-vehicle">Will you bring cars, tractors or heavy items that need to be dropped off on a flatbed or trailer?</label><select id="partner-heavy-vehicle" required data-sf-field="Heavy_Vehicle_Required__c"><option value="">Select</option><option>Yes</option><option>No</option><option>Not known yet</option></select></div>
           <div class="field"><label class="required" for="partner-accessibility">Do you have any accessibility requirements?</label><select id="partner-accessibility" required data-sf-field="Has_Special_Requirements__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
           <div class="field conditional" data-conditional-for="partner-accessibility" data-conditional-value="Yes"><label class="required" for="partner-accessibility-details">Accessibility details</label><textarea id="partner-accessibility-details" data-required-when-visible data-sf-field="Stand_Special_Requirements__c"></textarea></div>
           <div class="field"><label class="required" for="partner-planned-count">How many people do you currently plan to bring, including yourself?</label><input id="partner-planned-count" type="number" min="1" max="99" step="1" inputmode="numeric" required data-sf-field="Planned_Exhibitor_Count__c"><span class="help">There is no additional staff charge for partners and sponsors. You will provide the final names nearer the event.</span></div>
@@ -142,6 +142,6 @@
     </form>
   </main>
   <footer class="site-footer">Questions? <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a></footer>
-    <script src="assets/config.js?v=20260906-1"></script><script src="assets/forms.js?v=20260906-1"></script>
+    <script src="assets/config.js?v=20260907-1"></script><script src="assets/forms.js?v=20260907-1"></script>
 </body>
 </html>

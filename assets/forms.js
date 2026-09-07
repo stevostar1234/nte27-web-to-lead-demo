@@ -3,6 +3,43 @@
 
   var config = window.NTE_CONFIG || window.NTE27_CONFIG || {};
   var pricingVersion = "NTE27-2026-09-06";
+  var syncConditionalSections = function () {};
+  var derivedFieldSynchronizers = [];
+  var sponsorPackagePrices = {
+    "Headline Partner": 30000, "Gold Partner": 15000, "Premier Partner": 7000, "Champion Partner": 2000,
+    "Zone Sponsor": 5000, "Community Stage Sponsor": 6000, "Podcast Corner Sponsor": 6000,
+    "Event Guide Sponsor": 5000, "Delegate Tote Bag Sponsor": 5000, "Helmet Bay Sponsor": 3000,
+    "Auditorium Sponsor": 5000, "Live Stream Sponsor": 6000, "Wristband Sponsor": 3000, "Escapade Sponsor": 9000
+  };
+  var exhibitorSpacePrices = {
+    "Garage Space - reduced size with power - £600 + VAT": 600,
+    "Single Garage - Paddock Side with power - £800 + VAT": 800,
+    "Double Garage - Paddock Side with power - £1,300 + VAT": 1300,
+    "Single Garage - Track Side - £800 + VAT": 800,
+    "Double Garage - Track Side - £1,300 + VAT": 1300,
+    "Clean Energy Zone - Single - £499 + VAT": 499,
+    "Clean Energy Zone - Double - £849 + VAT": 849,
+    "Built Environment Zone - Single - £499 + VAT": 499,
+    "Built Environment Zone - Double - £849 + VAT": 849,
+    "Manufacturing Zone - Single - £499 + VAT": 499,
+    "Manufacturing Zone - Double - £849 + VAT": 849,
+    "Defence & Security Zone - Single - £499 + VAT": 499,
+    "Defence & Security Zone - Double - £849 + VAT": 849,
+    "Digital and Technologies Zone - Single - £499 + VAT": 499,
+    "Digital and Technologies Zone - Double - £849 + VAT": 849,
+    "FM Zone - Single - £499 + VAT": 499,
+    "FM Zone - Double - £849 + VAT": 849,
+    "Professional & Financial Zone - Single - £499 + VAT": 499,
+    "Professional & Financial Zone - Double - £849 + VAT": 849,
+    "Training & Education Zone - Single - £499 + VAT": 499,
+    "Any other business - Single - £499 + VAT": 499,
+    "Any other business - Double - £849 + VAT": 849,
+    "Local Government Authority - Single - £249.50 + VAT": 249.5,
+    "Blue Light - Single - £249.50 + VAT": 249.5,
+    "Trade Association - Single - £499 + VAT": 499,
+    "COBSEO Charity - Single - Free": 0,
+    "Non COBSEO Charity - Single - Free": 0
+  };
   var standardNames = {
     Company: "company",
     FirstName: "first_name",
@@ -59,7 +96,7 @@
       } else {
         link.href = "#terms-link-required";
         link.setAttribute("aria-disabled", "true");
-        link.title = "The final NTE27 Terms and Conditions PDF URL is still required.";
+        link.title = "The terms are temporarily unavailable.";
         link.addEventListener("click", function (event) { event.preventDefault(); });
       }
     });
@@ -104,14 +141,19 @@
         document.querySelectorAll('input[type="radio"][name="' + source.name + '"]').forEach(function (radio) { radio.addEventListener("change", syncAll); });
       }
     });
+    syncConditionalSections = syncAll;
     syncAll();
   }
 
   function configureFieldConstraints() {
+    function applyLimit(control, api) {
+      if (!control || !/^(INPUT|TEXTAREA)$/.test(control.tagName) || /^(checkbox|radio|hidden|number|date)$/i.test(control.type || "")) return;
+      var limit = standardFieldLimits[api] || (config.fieldLimits || {})[api];
+      if (limit && (!control.hasAttribute("maxlength") || control.maxLength > limit)) control.maxLength = limit;
+    }
     document.querySelectorAll("[data-sf-field]").forEach(function (control) {
-      if (!/^(INPUT|TEXTAREA)$/.test(control.tagName) || /^(checkbox|radio|hidden)$/i.test(control.type || "")) return;
-      var limit = standardFieldLimits[control.dataset.sfField] || (config.fieldLimits || {})[control.dataset.sfField];
-      if (limit && !control.hasAttribute("maxlength")) control.maxLength = limit;
+      applyLimit(control, control.dataset.sfField);
+      if (control.dataset.copyValueFrom) applyLimit(document.getElementById(control.dataset.copyValueFrom), control.dataset.sfField);
     });
     var londonDateParts = new Intl.DateTimeFormat("en-GB", {
       timeZone: "Europe/London", year: "numeric", month: "2-digit", day: "2-digit"
@@ -134,16 +176,16 @@
       var ids = target.dataset.combineFields.split(",");
       target.value = ids.map(function (id) {
         var source = document.getElementById(id.trim());
-        return source ? source.value.trim() : "";
+        return source && !source.disabled ? source.value.trim() : "";
       }).filter(Boolean).join(" ");
     });
     form.querySelectorAll("[data-copy-value-from]").forEach(function (target) {
       var source = document.getElementById(target.dataset.copyValueFrom);
-      target.value = source ? source.value : "";
+      target.value = source && !source.disabled ? source.value : "";
     });
     form.querySelectorAll("[data-checkbox-copy-from]").forEach(function (target) {
       var source = document.getElementById(target.dataset.checkboxCopyFrom);
-      var selected = source && (source.type === "checkbox" ? source.checked : source.value === "Yes");
+      var selected = source && !source.disabled && (source.type === "checkbox" ? source.checked : source.value === "Yes");
       target.value = selected ? "1" : "";
     });
     form.querySelectorAll("[data-switch-copy]").forEach(function (target) {
@@ -151,7 +193,7 @@
       var sourceList = switcher && switcher.value === "No" ? target.dataset.copyWhenNo : target.dataset.copyWhenYes;
       var values = (sourceList || "").split(",").map(function (id) {
         var source = document.getElementById(id.trim());
-        return source ? source.value.trim() : "";
+        return source && !source.disabled ? source.value.trim() : "";
       }).filter(Boolean);
       target.value = target.dataset.copyMode === "combine" ? values.join(" ") : (values[0] || "");
     });
@@ -231,25 +273,27 @@
 
   function catalogPrice(rawPrice) {
     var value = typeof rawPrice === "string" || typeof rawPrice === "number" ? String(rawPrice).trim() : "";
-    if (!/^\d+(?:\.\d{1,2})?$/.test(value) || !Number.isFinite(Number(value))) {
+    if (!/^\d+(?:\.\d{1,2})?$/.test(value) || !Number.isSafeInteger(Math.round(Number(value) * 100))) {
       throw new RangeError("The price for a selected option is unavailable. Refresh the page and try again.");
     }
     return Number(value);
   }
 
   function calculatePartnerPricing(selectedPrices) {
-    var total = selectedPrices.reduce(function (sum, rawPrice) { return sum + catalogPrice(rawPrice); }, 0);
+    var totalPence = selectedPrices.reduce(function (sum, rawPrice) { return sum + Math.round(catalogPrice(rawPrice) * 100); }, 0);
+    if (!Number.isSafeInteger(totalPence)) throw new RangeError("The package price is unavailable. Refresh the page and try again.");
+    var total = totalPence / 100;
     return {packageTotal: total, total: total};
   }
 
   function qualifiesForPowerDiscount(category) {
-    return /Charity|Government|Blue Light/i.test(String(category || ""));
+    return ["Charity - member of Cobseo", "Charity - not a member of Cobseo", "Government or Government Agency", "Local Government or LG related", "Employer - Blue Light & NHS"].indexOf(String(category || "")) !== -1;
   }
 
   function includedStaffForSpace(spaceName) {
     var value = String(spaceName || "");
     if (!value) return null;
-    var knownFixedSpace = /^(Garage Space - reduced size with power|Single Garage - Paddock Side with power|Double Garage - Paddock Side with power|Single Garage - Track Side|Double Garage - Track Side|Clean Energy Zone - (Single|Double)|Built Environment Zone - (Single|Double)|Manufacturing Zone - (Single|Double)|Defence & Security Zone - (Single|Double)|Digital and Technologies Zone - (Single|Double)|FM Zone - (Single|Double)|Professional & Financial Zone - (Single|Double)|Training & Education Zone - Single|Any other business - (Single|Double)|Local Government Authority - Single|Blue Light - Single|Trade Association - Single|COBSEO Charity - Single|Non COBSEO Charity - Single)/.test(value);
+    var knownFixedSpace = Object.prototype.hasOwnProperty.call(exhibitorSpacePrices, value);
     if (!knownFixedSpace) return null;
     if (/Double Garage| - Double -/.test(value)) return 4;
     return 2;
@@ -259,14 +303,19 @@
     options = options || {};
     var spacePrice = catalogPrice(options.spacePrice);
     var discounted = qualifiesForPowerDiscount(options.category);
-    var socketCount = Math.max(0, Number(options.socketCount || 0));
-    var plannedStaffCount = Number(options.plannedStaffCount);
-    var includedStaffCount = Number(options.includedStaffCount);
+    function wholeCount(value, label, maximum) {
+      var count = value == null || value === "" ? 0 : Number(value);
+      if (!Number.isInteger(count) || count < 0 || count > maximum) throw new RangeError("Enter a whole number of " + label + " between 0 and " + maximum + ".");
+      return count;
+    }
+    var socketCount = options.powerRequired === "Yes" ? wholeCount(options.socketCount, "sockets", 20) : 0;
+    var plannedStaffCount = wholeCount(options.plannedStaffCount, "staff", 99);
+    var includedStaffCount = wholeCount(options.includedStaffCount, "included staff", 99);
     var hasAllocation = options.includedStaffCount != null && Number.isFinite(plannedStaffCount) && plannedStaffCount > 0
       && Number.isFinite(includedStaffCount) && includedStaffCount >= 0;
     var staffCount = hasAllocation
       ? Math.max(0, plannedStaffCount - includedStaffCount)
-      : Math.max(0, Number(options.staffCount || 0));
+      : wholeCount(options.staffCount, "additional staff", 99);
     var powerUnitPrice = options.powerRequired === "Yes" ? (discounted ? 50 : 100) : 0;
     var staffUnitPrice = staffCount > 0 ? 50 : 0;
     var powerTotal = powerUnitPrice * socketCount;
@@ -323,7 +372,7 @@
       var form = checkboxes[0].form;
       var pricing;
       try {
-        pricing = calculatePartnerPricing(selected.map(function (box) { return box.dataset.packagePrice; }));
+        pricing = calculatePartnerPricing(selected.map(packagePrice));
       } catch (error) {
         totalNode.textContent = error.message;
         if (form) {
@@ -342,6 +391,7 @@
       }
     }
     checkboxes.forEach(function (box) { box.addEventListener("change", sync); });
+    derivedFieldSynchronizers.push(sync);
     sync();
   }
 
@@ -369,7 +419,7 @@
       try {
         if (space && includedStaffCount == null) throw new RangeError("This space is unavailable. Refresh the page and choose another space.");
         pricing = calculateExhibitorPricing({
-          spacePrice: space ? space.dataset.price : 0,
+          spacePrice: space ? exhibitorSpacePrice(space) : 0,
           category: category ? category.value : "",
           powerRequired: checkedValue("power-required"),
           socketCount: socketCount,
@@ -427,6 +477,7 @@
     }
     form.addEventListener("change", sync);
     form.addEventListener("input", sync);
+    derivedFieldSynchronizers.push(sync);
     sync();
   }
 
@@ -450,6 +501,7 @@
     }
     form.addEventListener("change", sync);
     form.addEventListener("input", sync);
+    derivedFieldSynchronizers.push(sync);
     sync();
   }
 
@@ -477,6 +529,7 @@
       return String(control.value || "").trim() === "";
     });
     if (!blank) return false;
+    setStatus(form, "Please complete the highlighted required fields.", "error");
     blank.setCustomValidity("Please enter a value.");
     blank.reportValidity();
     blank.focus();
@@ -484,9 +537,31 @@
   }
 
   function normalizeBookingReferences(form) {
-    form.querySelectorAll('[data-sf-field="Target_Booking_Reference__c"]').forEach(function (control) {
+    form.querySelectorAll('[data-sf-field="Target_Booking_Reference__c"], [data-sf-field="Booking_Reference__c"]').forEach(function (control) {
       control.value = String(control.value || "").trim().toUpperCase();
     });
+  }
+
+  function validateBookingReferences(form) {
+    var invalid = Array.prototype.slice.call(form.querySelectorAll('[data-sf-field="Target_Booking_Reference__c"], [data-sf-field="Booking_Reference__c"]')).find(function (control) {
+      return !control.disabled && control.value && !/^NTE-[A-Z0-9][A-Z0-9-]{1,74}[A-Z0-9]$/.test(control.value);
+    });
+    if (!invalid) return true;
+    return setRuleError(form, invalid.type === "hidden" ? null : invalid, invalid.type === "hidden"
+      ? "Your booking reference could not be created. Reload the page and try again."
+      : "Enter the full booking reference beginning NTE- from your confirmation email.");
+  }
+
+  function validateFieldLengths(form) {
+    var invalid = Array.prototype.slice.call(form.querySelectorAll("input, textarea")).find(function (control) {
+      if (control.disabled || /^(checkbox|radio|number|date)$/.test(control.type || "")) return false;
+      var limit = control.maxLength > -1 ? control.maxLength : standardFieldLimits[control.dataset.sfField] || (config.fieldLimits || {})[control.dataset.sfField];
+      return limit && String(control.value || "").trim().length > limit;
+    });
+    if (!invalid) return true;
+    var limit = invalid.maxLength > -1 ? invalid.maxLength : standardFieldLimits[invalid.dataset.sfField] || (config.fieldLimits || {})[invalid.dataset.sfField];
+    var visible = invalid.type === "hidden" ? document.getElementById(invalid.dataset.copyValueFrom || "") : invalid;
+    return setRuleError(form, visible, "Please shorten this value to " + limit + " characters or fewer.");
   }
 
   function formatWebToLeadDate(value) {
@@ -496,12 +571,12 @@
   }
 
   function setRuleError(form, control, message) {
+    setStatus(form, message, "error");
     if (control) {
       control.setCustomValidity(message);
       control.reportValidity();
       control.focus();
     }
-    setStatus(form, message, "error");
     return false;
   }
 
@@ -509,17 +584,33 @@
     try {
       var space = form.querySelector('[name="exhibitor-space"]:checked');
       if (space) {
-        catalogPrice(space.dataset.price);
+        exhibitorSpacePrice(space);
         if (includedStaffForSpace(space.value) == null) {
           throw new RangeError("This space is unavailable. Refresh the page and choose another space.");
         }
       }
       var packages = Array.prototype.slice.call(form.querySelectorAll('[data-sf-field="Sponsor_Package__c"]:checked'));
-      calculatePartnerPricing(packages.map(function (box) { return box.dataset.packagePrice; }));
+      calculatePartnerPricing(packages.map(packagePrice));
     } catch (error) {
       return setRuleError(form, null, error.message);
     }
     return true;
+  }
+
+  function exhibitorSpacePrice(space) {
+    var price = catalogPrice(space.dataset.price);
+    if (!Object.prototype.hasOwnProperty.call(exhibitorSpacePrices, space.value) || exhibitorSpacePrices[space.value] !== price) {
+      throw new RangeError("This space is unavailable. Refresh the page and choose another space.");
+    }
+    return price;
+  }
+
+  function packagePrice(box) {
+    var price = catalogPrice(box.dataset.packagePrice);
+    if (!Object.prototype.hasOwnProperty.call(sponsorPackagePrices, box.value) || sponsorPackagePrices[box.value] !== price) {
+      throw new RangeError("This package is unavailable. Refresh the page and choose another package.");
+    }
+    return price;
   }
 
   function validateStaffUpdate(form) {
@@ -546,6 +637,8 @@
         if (!Number.isInteger(topUpCount) || topUpCount < 1 || topUpCount > 99 || topUpNames.length !== topUpCount) {
           return setRuleError(form, topUpNamesControl, "Enter one name per line so the list matches the number of top-up places.");
         }
+        var combinedNames = [String((baseNamesControl || {}).value || "").trim(), String((topUpNamesControl || {}).value || "").trim()].filter(Boolean).join("\n");
+        if (combinedNames.length > 32768) return setRuleError(form, topUpNamesControl, "Please shorten the combined staff lists to 32768 characters or fewer.");
       }
     }
     return true;
@@ -573,7 +666,7 @@
 
   function missingFieldIds(grouped) {
     return Object.keys(grouped).filter(function (api) {
-      return /__c$/.test(api) && !config.customFieldIds[api];
+      return /__c$/.test(api) && !(config.customFieldIds || {})[api];
     });
   }
 
@@ -604,6 +697,7 @@
     var postForm = document.createElement("form");
     postForm.method = "post";
     postForm.action = config.endpoint;
+    postForm.acceptCharset = "UTF-8";
     postForm.hidden = true;
     function append(name, value) {
       var input = document.createElement("input");
@@ -621,12 +715,52 @@
       append(name, grouped[api].join(";"));
     });
     document.body.appendChild(postForm);
-    postForm.submit();
+    try {
+      postForm.submit();
+    } catch (error) {
+      postForm.remove();
+      throw error;
+    }
+  }
+
+  function syncFormState(form) {
+    syncConditionalSections();
+    form.querySelectorAll('input[type="number"]').forEach(function (control) {
+      if (control.disabled || !String(control.value || "").trim()) return;
+      var value = Number(control.value);
+      if (Number.isFinite(value)) control.value = String(value);
+    });
+    derivedFieldSynchronizers.forEach(function (sync) { sync(); });
+    syncConditionalSections();
+    syncCombinedFields(form);
+    normalizeBookingReferences(form);
+  }
+
+  function clearRuleErrors(form) {
+    form.querySelectorAll("input, select, textarea").forEach(function (control) { control.setCustomValidity(""); });
+  }
+
+  function restoreSubmitControls(form) {
+    delete form.dataset.submitting;
+    form.removeAttribute("aria-busy");
+    form.querySelectorAll('[type="submit"]').forEach(function (button) {
+      if (button.dataset.originalText == null) return;
+      button.disabled = false;
+      button.textContent = button.dataset.originalText;
+      delete button.dataset.originalText;
+    });
   }
 
   function enableForms() {
     document.querySelectorAll("form[data-web-to-lead]").forEach(function (form) {
-      populateSystemFields(form);
+      // Normalise references and refresh conditional requirements before asking
+      // the browser to validate; reportValidity still enforces native rules.
+      form.noValidate = true;
+      try {
+        populateSystemFields(form);
+      } catch (error) {
+        setStatus(form, "This form is currently unavailable. Reload the page and try again.", "error");
+      }
       var honeypot = document.createElement("input");
       honeypot.type = "text";
       honeypot.name = "website_confirm";
@@ -646,11 +780,17 @@
           setStatus(form, "Your submission could not be processed. Please reload the page and try again.", "error");
           return;
         }
-        populateSystemFields(form);
-        syncCombinedFields(form);
-        normalizeBookingReferences(form);
+        clearRuleErrors(form);
+        try {
+          populateSystemFields(form);
+          syncFormState(form);
+        } catch (error) {
+          setStatus(form, "This form is currently unavailable. Reload the page and try again.", "error");
+          return;
+        }
         var incompleteGroup = Array.prototype.slice.call(form.querySelectorAll("[data-required-checkbox-group]")).find(function (group) {
-          return !group.querySelector('input[type="checkbox"]:checked');
+          var available = Array.prototype.slice.call(group.querySelectorAll('input[type="checkbox"]')).filter(function (control) { return !control.disabled; });
+          return available.length && !available.some(function (control) { return control.checked; });
         });
         if (incompleteGroup) {
           setStatus(form, incompleteGroup.dataset.requiredMessage || "Please select at least one option.", "error");
@@ -658,16 +798,11 @@
           if (firstBox) firstBox.focus();
           return;
         }
-        form.querySelectorAll("input[required], textarea[required]").forEach(function (control) {
-          control.setCustomValidity("");
-        });
-        if (hasBlankRequiredText(form)) {
+        if (hasBlankRequiredText(form)) return;
+        if (!validateFieldLengths(form) || !validateBookingReferences(form) || !validateCatalogPricing(form) || !validateStaffUpdate(form) || !validateHeavyItems(form)) return;
+        if (!form.checkValidity()) {
           setStatus(form, "Please complete the highlighted required fields.", "error");
-          return;
-        }
-        if (!validateCatalogPricing(form) || !validateStaffUpdate(form) || !validateHeavyItems(form)) return;
-        if (!form.reportValidity()) {
-          setStatus(form, "Please complete the highlighted required fields.", "error");
+          form.reportValidity();
           return;
         }
         var grouped = collectFields(form);
@@ -681,11 +816,11 @@
         }
         var missingConfig = missingProductionConfig(form);
         if (missingConfig.length) {
-          setStatus(form, "Submission is disabled because production configuration is missing: " + missingConfig.join(", ") + ".", "error");
+          setStatus(form, "This form is currently unavailable. Please try again later.", "error");
           return;
         }
         if (missing.length) {
-          setStatus(form, "Submission is disabled because Salesforce field IDs are missing for: " + missing.join(", ") + ".", "error");
+          setStatus(form, "This form is currently unavailable. Please try again later.", "error");
           return;
         }
         form.dataset.submitting = "true";
@@ -695,11 +830,31 @@
           button.dataset.originalText = button.textContent;
           button.textContent = "Submitting…";
         });
-        submitToSalesforce(form, grouped);
+        try {
+          submitToSalesforce(form, grouped);
+        } catch (error) {
+          restoreSubmitControls(form);
+          setStatus(form, "Your submission could not be sent. Please try again.", "error");
+        }
       });
-      form.addEventListener("input", function (event) {
+      function changed() {
+        clearRuleErrors(form);
         syncCombinedFields(form);
-        if (event.target && event.target.setCustomValidity && String(event.target.value || "").trim()) event.target.setCustomValidity("");
+      }
+      form.addEventListener("input", changed);
+      form.addEventListener("change", changed);
+    });
+    if (window.addEventListener) window.addEventListener("pageshow", function () {
+      configureFieldConstraints();
+      document.querySelectorAll("form[data-web-to-lead]").forEach(function (form) {
+        restoreSubmitControls(form);
+        clearRuleErrors(form);
+        try {
+          populateSystemFields(form);
+          syncFormState(form);
+        } catch (error) {
+          setStatus(form, "This form is currently unavailable. Reload the page and try again.", "error");
+        }
       });
     });
   }

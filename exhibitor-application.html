@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20260906-1">
+  <link rel="stylesheet" href="assets/styles.css?v=20260907-1">
 </head>
 <body>
   <header class="site-header">
@@ -96,8 +96,8 @@
       <section class="card" id="space">
         <h2><span class="section-number">4</span>Exhibition space</h2>
         <div class="field"><label class="required" for="planned-count">How many people do you currently plan to bring, including yourself?</label><input id="planned-count" type="number" min="1" max="99" step="1" inputmode="numeric" required data-sf-field="Planned_Exhibitor_Count__c"><span class="help">Your selected space includes a staff allocation. Any places above that allocation are added to your indicative total at £50 + VAT per person.</span></div>
-        <h3>Select one space</h3>
-        <div class="options-list">
+        <h3 id="exhibitor-space-heading">Select one space</h3>
+        <div class="options-list" role="radiogroup" aria-labelledby="exhibitor-space-heading" aria-required="true">
           <label class="choice package-option"><span><input type="radio" name="exhibitor-space" required value="Garage Space - reduced size with power - £600 + VAT" data-price="600" data-power-included="true" data-sf-field="Exhibitor_Space_Selections__c"> Reduced-depth garage space with power<small>Suitable for trestle-table stands.</small></span><span class="price">£600 + VAT</span></label>
           <label class="choice package-option"><span><input type="radio" name="exhibitor-space" value="Single Garage - Paddock Side with power - £800 + VAT" data-price="800" data-power-included="true" data-sf-field="Exhibitor_Space_Selections__c"> Single paddock-side garage with power<small>Suitable for vans, cars and smaller tractors.</small></span><span class="price">£800 + VAT</span></label>
           <label class="choice package-option"><span><input type="radio" name="exhibitor-space" value="Double Garage - Paddock Side with power - £1,300 + VAT" data-price="1300" data-power-included="true" data-sf-field="Exhibitor_Space_Selections__c"> Double paddock-side garage with power<small>Suitable for multiple vans, cars, tractors and equipment.</small></span><span class="price">£1,300 + VAT</span></label>
@@ -131,7 +131,7 @@
       <section class="card" id="add-ons">
         <h2><span class="section-number">5</span>Power and booking total</h2>
         <div class="grid">
-          <div class="field"><span class="label required" id="power-question-label">Do you need power on your stand for an additional £100 + VAT per socket?</span><div class="choice-grid"><label class="choice"><input type="radio" name="power-required" id="power-required-yes" value="Yes" required data-sf-field="Stand_Power__c"> Yes</label><label class="choice"><input type="radio" name="power-required" value="No" data-sf-field="Stand_Power__c"> No</label></div><span class="help" id="power-question-help">Unless indicated here, power may not be possible. Charities, government and blue light organisations qualify for a 50% discount.</span></div>
+          <div class="field"><span class="label required" id="power-question-label">Do you need power on your stand for an additional £100 + VAT per socket?</span><div class="choice-grid" role="radiogroup" aria-labelledby="power-question-label" aria-describedby="power-question-help" aria-required="true"><label class="choice"><input type="radio" name="power-required" id="power-required-yes" value="Yes" required data-sf-field="Stand_Power__c"> Yes</label><label class="choice"><input type="radio" name="power-required" value="No" data-sf-field="Stand_Power__c"> No</label></div><span class="help" id="power-question-help">Unless indicated here, power may not be possible. Charities, government and blue light organisations qualify for a 50% discount.</span></div>
           <div class="field conditional" data-conditional-for="power-required-yes" data-conditional-value="Yes"><label class="required" for="power-count">Number of sockets</label><input id="power-count" type="number" min="1" max="20" data-required-when-visible data-sf-field="Power_Socket_Count__c"></div>
         </div>
         <div class="callout" aria-live="polite"><strong data-estimate>Select a space to see an indicative ex-VAT total.</strong><span class="help" data-power-discount>Charities, government and blue-light organisations qualify for a 50% power discount.</span></div>
@@ -142,7 +142,7 @@
         <div class="grid">
           <div class="field full"><label for="sunday-setup">For garage exhibits and large stands, can you set up between 14:00 and 18:00 on Sunday 28 February 2027?</label><select id="sunday-setup" data-sf-field="Exhibitor_Hall_Schedule__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
           <div class="field full"><label class="required" for="equipment">Equipment beyond display stands and laptops</label><textarea id="equipment" required placeholder="State None if nothing further" data-sf-field="Stand_Equipment__c"></textarea></div>
-          <div class="field full"><label class="required" for="heavy-vehicle">Will you bring cars, tractors or heavy items that need to be dropped off on a flatbed or trailer?</label><select id="heavy-vehicle" required data-sf-field="Heavy_Vehicle_Required__c"><option value="">Select</option><option>Yes</option><option>No</option><option>Not known yet</option></select><div class="callout">Mission Community will send the separate <a href="heavy-vehicle-details.html">Heavy Vehicle, Equipment and Haulier form</a> nearer the event.</div></div>
+          <div class="field full"><label class="required" for="heavy-vehicle">Will you bring cars, tractors or heavy items that need to be dropped off on a flatbed or trailer?</label><select id="heavy-vehicle" required data-sf-field="Heavy_Vehicle_Required__c"><option value="">Select</option><option>Yes</option><option>No</option><option>Not known yet</option></select></div>
           <div class="field"><label class="required" for="accessibility">Do you have any accessibility requirements?</label><select id="accessibility" required data-sf-field="Has_Special_Requirements__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
           <div class="field conditional" data-conditional-for="accessibility" data-conditional-value="Yes"><label class="required" for="accessibility-details">Please tell us what you need</label><textarea id="accessibility-details" data-required-when-visible data-sf-field="Stand_Special_Requirements__c"></textarea></div>
         </div>
@@ -200,6 +200,6 @@
   </main>
 
   <footer class="site-footer">Questions? <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a></footer>
-  <script src="assets/config.js?v=20260906-1"></script><script src="assets/forms.js?v=20260906-1"></script>
+  <script src="assets/config.js?v=20260907-1"></script><script src="assets/forms.js?v=20260907-1"></script>
 </body>
 </html>

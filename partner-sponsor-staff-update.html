@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
   <title>NTE27 Partner / Sponsor Staff Details</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/styles.css?v=20260906-1">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/styles.css?v=20260907-1">
 </head>
 <body>
   <header class="site-header"><nav class="nav"><a class="brand" href="https://www.nationaltransitionevent.com/"><img class="brand-logo" src="assets/nte-logo-white.png" alt="The National Transition Event"></a><a class="nav-link" href="https://www.nationaltransitionevent.com/">nationaltransitionevent.com</a></nav><div class="hero"><h1>Partner / sponsor staff details</h1><p>Confirm the final number and names of everyone attending with your organisation.</p></div></header>
@@ -15,7 +15,6 @@
       <input type="hidden" data-sf-field="NTE_Event_Code__c">
       <input type="hidden" data-copy-value-from="partner-staff-total" data-sf-field="Planned_Exhibitor_Count__c">
       <input type="hidden" data-copy-value-from="partner-staff-names" data-sf-field="Staff_Base_Names__c">
-      <input type="hidden" data-copy-value-from="partner-staff-names" data-sf-field="Stand_Colleagues__c">
       <section class="card"><h2>Before you begin</h2><p class="lede">Have your booking reference and the full names of everyone attending ready. Partners and sponsors are not charged for additional staff places.</p></section>
       <section class="card">
         <h2><span class="section-number">1</span>Find your booking</h2>
@@ -24,7 +23,7 @@
           <div class="field"><label class="required" for="partner-staff-first-name">Your first name</label><input id="partner-staff-first-name" required autocomplete="given-name" data-sf-field="FirstName"></div>
           <div class="field"><label class="required" for="partner-staff-last-name">Your surname</label><input id="partner-staff-last-name" required autocomplete="family-name" data-sf-field="LastName"></div>
           <div class="field"><label class="required" for="partner-staff-email">Your email address</label><input id="partner-staff-email" type="email" required autocomplete="email" data-sf-field="Email"></div>
-          <div class="field"><label class="required" for="partner-staff-reference">Booking reference</label><input id="partner-staff-reference" required autocomplete="off" pattern="NTE-[A-Za-z0-9-]{3,}" data-sf-field="Target_Booking_Reference__c"><span class="help">Enter the exact reference beginning NTE- from your booking confirmation.</span></div>
+          <div class="field"><label class="required" for="partner-staff-reference">Booking reference</label><input id="partner-staff-reference" required autocomplete="off" pattern="NTE-[A-Za-z0-9][A-Za-z0-9\-]{1,74}[A-Za-z0-9]" data-sf-field="Target_Booking_Reference__c"><span class="help">Enter the exact reference beginning NTE- from your booking confirmation.</span></div>
         </div>
       </section>
       <section class="card">
@@ -40,6 +39,6 @@
       <section class="email-preview-panel" aria-labelledby="partner-staff-email-heading"><p class="eyebrow">Email for this form</p><h2 id="partner-staff-email-heading">Staff details acknowledgement</h2><p>Open the confirmation sent after the staff details are matched to a booking.</p><div class="button-row"><a class="button-secondary" target="_blank" rel="noopener" href="email-templates/examples/partner-sponsor-staff-update-applicant-confirmation.html">Staff details acknowledgement</a></div></section>
     </form>
   </main>
-  <footer class="site-footer">Questions? <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a></footer><script src="assets/config.js?v=20260906-1"></script><script src="assets/forms.js?v=20260906-1"></script>
+  <footer class="site-footer">Questions? <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a></footer><script src="assets/config.js?v=20260907-1"></script><script src="assets/forms.js?v=20260907-1"></script>
 </body>
 </html>

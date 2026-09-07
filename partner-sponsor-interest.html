@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20260906-1">
+  <link rel="stylesheet" href="assets/styles.css?v=20260907-1">
 </head>
 <body>
   <header class="site-header">
@@ -39,7 +39,7 @@
         <h2><span class="section-number">2</span>Your interest in NTE27</h2>
         <div class="grid">
           <div class="field full"><label class="required" for="eoi-interest-type">Are you interested in partnering, sponsoring, or discussing both?</label><select id="eoi-interest-type" required data-sf-field="Partner_Interest_Type__c"><option value="">Select</option><option>Partnership</option><option>Sponsorship</option><option>Both - open to discussion</option><option>Not sure - I would like advice</option></select></div>
-          <div class="field full"><span class="label required">Which opportunities are you most interested in?</span><div class="choice-grid" data-required-checkbox-group data-required-message="Please select at least one area of interest.">
+          <div class="field full"><span class="label required" id="eoi-opportunities-label">Which opportunities are you most interested in?</span><div class="choice-grid" role="group" aria-labelledby="eoi-opportunities-label" data-required-checkbox-group data-required-message="Please select at least one area of interest.">
             <label class="choice"><input type="checkbox" value="Strategic event partnership" data-sf-field="Partner_Interest_Areas__c"><span><strong>Strategic event partnership</strong><small>Support the wider NTE27 programme and Armed Forces community.</small></span></label>
             <label class="choice"><input type="checkbox" value="Event zone sponsorship" data-sf-field="Partner_Interest_Areas__c"><span><strong>Event zone sponsorship</strong><small>Align your organisation with a sector or themed zone.</small></span></label>
             <label class="choice"><input type="checkbox" value="Stage, content or thought leadership" data-sf-field="Partner_Interest_Areas__c"><span><strong>Stage, content or thought leadership</strong><small>Contribute expertise, insight or stories to the event programme.</small></span></label>
@@ -80,6 +80,6 @@
     </form>
   </main>
   <footer class="site-footer">Questions? <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a></footer>
-  <script src="assets/config.js?v=20260906-1"></script><script src="assets/forms.js?v=20260906-1"></script>
+  <script src="assets/config.js?v=20260907-1"></script><script src="assets/forms.js?v=20260907-1"></script>
 </body>
 </html>
