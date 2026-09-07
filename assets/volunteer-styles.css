@@ -1,0 +1,58 @@
+.volunteer-page {
+  --ink: #242124;
+  --ink-soft: #625c60;
+  --gold: #776254;
+  --gold-dark: #57483e;
+  --gold-soft: #eee7e2;
+  --mist: #f5f3f1;
+  --line: #d8d2ce;
+  --shadow: 0 8px 24px rgba(36, 33, 36, .045);
+  --radius: 14px;
+}
+.volunteer-page .site-header { background: #fff; color: var(--ink); }
+.volunteer-page .site-header::after { content: none; }
+.volunteer-page .nav,
+.volunteer-page .hero,
+.volunteer-page .page-shell { width: min(980px, calc(100% - 40px)); }
+.volunteer-page .nav { padding: 20px 0; }
+.volunteer-logo { display: block; width: 210px; height: auto; }
+.volunteer-page .brand:focus-visible { outline: 3px solid var(--gold); outline-offset: 5px; }
+.volunteer-page .hero {
+  margin-bottom: 54px;
+  padding: 38px 42px 76px;
+  border-top: 4px solid #9e8878;
+  border-radius: 0 0 18px 18px;
+  color: #fff;
+  background: #242124;
+}
+.volunteer-page .hero h1 { max-width: 780px; font-size: clamp(2.25rem, 5vw, 3.65rem); line-height: 1.04; letter-spacing: -.04em; }
+.volunteer-page .hero .eyebrow { margin: 0 0 18px; color: #dbccc1; font-size: .75rem; }
+.volunteer-page .hero p { max-width: 660px; margin-top: 18px; color: #e7e1dd; font-size: 1.04rem; }
+.volunteer-page .page-shell { margin-top: -90px; }
+.volunteer-page .card { margin-bottom: 20px; padding: clamp(24px, 4vw, 38px); border-color: var(--line); }
+.volunteer-page .card h2 { display: flex; gap: 12px; align-items: center; font-size: clamp(1.35rem, 2.6vw, 1.7rem); }
+.volunteer-page .section-number { width: 34px; height: 34px; margin: 0; flex: 0 0 34px; border-radius: 9px; color: #57483e; background: #eee7e2; }
+.volunteer-page .grid { gap: 22px; }
+.volunteer-page .choice { border-radius: 8px; padding: 14px; }
+.volunteer-page .choice:hover,
+.volunteer-page .choice:has(input:checked) { background: #f4efeb; }
+.volunteer-page input:focus,
+.volunteer-page select:focus,
+.volunteer-page textarea:focus,
+.volunteer-page button:focus-visible { outline-color: #aa9483; }
+.volunteer-page .button { border-color: #242124; background: #242124; }
+.volunteer-page .button:hover { background: #57483e; border-color: #57483e; }
+.volunteer-page .button-secondary { border-color: #8b796d; }
+.volunteer-page .site-footer { color: #625c60; }
+@media (max-width: 600px) {
+  .volunteer-page .nav,
+  .volunteer-page .hero,
+  .volunteer-page .page-shell { width: calc(100% - 28px); }
+  .volunteer-logo { width: 165px; }
+  .volunteer-page .nav { padding: 14px 0; }
+  .volunteer-page .hero { padding: 28px 24px 66px; }
+  .volunteer-page .hero h1 { font-size: 2.3rem; }
+  .volunteer-page .card { padding: 24px 20px; }
+  .volunteer-page .card h2 { align-items: flex-start; }
+  .volunteer-page .button-row { display: grid; }
+}
