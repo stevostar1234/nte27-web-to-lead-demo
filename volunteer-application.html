@@ -28,7 +28,7 @@
   <main class="page-shell" id="main-content">
     <form class="main-column" data-web-to-lead data-form-kind="volunteer" data-lead-source="Volunteer Application" data-use-default-rule="0" data-return-path="volunteer-thank-you.html" data-confirmation-preview="Thank you. We have received your volunteer application and a member of the Mission Motorsport team will be in touch.">
       <input type="hidden" value="Volunteer Application" data-sf-field="Web_Form_Type__c">
-      <input type="hidden" value="volunteer-application-v1" data-sf-field="Volunteer_Form_Version__c">
+      <input type="hidden" value="volunteer-application-v2" data-sf-field="Volunteer_Form_Version__c">
       <input type="hidden" value="Individual Volunteer" data-sf-field="Company">
       <input type="hidden" value="1" data-sf-field="Interested_in_Volunteering__c">
       <input type="hidden" data-checkbox-copy-from="volunteer-consent" data-sf-field="Consent_PII__c">
@@ -56,6 +56,13 @@
           <div class="field"><label class="required" for="volunteer-emergency-name">Full name</label><input id="volunteer-emergency-name" required autocomplete="off" data-sf-field="NOK_Name__c"></div>
           <div class="field"><label class="required" for="volunteer-emergency-relationship">Relationship to you</label><input id="volunteer-emergency-relationship" required autocomplete="off" data-sf-field="NOK_Relationship__c"></div>
           <div class="field"><label class="required" for="volunteer-emergency-phone">Telephone number</label><input id="volunteer-emergency-phone" type="tel" required inputmode="tel" autocomplete="off" data-sf-field="NOK_Phone__c"></div>
+          <div class="field full"><label class="choice"><input id="volunteer-emergency-same-address" type="checkbox" aria-controls="volunteer-emergency-address-field volunteer-emergency-postcode-field"><span>Emergency contact’s address is the same as mine</span></label></div>
+          <div class="field full" id="volunteer-emergency-address-field" data-conditional-for="volunteer-emergency-same-address" data-conditional-value="No"><label class="required" for="volunteer-emergency-address">Emergency contact’s address</label><textarea id="volunteer-emergency-address" required data-required-when-visible autocomplete="section-emergency street-address" data-sf-field="NOK_Address__c"></textarea></div>
+          <div class="field" id="volunteer-emergency-postcode-field" data-conditional-for="volunteer-emergency-same-address" data-conditional-value="No"><label class="required" for="volunteer-emergency-postcode">Postcode</label><input id="volunteer-emergency-postcode" required data-required-when-visible autocomplete="section-emergency postal-code" data-sf-field="NOK_Postcode__c"></div>
+        </div>
+        <div data-conditional-for="volunteer-emergency-same-address" data-conditional-value="Yes" hidden>
+          <input type="hidden" disabled data-copy-value-from="volunteer-address" data-sf-field="NOK_Address__c">
+          <input type="hidden" disabled data-copy-value-from="volunteer-postcode" data-sf-field="NOK_Postcode__c">
         </div>
       </section>
 
@@ -78,14 +85,15 @@
           <legend class="label required">Which volunteering opportunities interest you?</legend>
           <div class="choice-grid">
             <label class="choice"><input type="checkbox" value="Fundraising" data-sf-field="Volunteer_Opportunities__c"><span>Fundraising</span></label>
-            <label class="choice"><input type="checkbox" value="Driving / Transport" data-sf-field="Volunteer_Opportunities__c"><span>Driving / transport</span></label>
+            <label class="choice"><input type="checkbox" value="Transport and Logistics" data-sf-field="Volunteer_Opportunities__c"><span><strong>Transport and Logistics</strong><small>Car, van with trailer, minibus</small></span></label>
             <label class="choice"><input type="checkbox" value="Motorsport Event Support" data-sf-field="Volunteer_Opportunities__c"><span>Motorsport event support</span></label>
+            <label class="choice"><input type="checkbox" value="Marshalling" data-sf-field="Volunteer_Opportunities__c"><span>Marshalling</span></label>
             <label class="choice"><input type="checkbox" value="Community Outreach / Awareness" data-sf-field="Volunteer_Opportunities__c"><span>Community outreach / awareness</span></label>
             <label class="choice"><input type="checkbox" value="Professional Skills" data-sf-field="Volunteer_Opportunities__c"><span><strong>Professional skills</strong><small>HR, legal, finance, IT or project management</small></span></label>
             <label class="choice"><input type="checkbox" value="Mentoring &amp; Coaching" data-sf-field="Volunteer_Opportunities__c"><span>Mentoring and coaching</span></label>
             <label class="choice"><input type="checkbox" value="Team Area Co-Ordinator" data-sf-field="Volunteer_Opportunities__c"><span>Team area co-ordinator</span></label>
             <label class="choice"><input type="checkbox" value="Vehicle Maintenance / Repairs (Wantage)" data-sf-field="Volunteer_Opportunities__c"><span>Vehicle maintenance / repairs in Wantage</span></label>
-            <label class="choice"><input type="checkbox" value="Charity Merchandise / Shop Support" data-sf-field="Volunteer_Opportunities__c"><span>Charity merchandise / shop support</span></label>
+            <label class="choice"><input type="checkbox" value="Pop up shop" data-sf-field="Volunteer_Opportunities__c"><span>Pop up shop</span></label>
             <label class="choice"><input type="checkbox" value="Storekeeping (Wantage)" data-sf-field="Volunteer_Opportunities__c"><span>Storekeeping in Wantage</span></label>
             <label class="choice"><input type="checkbox" value="Maintenance / DIY (Wantage)" data-sf-field="Volunteer_Opportunities__c"><span>Maintenance / DIY in Wantage</span></label>
           </div>
@@ -95,14 +103,15 @@
           <legend class="label required">Which skills or experience could you offer?</legend>
           <div class="choice-grid">
             <label class="choice"><input type="checkbox" value="Fundraising" data-sf-field="Volunteer_Skills__c"><span>Fundraising</span></label>
-            <label class="choice"><input type="checkbox" value="Driving / Transport" data-sf-field="Volunteer_Skills__c"><span>Driving / transport</span></label>
+            <label class="choice"><input type="checkbox" value="Transport and Logistics" data-sf-field="Volunteer_Skills__c"><span><strong>Transport and Logistics</strong><small>Car, van with trailer, minibus</small></span></label>
             <label class="choice"><input type="checkbox" value="Motorsport Event Support" data-sf-field="Volunteer_Skills__c"><span>Motorsport event support</span></label>
+            <label class="choice"><input type="checkbox" value="Marshalling" data-sf-field="Volunteer_Skills__c"><span>Marshalling</span></label>
             <label class="choice"><input type="checkbox" value="Community Outreach / Awareness" data-sf-field="Volunteer_Skills__c"><span>Community outreach / awareness</span></label>
             <label class="choice"><input type="checkbox" value="Professional Skills" data-sf-field="Volunteer_Skills__c"><span><strong>Professional skills</strong><small>HR, legal, finance, IT or project management</small></span></label>
             <label class="choice"><input type="checkbox" value="Mentoring &amp; Coaching" data-sf-field="Volunteer_Skills__c"><span>Mentoring and coaching</span></label>
             <label class="choice"><input type="checkbox" value="Team Area Co-Ordinator" data-sf-field="Volunteer_Skills__c"><span>Team area co-ordinator</span></label>
             <label class="choice"><input type="checkbox" value="Vehicle Maintenance / Repairs (Wantage)" data-sf-field="Volunteer_Skills__c"><span>Vehicle maintenance / repairs in Wantage</span></label>
-            <label class="choice"><input type="checkbox" value="Charity Merchandise / Shop Support" data-sf-field="Volunteer_Skills__c"><span>Charity merchandise / shop support</span></label>
+            <label class="choice"><input type="checkbox" value="Pop up shop" data-sf-field="Volunteer_Skills__c"><span>Pop up shop</span></label>
             <label class="choice"><input type="checkbox" value="Storekeeping (Wantage)" data-sf-field="Volunteer_Skills__c"><span>Storekeeping in Wantage</span></label>
             <label class="choice"><input type="checkbox" value="Maintenance / DIY (Wantage)" data-sf-field="Volunteer_Skills__c"><span>Maintenance / DIY in Wantage</span></label>
           </div>
@@ -130,7 +139,29 @@
       </section>
 
       <section class="card">
-        <h2><span class="section-number">5</span>Privacy and declaration</h2>
+        <h2><span class="section-number">5</span>Availability</h2>
+        <fieldset class="choice-fieldset" data-required-checkbox-group data-single-choice-group data-required-message="Please select the hours you are willing to give.">
+          <legend class="label required">Hours willing to give</legend>
+          <div class="choice-grid">
+            <label class="choice"><input type="checkbox" value="0-4" data-sf-field="Volunteer_Hours__c"><span>0–4</span></label>
+            <label class="choice"><input type="checkbox" value="4-8" data-sf-field="Volunteer_Hours__c"><span>4–8</span></label>
+            <label class="choice"><input type="checkbox" value="8-16" data-sf-field="Volunteer_Hours__c"><span>8–16</span></label>
+            <label class="choice"><input type="checkbox" value="16+" data-sf-field="Volunteer_Hours__c"><span>16+</span></label>
+            <label class="choice"><input type="checkbox" value="Don't know" data-sf-field="Volunteer_Hours__c"><span>Don’t know</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="choice-fieldset" data-required-checkbox-group data-exclusive-choice="Any" data-required-message="Please select your availability preference.">
+          <legend class="label required">Preference</legend>
+          <div class="choice-grid">
+            <label class="choice"><input type="checkbox" value="Weekdays" data-sf-field="Volunteer_Availability__c"><span>Weekdays</span></label>
+            <label class="choice"><input type="checkbox" value="Weekends" data-sf-field="Volunteer_Availability__c"><span>Weekends</span></label>
+            <label class="choice"><input type="checkbox" value="Any" data-sf-field="Volunteer_Availability__c"><span>Any</span></label>
+          </div>
+        </fieldset>
+      </section>
+
+      <section class="card">
+        <h2><span class="section-number">6</span>Privacy and declaration</h2>
         <p>Mission Motorsport uses the information you provide to manage volunteering, events and suitable opportunities. Records are stored securely and retained for two years, after which renewed consent will be requested. Information will not be shared outside Mission Motorsport without your written permission.</p>
         <p>You may withdraw consent or request that your details are erased by writing to <a href="mailto:dataprotection@missionmotorsport.org">dataprotection@missionmotorsport.org</a>. You can also read the <a href="https://www.missionmotorsport.org/privacy-policy/" target="_blank" rel="noopener">Mission Motorsport privacy notice</a>.</p>
         <div class="grid">
@@ -155,6 +186,6 @@
     </form>
   </main>
   <footer class="site-footer">Mission Motorsport · Mission Community · <span data-current-year></span></footer>
-  <script src="assets/config.js?v=20260908-1"></script><script src="assets/forms.js?v=20260908-1"></script>
+  <script src="assets/config.js?v=20260909-volunteer-1"></script><script src="assets/forms.js?v=20260909-volunteer-1"></script>
 </body>
 </html>

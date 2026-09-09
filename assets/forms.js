@@ -171,6 +171,31 @@
     });
   }
 
+  function enableCheckboxChoices() {
+    document.querySelectorAll("[data-single-choice-group], [data-exclusive-choice]").forEach(function (group) {
+      group.addEventListener("change", function (event) {
+        var selected = event.target;
+        if (!selected || selected.type !== "checkbox" || !selected.checked) return;
+        group.querySelectorAll('input[type="checkbox"]').forEach(function (control) {
+          if (control !== selected && (group.hasAttribute("data-single-choice-group") || selected.value === group.dataset.exclusiveChoice || control.value === group.dataset.exclusiveChoice)) {
+            control.checked = false;
+          }
+        });
+      });
+    });
+  }
+
+  function validateCheckboxChoices(form) {
+    var invalid = Array.prototype.slice.call(form.querySelectorAll("[data-single-choice-group], [data-exclusive-choice]")).find(function (group) {
+      var selected = Array.prototype.slice.call(group.querySelectorAll('input[type="checkbox"]:checked')).filter(function (control) { return !control.disabled; });
+      return selected.length > 1 && (group.hasAttribute("data-single-choice-group") || selected.some(function (control) { return control.value === group.dataset.exclusiveChoice; }));
+    });
+    if (!invalid) return true;
+    return setRuleError(form, invalid.querySelector('input[type="checkbox"]'), invalid.hasAttribute("data-single-choice-group")
+      ? "Please select one hours option."
+      : "Please select Any or your preferred days.");
+  }
+
   function syncCombinedFields(form) {
     form.querySelectorAll("[data-combine-fields]").forEach(function (target) {
       var ids = target.dataset.combineFields.split(",");
@@ -800,6 +825,7 @@
           return;
         }
         if (hasBlankRequiredText(form)) return;
+        if (!validateCheckboxChoices(form)) return;
         if (!validateFieldLengths(form) || !validateBookingReferences(form) || !validateCatalogPricing(form) || !validateStaffUpdate(form) || !validateHeavyItems(form)) return;
         if (!form.checkValidity()) {
           setStatus(form, "Please complete the highlighted required fields.", "error");
@@ -865,6 +891,7 @@
 
   configureShell();
   enableConditionalSections();
+  enableCheckboxChoices();
   configureFieldConstraints();
   setupPackageSummary();
   setupExhibitorEstimate();
