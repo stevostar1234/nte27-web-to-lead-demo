@@ -2,7 +2,7 @@
   "use strict";
 
   var config = window.NTE_CONFIG || window.NTE27_CONFIG || {};
-  var pricingVersion = "NTE27-2026-09-06";
+  var pricingVersion = "NTE27-2026-09-10";
   var syncConditionalSections = function () {};
   var derivedFieldSynchronizers = [];
   var sponsorPackagePrices = {
@@ -12,11 +12,11 @@
     "Auditorium Sponsor": 5000, "Live Stream Sponsor": 6000, "Wristband Sponsor": 3000, "Escapade Sponsor": 9000
   };
   var exhibitorSpacePrices = {
-    "Garage Space - reduced size with power - £600 + VAT": 600,
-    "Single Garage - Paddock Side with power - £800 + VAT": 800,
-    "Double Garage - Paddock Side with power - £1,300 + VAT": 1300,
-    "Single Garage - Track Side - £800 + VAT": 800,
-    "Double Garage - Track Side - £1,300 + VAT": 1300,
+    "Garage Space - reduced size with power - £599 + VAT": 599,
+    "Single Garage - Paddock Side with power - £799 + VAT": 799,
+    "Double Garage - Paddock Side with power - £1,299 + VAT": 1299,
+    "Single Garage - Track Side - £799 + VAT": 799,
+    "Double Garage - Track Side - £1,299 + VAT": 1299,
     "Clean Energy Zone - Single - £499 + VAT": 499,
     "Clean Energy Zone - Double - £849 + VAT": 849,
     "Built Environment Zone - Single - £499 + VAT": 499,
@@ -432,6 +432,8 @@
       var category = document.getElementById("organisation-category");
       syncExhibitorEligibility(form, category ? category.value : "");
       var space = form.querySelector('[name="exhibitor-space"]:checked');
+      var complimentaryBenefits = form.querySelector('[data-complimentary-benefits]');
+      if (complimentaryBenefits) complimentaryBenefits.hidden = !space || !/^(?:COBSEO|Non COBSEO) Charity - Single - Free$/.test(space.value);
       var powerIncluded = space && space.dataset.powerIncluded === "true";
       var powerLabel = document.getElementById("power-question-label");
       var powerHelp = document.getElementById("power-question-help");
