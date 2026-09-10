@@ -784,6 +784,7 @@
       // Normalise references and refresh conditional requirements before asking
       // the browser to validate; reportValidity still enforces native rules.
       form.noValidate = true;
+      var validateCodeOfConduct = setupCodeOfConduct(form);
       try {
         populateSystemFields(form);
       } catch (error) {
@@ -828,6 +829,7 @@
         }
         if (hasBlankRequiredText(form)) return;
         if (!validateCheckboxChoices(form)) return;
+        if (!validateCodeOfConduct()) return;
         if (!validateFieldLengths(form) || !validateBookingReferences(form) || !validateCatalogPricing(form) || !validateStaffUpdate(form) || !validateHeavyItems(form)) return;
         if (!form.checkValidity()) {
           setStatus(form, "Please complete the highlighted required fields.", "error");
@@ -889,6 +891,64 @@
         }
       });
     });
+  }
+
+  function setupCodeOfConduct(form) {
+    if (!form.hasAttribute("data-require-code-of-conduct")) return function () { return true; };
+    var details = form.querySelector("[data-conduct-document]");
+    var reader = form.querySelector("[data-conduct-reader]");
+    var acknowledgement = form.querySelector("[data-conduct-acknowledgement]");
+    var version = form.querySelector("[data-conduct-version]");
+    var status = form.querySelector("[data-conduct-status]");
+    if (!details || !reader || !acknowledgement || !version || !status || !details.dataset.conductDocument) {
+      return function () { return setRuleError(form, null, "The Code of Conduct is unavailable. Reload the page and try again."); };
+    }
+    var documentVersion = details.dataset.conductDocument;
+    var reachedEnd = false;
+    function sync() {
+      acknowledgement.disabled = !reachedEnd;
+      if (!reachedEnd) acknowledgement.checked = false;
+      version.disabled = !reachedEnd || !acknowledgement.checked;
+      version.value = version.disabled ? "" : documentVersion;
+      status.textContent = reachedEnd ? "You can now tick the acknowledgement below." : "Read to the end to enable the acknowledgement.";
+    }
+    function checkEnd() {
+      // Closed details have no rendered height. Never count them as a short document.
+      if (!reachedEnd && details.open && reader.clientHeight > 0 && reader.scrollHeight > 0 &&
+          reader.scrollHeight - reader.clientHeight - reader.scrollTop <= 2) {
+        reachedEnd = true;
+        sync();
+      }
+    }
+    details.addEventListener("toggle", function () {
+      if (details.open) {
+        reader.focus();
+        checkEnd();
+      }
+    });
+    reader.addEventListener("scroll", checkEnd);
+    acknowledgement.addEventListener("change", sync);
+    window.addEventListener("resize", checkEnd);
+    window.addEventListener("pageshow", sync);
+    form.addEventListener("reset", function () {
+      reachedEnd = false;
+      details.open = false;
+      reader.scrollTop = 0;
+      acknowledgement.checked = false;
+      sync();
+    });
+    sync();
+    return function () {
+      sync();
+      if (!reachedEnd) {
+        details.open = true;
+        setRuleError(form, null, "Please open the Code of Conduct and read to the end.");
+        reader.focus();
+        return false;
+      }
+      if (!acknowledgement.checked) return setRuleError(form, acknowledgement, "Please tick to confirm that you have read and agree to follow the Code of Conduct.");
+      return true;
+    };
   }
 
   configureShell();

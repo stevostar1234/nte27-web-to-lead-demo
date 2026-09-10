@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;550;650;750;800&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20260908-1">
-  <link rel="stylesheet" href="assets/volunteer-styles.css?v=20260908-1">
+  <link rel="stylesheet" href="assets/volunteer-styles.css?v=20260910-volunteer-1">
 </head>
 <body class="volunteer-page">
   <header class="site-header">
@@ -26,9 +26,9 @@
   </header>
 
   <main class="page-shell" id="main-content">
-    <form class="main-column" data-web-to-lead data-form-kind="volunteer" data-lead-source="Volunteer Application" data-use-default-rule="0" data-return-path="volunteer-thank-you.html" data-confirmation-preview="Thank you. We have received your volunteer application and a member of the Mission Motorsport team will be in touch.">
+    <form class="main-column" data-web-to-lead data-form-kind="volunteer" data-require-code-of-conduct data-lead-source="Volunteer Application" data-use-default-rule="0" data-return-path="volunteer-thank-you.html" data-confirmation-preview="Thank you. We have received your volunteer application and a member of the Mission Motorsport team will be in touch.">
       <input type="hidden" value="Volunteer Application" data-sf-field="Web_Form_Type__c">
-      <input type="hidden" value="volunteer-application-v2" data-sf-field="Volunteer_Form_Version__c">
+      <input type="hidden" value="volunteer-application-v3" data-sf-field="Volunteer_Form_Version__c">
       <input type="hidden" value="Individual Volunteer" data-sf-field="Company">
       <input type="hidden" value="1" data-sf-field="Interested_in_Volunteering__c">
       <input type="hidden" data-checkbox-copy-from="volunteer-consent" data-sf-field="Consent_PII__c">
@@ -140,8 +140,8 @@
 
       <section class="card">
         <h2><span class="section-number">5</span>Availability</h2>
-        <fieldset class="choice-fieldset" data-required-checkbox-group data-single-choice-group data-required-message="Please select the hours you are willing to give.">
-          <legend class="label required">Hours willing to give</legend>
+        <fieldset class="choice-fieldset" data-required-checkbox-group data-single-choice-group data-required-message="Please select the hours you are willing to give per month.">
+          <legend class="label required">Hours willing to give per month</legend>
           <div class="choice-grid">
             <label class="choice"><input type="checkbox" value="0-4" data-sf-field="Volunteer_Hours__c"><span>0–4</span></label>
             <label class="choice"><input type="checkbox" value="4-8" data-sf-field="Volunteer_Hours__c"><span>4–8</span></label>
@@ -164,6 +164,142 @@
         <h2><span class="section-number">6</span>Privacy and declaration</h2>
         <p>Mission Motorsport uses the information you provide to manage volunteering, events and suitable opportunities. Records are stored securely and retained for two years, after which renewed consent will be requested. Information will not be shared outside Mission Motorsport without your written permission.</p>
         <p>You may withdraw consent or request that your details are erased by writing to <a href="mailto:dataprotection@missionmotorsport.org">dataprotection@missionmotorsport.org</a>. You can also read the <a href="https://www.missionmotorsport.org/privacy-policy/" target="_blank" rel="noopener">Mission Motorsport privacy notice</a>.</p>
+        <div class="volunteer-conduct">
+          <details data-conduct-document="September 2026">
+            <summary>Read the Code of Conduct</summary>
+            <div class="volunteer-conduct-reader" data-conduct-reader tabindex="0" role="region" aria-label="Volunteer Code of Conduct, September 2026" aria-describedby="volunteer-conduct-status">
+              <p class="help">Version September 2026</p>
+            <p>Mission Motorsport</p>
+            <h3>Volunteer Code of Conduct</h3>
+            <h4>Purpose</h4>
+            <p>This Code of Conduct sets out the standards of behaviour expected of all volunteers representing Mission Motorsport. It is intended to ensure a safe, positive and professional environment for volunteers, beneficiaries, partners, staff and the public.</p>
+            <p>By volunteering with Mission Motorsport, you agree to uphold the values of the charity and act in a manner that supports its mission:</p>
+            <p>RACE | RETRAIN | RECOVER</p>
+            <p>Our purpose is to aid the recovery and rehabilitation of those affected by military operations through opportunities provided by motorsport and associated vocational pathways.</p>
+            <h4>Our Values</h4>
+            <p>As a volunteer, I will:</p>
+            <ul>
+              <li>Act with integrity, professionalism and respect.</li>
+              <li>Support the mission, aims and objectives of Mission Motorsport.</li>
+              <li>Promote a welcoming, inclusive and supportive environment.</li>
+              <li>Treat all individuals fairly, regardless of background, identity, beliefs or circumstances.</li>
+              <li>Represent Mission Motorsport positively at all times.</li>
+            </ul>
+            <h4>Respect and Professional Behaviour</h4>
+            <p>I will:</p>
+            <ul>
+              <li>Treat beneficiaries, volunteers, staff, partners and members of the public with dignity, courtesy and respect.</li>
+              <li>Communicate professionally and constructively, both in person and online.</li>
+              <li>Respect personal boundaries and maintain appropriate relationships at all times.</li>
+              <li>Avoid any behaviour that could be considered bullying, harassment, intimidation or discrimination.</li>
+              <li>Not use offensive, abusive, threatening or inappropriate language.</li>
+              <li>Act as a positive role model, particularly when supporting beneficiaries participating in Mission Motorsport activities.</li>
+            </ul>
+            <h4>Safeguarding Responsibilities</h4>
+            <p>Mission Motorsport is committed to safeguarding and promoting the welfare of all beneficiaries, volunteers and staff.</p>
+            <p>As a volunteer, I will:</p>
+            <ul>
+              <li>Familiarise myself with and follow Mission Motorsport safeguarding policies and procedures.</li>
+              <li>Report any safeguarding concern immediately to the designated safeguarding lead or appropriate member of staff.</li>
+              <li>Maintain appropriate professional boundaries at all times.</li>
+              <li>Never exploit a position of trust or influence.</li>
+              <li>Cooperate fully with safeguarding training and guidance provided by the charity.</li>
+              <li>Respect the privacy, dignity and wellbeing of all individuals involved in Mission Motorsport activities.</li>
+            </ul>
+            <h4>Equality, Diversity and Inclusion</h4>
+            <p>I will:</p>
+            <ul>
+              <li>Help create an environment where everyone feels valued, respected and included.</li>
+              <li>Not discriminate on the grounds of age, disability, gender reassignment, marriage and civil partnership, pregnancy and maternity, race, religion or belief, sex, sexual orientation, or any other protected characteristic.</li>
+              <li>Challenge inappropriate behaviour where safe and appropriate to do so.</li>
+              <li>Promote equal opportunities and inclusive participation.</li>
+            </ul>
+            <h4>Health and Safety</h4>
+            <p>I will:</p>
+            <ul>
+              <li>Take reasonable care of my own health and safety and that of others.</li>
+              <li>Follow all instructions, risk assessments, event briefings and safety procedures.</li>
+              <li>Wear any required personal protective equipment and volunteer identification.</li>
+              <li>Immediately report accidents, incidents, near misses or unsafe conditions.</li>
+              <li>Only undertake duties for which I am suitably trained, briefed or authorised.</li>
+            </ul>
+            <h4>Confidentiality and Data Protection</h4>
+            <p>I understand that during my volunteering I may have access to confidential or sensitive information.</p>
+            <p>I will:</p>
+            <ul>
+              <li>Keep all personal, medical and organisational information confidential.</li>
+              <li>Comply with Mission Motorsport policies relating to confidentiality and data protection.</li>
+              <li>Handle personal information in accordance with UK GDPR and the Data Protection Act 2018.</li>
+              <li>Not disclose confidential information to any unauthorised person during or after my volunteering.</li>
+              <li>Immediately report any suspected data breach or information security concern.</li>
+            </ul>
+            <h4>Social Media, Photography and Communications</h4>
+            <p>I will:</p>
+            <ul>
+              <li>Use social media responsibly and professionally.</li>
+              <li>Not post content that could damage the reputation of Mission Motorsport, its beneficiaries, volunteers, staff or partners.</li>
+              <li>Respect confidentiality when posting online.</li>
+              <li>Obtain appropriate permission before sharing photographs, videos or stories relating to beneficiaries or events.</li>
+              <li>Refer all media enquiries to an authorised member of Mission Motorsport staff.</li>
+              <li>Ensure any personal views expressed online are not presented as official Mission Motorsport positions.</li>
+            </ul>
+            <h4>Alcohol, Drugs and Conduct at Events</h4>
+            <p>I will:</p>
+            <ul>
+              <li>Present myself in a fit and professional condition for all volunteering activities.</li>
+              <li>Not attend volunteer duties under the influence of illegal drugs or excessive alcohol.</li>
+              <li>Follow any event-specific policies relating to alcohol consumption.</li>
+              <li>Behave responsibly at all Mission Motorsport activities, events and partner venues.</li>
+            </ul>
+            <h4>Conflicts of Interest</h4>
+            <p>I will:</p>
+            <ul>
+              <li>Declare any actual, perceived or potential conflict of interest.</li>
+              <li>Avoid using my volunteer position for personal gain.</li>
+              <li>Act in the best interests of Mission Motorsport and its beneficiaries at all times.</li>
+            </ul>
+            <h4>What Volunteers Can Expect from Mission Motorsport</h4>
+            <p>Mission Motorsport will:</p>
+            <ul>
+              <li>Treat all volunteers fairly, consistently and with respect.</li>
+              <li>Provide appropriate induction, information, guidance and support.</li>
+              <li>Provide relevant safeguarding and health and safety information.</li>
+              <li>Endeavour to match volunteering opportunities to a volunteer's skills, experience and capabilities.</li>
+              <li>Listen to volunteer feedback and address concerns appropriately.</li>
+              <li>Maintain a safe, inclusive and supportive environment.</li>
+              <li>Process volunteer information lawfully, fairly and securely in accordance with UK GDPR and the Data Protection Act 2018.</li>
+              <li>Recognise and value the contribution made by volunteers.</li>
+            </ul>
+            <h4>Breaches of this Code</h4>
+            <p>Any conduct that falls below the standards set out in this Code may result in:</p>
+            <ul>
+              <li>Informal guidance or corrective action;</li>
+              <li>Additional training or supervision;</li>
+              <li>Restriction from specific activities;</li>
+              <li>Suspension or termination of volunteering arrangements.</li>
+            </ul>
+            <p>Serious misconduct, safeguarding breaches, discrimination, harassment, violence, criminal activity or significant breaches of confidentiality may result in immediate removal from volunteering duties.</p>
+            <h4>Volunteer Declaration</h4>
+            <p>I confirm that:</p>
+            <ul>
+              <li>I have read and understood the Mission Motorsport Volunteer Code of Conduct.</li>
+              <li>I agree to comply with the standards and expectations outlined within this document.</li>
+              <li>I understand that failure to follow this Code may result in the termination of my volunteer role.</li>
+            </ul>
+            <p>Volunteer Name: _________________________________</p>
+            <p>Signature: ______________________________________</p>
+            <p>Date: __________________________________________</p>
+            <h4>For and on behalf of Mission Motorsport</h4>
+            <p>Name: _____________________________________________</p>
+            <p>Position: ___________________________________________</p>
+            <p>Signature: _________________________________________</p>
+            <p>Date: _____________________________________________</p>
+            </div>
+          </details>
+          <p class="help" id="volunteer-conduct-status" data-conduct-status role="status">Read to the end to enable the acknowledgement.</p>
+          <label class="choice"><input id="volunteer-conduct-acknowledgement" type="checkbox" required disabled autocomplete="off" value="1" data-conduct-acknowledgement data-sf-field="Volunteer_Code_Consent__c" aria-describedby="volunteer-conduct-status"><span>I have read and understood the Code of Conduct and agree to follow it.</span></label>
+          <input type="hidden" disabled data-conduct-version data-sf-field="Volunteer_Code_Version__c">
+        </div>
         <div class="grid">
           <div class="field full"><label class="required" for="volunteer-consent">Do you consent to Mission Motorsport using your personal information, contacting you about suitable opportunities, using approved images or stories for promotion, and using relevant medical information where needed?</label><select id="volunteer-consent" required data-sf-field="Volunteer_Consent__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
           <div class="field"><label class="required" for="volunteer-signature">Digital signature (full name)</label><input id="volunteer-signature" required autocomplete="name" data-sf-field="Declaration_Name__c"></div>
@@ -186,6 +322,6 @@
     </form>
   </main>
   <footer class="site-footer">Mission Motorsport · Mission Community · <span data-current-year></span></footer>
-  <script src="assets/config.js?v=20260909-volunteer-1"></script><script src="assets/forms.js?v=20260910-client-1"></script>
+  <script src="assets/config.js?v=20260910-volunteer-1"></script><script src="assets/forms.js?v=20260910-volunteer-1"></script>
 </body>
 </html>

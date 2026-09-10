@@ -80,6 +80,7 @@ window.NTE_CONFIG = {
     NOK_Postcode__c: 20,
     Volunteer_Service_Details__c: 1000,
     Volunteer_Service_Dates__c: 255,
+    Volunteer_Code_Version__c: 80,
     Volunteer_Form_Version__c: 80
   },
   customFieldIds: {
@@ -146,6 +147,8 @@ window.NTE_CONFIG = {
     Volunteer_Travel_Regions__c: "00NAd00000IFxwpMAD",
     Volunteer_DBS_Willing__c: "00NAd00000IFxwhMAD",
     Volunteer_Consent__c: "00NAd00000IFxwgMAD",
+    Volunteer_Code_Consent__c: "00NAd00000IcfivMAB",
+    Volunteer_Code_Version__c: "00NAd00000IcfiwMAB",
     Volunteer_Form_Version__c: "00NAd00000IFxwjMAD",
 
     /* Existing Salesforce fields used by the refreshed forms. */

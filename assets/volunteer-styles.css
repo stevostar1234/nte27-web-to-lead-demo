@@ -44,6 +44,18 @@
 .volunteer-page .button:hover { background: #57483e; border-color: #57483e; }
 .volunteer-page .button-secondary { border-color: #8b796d; }
 .volunteer-page .site-footer { color: #625c60; }
+.volunteer-conduct { margin: 26px 0; }
+.volunteer-conduct details { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.volunteer-conduct summary { padding: 16px; font-weight: 650; cursor: pointer; background: var(--mist); }
+.volunteer-conduct summary:focus-visible,
+.volunteer-conduct-reader:focus-visible { outline: 3px solid #aa9483; outline-offset: -3px; }
+.volunteer-conduct-reader { max-height: min(60vh, 28rem); overflow: auto; overscroll-behavior: contain; padding: 20px; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
+.volunteer-conduct-reader h3 { margin: 12px 0 20px; font-size: 1.2rem; }
+.volunteer-conduct-reader h4 { margin: 24px 0 10px; font-size: 1rem; }
+.volunteer-conduct-reader p { margin: 12px 0; }
+.volunteer-conduct-reader ul { padding-left: 24px; }
+.volunteer-conduct-reader li { margin: 8px 0; }
+.volunteer-conduct .choice:has(input:disabled) { color: var(--ink-soft); background: var(--mist); }
 @media (max-width: 600px) {
   .volunteer-page .nav,
   .volunteer-page .hero,
