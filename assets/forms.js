@@ -434,6 +434,8 @@
       var space = form.querySelector('[name="exhibitor-space"]:checked');
       var complimentaryBenefits = form.querySelector('[data-complimentary-benefits]');
       if (complimentaryBenefits) complimentaryBenefits.hidden = !space || !/^(?:COBSEO|Non COBSEO) Charity - Single - Free$/.test(space.value);
+      var savings = form.querySelector('[data-discount-savings]');
+      if (savings) { savings.hidden = true; savings.textContent = ""; }
       var powerIncluded = space && space.dataset.powerIncluded === "true";
       var powerLabel = document.getElementById("power-question-label");
       var powerHelp = document.getElementById("power-question-help");
@@ -461,7 +463,6 @@
         return;
       }
       var total = pricing.total;
-      var discounted = pricing.discounted;
       setPricingField(form, "Exhibitor_Space_Price__c", pricing.spacePrice);
       setPricingField(form, "Power_Socket_Unit_Price__c", pricing.powerUnitPrice);
       setPricingField(form, "Power_Socket_Total__c", pricing.powerTotal);
@@ -499,8 +500,21 @@
           output.textContent = "Indicative ex-VAT total: " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"}).format(total) + " (" + parts.join(" + ") + ").";
         }
       }
-      var discount = document.querySelector("[data-power-discount]");
-      if (discount) discount.textContent = discounted ? "Your selected organisation category appears eligible for the 50% power discount; Mission Community will verify eligibility." : "Charities, government and blue-light organisations qualify for a 50% power discount.";
+      if (savings && space) {
+        var halfPriceSpace = /^(?:Local Government Authority|Blue Light) - Single - /.test(space.value)
+          && eligibleCategoriesForSpace(space.value).indexOf(category ? category.value : "") !== -1;
+        var spaceSaving = halfPriceSpace ? exhibitorSpacePrices["Any other business - Single - £499 + VAT"] - pricing.spacePrice : 0;
+        var powerSaving = pricing.discounted && pricing.powerTotal > 0 ? socketCount * 100 - pricing.powerTotal : 0;
+        var savingTotal = spaceSaving + powerSaving;
+        if (savingTotal > 0) {
+          var money = new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"});
+          var savingParts = [];
+          if (spaceSaving > 0) savingParts.push(money.format(spaceSaving) + " on your space");
+          if (powerSaving > 0) savingParts.push(money.format(powerSaving) + " on " + socketCount + " power socket" + (socketCount === 1 ? "" : "s"));
+          savings.textContent = "50% discount applied: you save " + money.format(savingTotal) + " ex VAT (" + savingParts.join(" + ") + ").";
+          savings.hidden = false;
+        }
+      }
     }
     form.addEventListener("change", sync);
     form.addEventListener("input", sync);

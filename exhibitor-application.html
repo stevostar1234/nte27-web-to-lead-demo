@@ -135,7 +135,7 @@
           <div class="field"><span class="label required" id="power-question-label">Do you need power on your stand for an additional £100 + VAT per socket?</span><div class="choice-grid" role="radiogroup" aria-labelledby="power-question-label" aria-describedby="power-question-help" aria-required="true"><label class="choice"><input type="radio" name="power-required" id="power-required-yes" value="Yes" required data-sf-field="Stand_Power__c"> Yes</label><label class="choice"><input type="radio" name="power-required" value="No" data-sf-field="Stand_Power__c"> No</label></div><span class="help" id="power-question-help">Unless indicated here, power may not be possible. Charities, government and blue light organisations qualify for a 50% discount.</span></div>
           <div class="field conditional" data-conditional-for="power-required-yes" data-conditional-value="Yes"><label class="required" for="power-count">Number of sockets</label><input id="power-count" type="number" min="1" max="20" data-required-when-visible data-sf-field="Power_Socket_Count__c"></div>
         </div>
-        <div class="callout" aria-live="polite"><p data-complimentary-benefits hidden><strong>Included free</strong><br>Single exhibition space, one 6ft trestle table, one chair and two staff places.</p><strong data-estimate>Select a space to see an indicative ex-VAT total.</strong><span class="help" data-power-discount>Charities, government and blue-light organisations qualify for a 50% power discount.</span></div>
+        <div class="callout" aria-live="polite"><p data-complimentary-benefits hidden><strong>Included free</strong><br>Single exhibition space, one 6ft trestle table, one chair and two staff places.</p><strong data-estimate>Select a space to see an indicative ex-VAT total.</strong><p class="help" data-discount-savings hidden></p></div>
       </section>
 
       <section class="card" id="operations">
@@ -181,7 +181,7 @@
           <div class="field"><label class="required" for="declaration-name">Digital signature (full name)</label><input id="declaration-name" required autocomplete="name" data-sf-field="Declaration_Name__c"><span class="help">Entering your name confirms that the information supplied is accurate and you have authority to proceed with booking.</span></div>
           <div class="field"><label class="required" for="declaration-date">Date</label><input id="declaration-date" type="date" required data-sf-field="Declaration_Date__c"></div>
         </div>
-        <div class="checkline"><input id="terms" type="checkbox" required data-sf-field="Terms_and_Conditions__c"><label for="terms">I have read and agree to the <a data-config-link="terms" target="_blank" rel="noopener">NTE27 Terms and Conditions and Privacy Policy</a>.</label></div>
+        <div class="checkline"><input id="terms" type="checkbox" required data-sf-field="Terms_and_Conditions__c"><label for="terms">I have read and agree to the <a data-config-link="terms" target="_blank" rel="noopener">NTE27 Privacy Policy</a>.</label></div>
         <div class="button-row"><button class="button" type="submit">Submit exhibitor application</button><a class="button-secondary" href="https://www.nationaltransitionevent.com/">Visit the NTE website</a></div>
         <div data-form-status hidden aria-live="polite"></div>
       </section>
@@ -202,6 +202,6 @@
   </main>
 
   <footer class="site-footer">Questions? <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a></footer>
-  <script src="assets/config.js?v=20260908-1"></script><script src="assets/forms.js?v=20260910-client-1"></script>
+  <script src="assets/config.js?v=20260910-links-1"></script><script src="assets/forms.js?v=20260910-links-1"></script>
 </body>
 </html>
