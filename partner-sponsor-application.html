@@ -107,11 +107,12 @@
       </section>
 
       <section class="card">
-        <h2><span class="section-number">4</span>Quotation and invoicing</h2>
+        <h2><span class="section-number">4</span>Payment and finance requirements</h2>
         <div class="grid">
-          <div class="field"><label class="required" for="partner-quote">Do you require a quotation before an invoice can be raised?</label><select id="partner-quote" required data-sf-field="Quote_Required_for_PO__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
-          <div class="field" data-partner-payment-method-field><label class="required" for="partner-payment-method">Do you require an invoice to be raised, or will you make payment by Stripe?</label><select id="partner-payment-method" required data-sf-field="Payment_Method__c"><option value="">Select</option><option value="Bank transfer">Yes — invoice and payment by bank transfer</option><option value="Stripe">No — payment will be via Stripe</option></select></div>
-          <div class="field full"><label class="required" for="partner-po">Do you require a purchase order or reference before an invoice can be issued?</label><select id="partner-po" required data-sf-field="Purchase_Order__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
+          <div class="field"><label class="required" for="partner-payment-method">Payment Method</label><select id="partner-payment-method" required data-sf-field="Payment_Method__c"><option value="">Select</option><option>Bank transfer</option><option>Stripe</option></select></div>
+          <div class="field"><label class="required" for="partner-invoice-requested">Do you require an invoice?</label><select id="partner-invoice-requested" required data-sf-field="Invoice_Requested__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
+          <div class="field full"><label class="required" for="partner-quote">Do you require a quotation?</label><select id="partner-quote" required data-sf-field="Quote_Required_for_PO__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
+          <div class="field full"><label class="required" for="partner-po">Do you require a purchase order or reference?</label><select id="partner-po" required data-sf-field="Purchase_Order__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
           <div class="field full conditional" data-conditional-for="partner-po" data-conditional-value="Yes"><label class="required" for="partner-po-number">Purchase order or reference details</label><input id="partner-po-number" data-required-when-visible data-sf-field="Purchase_Order_Number__c"></div>
           <div class="field"><label class="required" for="partner-supplier-agreement">Will a supplier agreement be required?</label><select id="partner-supplier-agreement" required data-sf-field="Supplier_Agreement_Required__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
           <div class="field"><label class="required" for="partner-invoice-company">Legal organisation name for quotation and invoicing</label><input id="partner-invoice-company" required data-sf-field="Invoiced_Company__c"></div>
@@ -149,6 +150,6 @@
     </form>
   </main>
   <footer class="site-footer">Questions? <a href="mailto:nte@missioncommunity.org">nte@missioncommunity.org</a></footer>
-    <script src="assets/config.js?v=20260910-links-1"></script><script src="assets/forms.js?v=20260913-vat"></script>
+    <script src="assets/config.js?v=20260913-finance-2"></script><script src="assets/forms.js?v=20260913-finance-2"></script>
 </body>
 </html>

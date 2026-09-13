@@ -177,6 +177,7 @@ window.NTE_CONFIG = {
     Power_Socket_Count__c: "00NAd00000Hy98tMAB",
     Quote_Required_for_PO__c: "00NAd00000Hy98wMAB",
     Payment_Method__c: "00NAd00000IUoQ1MAL",
+    Invoice_Requested__c: "00NAd00000IeHqzMAF",
     Heavy_Vehicle_Required__c: "00NAd00000Hy98kMAB",
     Form_Version__c: "00NAd00000Hy98NMAR",
     Delivery_Window__c: "00NAd00000Hy98LMAR",

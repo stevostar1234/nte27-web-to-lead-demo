@@ -497,14 +497,8 @@
           invoiceField.dispatchEvent(new Event("change", {bubbles: true}));
         }
       }
-      var paymentMethod = document.getElementById("payment-method");
-      var paymentMethodField = document.querySelector("[data-payment-method-field]");
-      if (paymentMethodField) paymentMethodField.hidden = !pricing.invoiceRequired;
-      if (paymentMethod) {
-        paymentMethod.disabled = !pricing.invoiceRequired;
-        paymentMethod.required = pricing.invoiceRequired;
-        if (!pricing.invoiceRequired) paymentMethod.value = "";
-      }
+      var declarationNumber = document.getElementById("declaration-number");
+      if (declarationNumber) declarationNumber.textContent = pricing.invoiceRequired ? "8" : "7";
       if (output) {
         output.textContent = space ? totalText(total) : "Select a space to see your total including VAT.";
       }
