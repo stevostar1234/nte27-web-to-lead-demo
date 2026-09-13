@@ -2,7 +2,8 @@
   "use strict";
 
   var config = window.NTE_CONFIG || window.NTE27_CONFIG || {};
-  var pricingVersion = "NTE27-2026-09-10";
+  var vatRate = 20;
+  var pricingVersion = "NTE27-2026-09-13-VAT";
   var syncConditionalSections = function () {};
   var derivedFieldSynchronizers = [];
   var sponsorPackagePrices = {
@@ -304,6 +305,19 @@
     return Number(value);
   }
 
+  function vatTotals(net) {
+    var netPence = Math.round(Number(net) * 100);
+    if (!Number.isSafeInteger(netPence) || netPence < 0) throw new RangeError("The total price is unavailable.");
+    var vatPence = Math.round(netPence * vatRate / 100);
+    return {net: netPence / 100, vat: vatPence / 100, gross: (netPence + vatPence) / 100};
+  }
+
+  function totalText(net) {
+    var totals = vatTotals(net);
+    var money = new Intl.NumberFormat("en-GB", {style: "currency", currency: "GBP"});
+    return money.format(totals.net) + " + " + money.format(totals.vat) + " VAT (" + vatRate + "%)\nTotal " + money.format(totals.gross) + " including VAT";
+  }
+
   function calculatePartnerPricing(selectedPrices) {
     var totalPence = selectedPrices.reduce(function (sum, rawPrice) { return sum + Math.round(catalogPrice(rawPrice) * 100); }, 0);
     if (!Number.isSafeInteger(totalPence)) throw new RangeError("The package price is unavailable. Refresh the page and try again.");
@@ -407,7 +421,7 @@
         }
         return;
       }
-      totalNode.textContent = "Package total: " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP",maximumFractionDigits:0}).format(pricing.total);
+      totalNode.textContent = totalText(pricing.total);
       if (form) {
         setPricingField(form, "Sponsor_Package_Total__c", pricing.packageTotal);
         setPricingField(form, "Listed_Price_Total__c", pricing.total);
@@ -492,14 +506,9 @@
         if (!pricing.invoiceRequired) paymentMethod.value = "";
       }
       if (output) {
-        if (!space) output.textContent = "Select a space to see an indicative ex-VAT total.";
-        else {
-          var parts = ["space " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"}).format(pricing.spacePrice)];
-          if (pricing.powerTotal) parts.push(socketCount + " socket" + (socketCount === 1 ? "" : "s") + " " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"}).format(pricing.powerTotal));
-          if (pricing.staffTotal) parts.push(pricing.additionalStaffCount + " additional staff " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"}).format(pricing.staffTotal));
-          output.textContent = "Indicative ex-VAT total: " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"}).format(total) + " (" + parts.join(" + ") + ").";
-        }
+        output.textContent = space ? totalText(total) : "Select a space to see your total including VAT.";
       }
+
       if (savings && space) {
         var halfPriceSpace = /^(?:Local Government Authority|Blue Light) - Single - /.test(space.value)
           && eligibleCategoriesForSpace(space.value).indexOf(category ? category.value : "") !== -1;
@@ -508,10 +517,7 @@
         var savingTotal = spaceSaving + powerSaving;
         if (savingTotal > 0) {
           var money = new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"});
-          var savingParts = [];
-          if (spaceSaving > 0) savingParts.push(money.format(spaceSaving) + " on your space");
-          if (powerSaving > 0) savingParts.push(money.format(powerSaving) + " on " + socketCount + " power socket" + (socketCount === 1 ? "" : "s"));
-          savings.textContent = "50% discount applied: you save " + money.format(savingTotal) + " ex VAT (" + savingParts.join(" + ") + ").";
+          savings.textContent = "50% discount applied: you save " + money.format(vatTotals(savingTotal).gross) + " including VAT on " + (spaceSaving > 0 && powerSaving > 0 ? "your space and power sockets." : spaceSaving > 0 ? "your space." : "power sockets.");
           savings.hidden = false;
         }
       }
@@ -538,7 +544,7 @@
       setPricingField(form, "Top_Up_Staff_Unit_Price__c", count > 0 ? 50 : 0);
       setPricingField(form, "Top_Up_Staff_Total__c", count > 0 ? count * 50 : 0);
       var estimate = document.querySelector("[data-top-up-estimate]");
-      if (estimate) estimate.textContent = "Top-up total: " + new Intl.NumberFormat("en-GB", {style:"currency",currency:"GBP"}).format(count * 50) + " + VAT";
+      if (estimate) estimate.textContent = totalText(count * 50);
     }
     form.addEventListener("change", sync);
     form.addEventListener("input", sync);
@@ -978,6 +984,8 @@
     eventCodeFor: eventCodeFor,
     resolveEventCode: resolveEventCode,
     bookingReference: bookingReference,
+    vatTotals: vatTotals,
+    totalText: totalText,
     calculatePartnerPricing: calculatePartnerPricing,
     calculateExhibitorPricing: calculateExhibitorPricing,
     includedStaffForSpace: includedStaffForSpace,

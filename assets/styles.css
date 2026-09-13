@@ -200,3 +200,5 @@ input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="
 @media (prefers-reduced-motion: no-preference) {
   .journey, .button, .button-secondary { transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease; }
 }
+
+[data-estimate], [data-package-total], [data-top-up-estimate] { display: block; white-space: pre-line; line-height: 1.7; }
