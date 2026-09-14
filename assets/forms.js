@@ -522,17 +522,10 @@
     sync();
   }
 
-  function nonBlankLines(value) {
-    return String(value || "").split(/\r?\n/).filter(function (line) { return line.trim(); });
-  }
-
   function setupStaffUpdates() {
     var form = document.querySelector('[data-form-kind="exhibitor-staff-update"]');
     if (!form) return;
     function sync() {
-      var baseNames = nonBlankLines((document.getElementById("exhibitor-staff-names") || {}).value);
-      var baseCount = document.getElementById("exhibitor-base-count");
-      if (baseCount) baseCount.value = String(baseNames.length);
       var required = (document.getElementById("top-up-required") || {}).value === "Yes";
       var count = required ? Number((document.getElementById("top-up-count") || {}).value || 0) : 0;
       setPricingField(form, "Top_Up_Staff_Unit_Price__c", count > 0 ? 50 : 0);
@@ -665,26 +658,20 @@
   function validateStaffUpdate(form) {
     if (form.dataset.formKind === "partner-staff-update") {
       var partnerTotalControl = document.getElementById("partner-staff-total");
-      var partnerNamesControl = document.getElementById("partner-staff-names");
       var partnerTotal = Number(partnerTotalControl && partnerTotalControl.value);
-      var partnerNames = nonBlankLines((partnerNamesControl || {}).value);
-      if (!Number.isInteger(partnerTotal) || partnerTotal < 1 || partnerTotal > 99 || partnerNames.length !== partnerTotal) {
-        return setRuleError(form, partnerNamesControl, "Enter one attendee name per line so the list matches the final number attending.");
+      if (!Number.isInteger(partnerTotal) || partnerTotal < 1 || partnerTotal > 99) {
+        return setRuleError(form, partnerTotalControl, "Enter a whole number between 1 and 99 for the final number attending.");
       }
     }
     if (form.dataset.formKind === "exhibitor-staff-update") {
       var baseNamesControl = document.getElementById("exhibitor-staff-names");
-      if (!nonBlankLines((baseNamesControl || {}).value).length) {
-        return setRuleError(form, baseNamesControl, "Enter the names already covered by your booking, one per line.");
-      }
       var topUpRequired = (document.getElementById("top-up-required") || {}).value === "Yes";
       if (topUpRequired) {
         var topUpCountControl = document.getElementById("top-up-count");
         var topUpNamesControl = document.getElementById("top-up-names");
         var topUpCount = Number((topUpCountControl || {}).value);
-        var topUpNames = nonBlankLines((topUpNamesControl || {}).value);
-        if (!Number.isInteger(topUpCount) || topUpCount < 1 || topUpCount > 99 || topUpNames.length !== topUpCount) {
-          return setRuleError(form, topUpNamesControl, "Enter one name per line so the list matches the number of top-up places.");
+        if (!Number.isInteger(topUpCount) || topUpCount < 1 || topUpCount > 99) {
+          return setRuleError(form, topUpCountControl, "Enter a whole number between 1 and 99 for the top-up places.");
         }
         var combinedNames = [String((baseNamesControl || {}).value || "").trim(), String((topUpNamesControl || {}).value || "").trim()].filter(Boolean).join("\n");
         if (combinedNames.length > 32768) return setRuleError(form, topUpNamesControl, "Please shorten the combined staff lists to 32768 characters or fewer.");
