@@ -605,6 +605,14 @@
     return setRuleError(form, visible, "Please shorten this value to " + limit + " characters or fewer.");
   }
 
+  function validateEmailAddresses(form) {
+    var invalid = Array.prototype.slice.call(form.querySelectorAll('input[type="email"]')).find(function (control) {
+      var value = String(control.value || "").trim();
+      return !control.disabled && value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    });
+    return !invalid || setRuleError(form, invalid, "Enter a complete email address, such as name@example.com.");
+  }
+
   function formatWebToLeadDate(value) {
     var match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
     if (!match || config.salesforceDateFormat !== "DMY") return value;
@@ -844,7 +852,7 @@
         if (hasBlankRequiredText(form)) return;
         if (!validateCheckboxChoices(form)) return;
         if (!validateCodeOfConduct()) return;
-        if (!validateFieldLengths(form) || !validateBookingReferences(form) || !validateCatalogPricing(form) || !validateStaffUpdate(form) || !validateHeavyItems(form)) return;
+        if (!validateFieldLengths(form) || !validateEmailAddresses(form) || !validateBookingReferences(form) || !validateCatalogPricing(form) || !validateStaffUpdate(form) || !validateHeavyItems(form)) return;
         if (!form.checkValidity()) {
           setStatus(form, "Please complete the highlighted required fields.", "error");
           form.reportValidity();
