@@ -374,32 +374,6 @@
     };
   }
 
-  function eligibleCategoriesForSpace(spaceName) {
-    var restrictions = {
-      "Local Government Authority - Single - £249.50 + VAT": ["Local Government or LG related"],
-      "Blue Light - Single - £249.50 + VAT": ["Employer - Blue Light & NHS"],
-      "Trade Association - Single - £499 + VAT": ["Trade Association"],
-      "COBSEO Charity - Single - Free": ["Charity - member of Cobseo"],
-      "Non COBSEO Charity - Single - Free": ["Charity - not a member of Cobseo"]
-    };
-    return restrictions[spaceName] || [];
-  }
-
-  function syncExhibitorEligibility(form, category) {
-    form.querySelectorAll('[name="exhibitor-space"]').forEach(function (space) {
-      var allowed = eligibleCategoriesForSpace(space.value);
-      var unavailable = Boolean(category) && allowed.length > 0 && allowed.indexOf(category) === -1;
-      if (unavailable && space.checked) space.checked = false;
-      space.disabled = unavailable;
-      var option = space.closest("label");
-      if (option) {
-        option.classList.toggle("option-unavailable", unavailable);
-        if (unavailable) option.setAttribute("aria-disabled", "true");
-        else option.removeAttribute("aria-disabled");
-      }
-    });
-  }
-
   function setupPackageSummary() {
     var checkboxes = Array.prototype.slice.call(document.querySelectorAll("[data-package-price]"));
     var countNode = document.querySelector("[data-package-count]");
@@ -444,7 +418,6 @@
     }
     function sync() {
       var category = document.getElementById("organisation-category");
-      syncExhibitorEligibility(form, category ? category.value : "");
       var space = form.querySelector('[name="exhibitor-space"]:checked');
       var complimentaryBenefits = form.querySelector('[data-complimentary-benefits]');
       if (complimentaryBenefits) complimentaryBenefits.hidden = !space || !/^(?:COBSEO|Non COBSEO) Charity - Single - Free$/.test(space.value);
@@ -504,8 +477,7 @@
       }
 
       if (savings && space) {
-        var halfPriceSpace = /^(?:Local Government Authority|Blue Light) - Single - /.test(space.value)
-          && eligibleCategoriesForSpace(space.value).indexOf(category ? category.value : "") !== -1;
+        var halfPriceSpace = /^(?:Local Government Authority|Blue Light) - Single - /.test(space.value);
         var spaceSaving = halfPriceSpace ? exhibitorSpacePrices["Any other business - Single - £499 + VAT"] - pricing.spacePrice : 0;
         var powerSaving = pricing.discounted && pricing.powerTotal > 0 ? socketCount * 100 - pricing.powerTotal : 0;
         var savingTotal = spaceSaving + powerSaving;
@@ -979,7 +951,6 @@
     calculateExhibitorPricing: calculateExhibitorPricing,
     includedStaffForSpace: includedStaffForSpace,
     qualifiesForPowerDiscount: qualifiesForPowerDiscount,
-    eligibleCategoriesForSpace: eligibleCategoriesForSpace,
     formatWebToLeadDate: formatWebToLeadDate,
     resolveReturnUrl: resolveReturnUrl
   };
