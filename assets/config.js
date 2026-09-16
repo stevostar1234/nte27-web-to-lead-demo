@@ -11,7 +11,7 @@ window.NTE_CONFIG = {
   termsUrl: "https://www.nationaltransitionevent.com/privacy",
   termsLinkLabel: "NTE27 Privacy Policy",
   siteNotice: "",
-  logoFileRequestUrl: "",
+  logoFileRequestUrl: "https://missioncommunityorg.sharepoint.com/:f:/s/MissionCommunity/IgACqM_zXPyfQ6rpuy0q2kTJAZYM8Ny7YDP8_9OO_DGD4tg",
   supportEmail: "nte@missioncommunity.org",
   fieldLimits: {
     Booking_Reference__c: 80,
