@@ -71,8 +71,16 @@
           <div class="field full"><label class="required" for="volunteer-forces-service">Have you served, or are you currently serving, in HM Armed Forces?</label><select id="volunteer-forces-service" required data-sf-field="Volunteer_Armed_Forces_Service__c"><option value="">Select</option><option>Yes</option><option>No</option></select></div>
         </div>
         <div class="conditional" data-conditional-for="volunteer-forces-service" data-conditional-value="Yes">
+          <fieldset class="choice-fieldset">
+            <legend class="label">Service</legend>
+            <div class="choice-grid">
+              <label class="choice"><input type="checkbox" value="British Army" data-sf-field="Volunteer_Service_Details__c"><span>British Army</span></label>
+              <label class="choice"><input type="checkbox" value="Royal Navy" data-sf-field="Volunteer_Service_Details__c"><span>Royal Navy</span></label>
+              <label class="choice"><input type="checkbox" value="Royal Air Force" data-sf-field="Volunteer_Service_Details__c"><span>Royal Air Force</span></label>
+              <label class="choice"><input type="checkbox" value="Royal Marines" data-sf-field="Volunteer_Service_Details__c"><span>Royal Marines</span></label>
+            </div>
+          </fieldset>
           <div class="grid">
-            <div class="field full"><label for="volunteer-service-details">Service, unit, station or ship</label><textarea id="volunteer-service-details" data-sf-field="Volunteer_Service_Details__c"></textarea></div>
             <div class="field full"><label for="volunteer-service-dates">Dates in Service</label><input id="volunteer-service-dates" data-sf-field="Volunteer_Service_Dates__c" placeholder="For example, 2008 to 2016"></div>
           </div>
         </div>
