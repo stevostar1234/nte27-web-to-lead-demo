@@ -578,6 +578,25 @@
     return !invalid || setRuleError(form, invalid, "Enter a complete email address, such as name@example.com.");
   }
 
+  function normalizeWebsiteAddress(value) {
+    var trimmed = String(value || "").trim();
+    if (!trimmed) return "";
+    // People usually type "www.example.org"; a URL field needs a scheme to be valid.
+    if (!/^[a-z][a-z0-9+.-]*:/i.test(trimmed)) trimmed = "https://" + trimmed;
+    return trimmed;
+  }
+
+  function validateWebsiteAddresses(form) {
+    var invalid = Array.prototype.slice.call(form.querySelectorAll('input[type="url"]')).find(function (control) {
+      if (control.disabled) return false;
+      var value = normalizeWebsiteAddress(control.value);
+      if (!value) return false;
+      if (value !== String(control.value || "")) control.value = value;
+      return !control.checkValidity();
+    });
+    return !invalid || setRuleError(form, invalid, "Enter the website address, such as https://www.example.org, or leave it blank.");
+  }
+
   function formatWebToLeadDate(value) {
     var match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
     if (!match || config.salesforceDateFormat !== "DMY") return value;
@@ -765,6 +784,9 @@
       // Normalise references and refresh conditional requirements before asking
       // the browser to validate; reportValidity still enforces native rules.
       form.noValidate = true;
+      // The markup ships its submit control disabled, so a page whose engine never
+      // started cannot post an unvalidated form. Enable it now the engine is ready.
+      form.querySelectorAll('[type="submit"]').forEach(function (button) { button.removeAttribute("disabled"); });
       var validateCodeOfConduct = setupCodeOfConduct(form);
       try {
         populateSystemFields(form);
@@ -811,7 +833,7 @@
         if (hasBlankRequiredText(form)) return;
         if (!validateCheckboxChoices(form)) return;
         if (!validateCodeOfConduct()) return;
-        if (!validateFieldLengths(form) || !validateEmailAddresses(form) || !validateBookingReferences(form) || !validateCatalogPricing(form) || !validateStaffUpdate(form) || !validateHeavyItems(form)) return;
+        if (!validateWebsiteAddresses(form) || !validateFieldLengths(form) || !validateEmailAddresses(form) || !validateBookingReferences(form) || !validateCatalogPricing(form) || !validateStaffUpdate(form) || !validateHeavyItems(form)) return;
         if (!form.checkValidity()) {
           setStatus(form, "Please complete the highlighted required fields.", "error");
           form.reportValidity();
@@ -952,6 +974,7 @@
     includedStaffForSpace: includedStaffForSpace,
     qualifiesForPowerDiscount: qualifiesForPowerDiscount,
     formatWebToLeadDate: formatWebToLeadDate,
+    normalizeWebsiteAddress: normalizeWebsiteAddress,
     resolveReturnUrl: resolveReturnUrl
   };
 }());
