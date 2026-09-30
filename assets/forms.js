@@ -162,9 +162,8 @@
     var londonDate = ["year", "month", "day"].map(function (partName) {
       return londonDateParts.find(function (part) { return part.type === partName; }).value;
     }).join("-");
-    document.querySelectorAll('[data-sf-field="Declaration_Date__c"]').forEach(function (control) {
-      control.max = londonDate;
-      if (config.declarationMinDate) control.min = config.declarationMinDate;
+    document.querySelectorAll("[data-declaration-date]").forEach(function (control) {
+      control.value = londonDate;
     });
     document.querySelectorAll('[data-sf-field="Date_of_Birth__c"]').forEach(function (control) {
       control.max = londonDate;
