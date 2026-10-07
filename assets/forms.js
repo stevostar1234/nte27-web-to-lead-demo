@@ -3,14 +3,13 @@
 
   var config = window.NTE_CONFIG || window.NTE27_CONFIG || {};
   var vatRate = 20;
-  var pricingVersion = "NTE27-2026-09-13-VAT";
+  var pricingVersion = "NTE27-2026-10-07-VAT";
   var syncConditionalSections = function () {};
   var derivedFieldSynchronizers = [];
   var sponsorPackagePrices = {
-    "Headline Partner": 30000, "Gold Partner": 15000, "Premier Partner": 7000, "Champion Partner": 2000,
-    "Zone Sponsor": 5000, "Community Stage Sponsor": 6000, "Podcast Corner Sponsor": 6000,
-    "Event Guide Sponsor": 5000, "Delegate Tote Bag Sponsor": 5000, "Helmet Bay Sponsor": 3000,
-    "Auditorium Sponsor": 5000, "Live Stream Sponsor": 6000, "Wristband Sponsor": 3000, "Escapade Sponsor": 9000
+    "Headline Partner": 20000, "Gold Partner": 15000, "Premier Partner": 7000, "Champion Partner": 2000,
+    "Zone Sponsor": 5000, "Community Stage Sponsor": 6000, "Event Guide Sponsor": 5000, "Delegate Tote Bag Sponsor": 5000, "Helmet Bay Sponsor": 3000,
+    "Auditorium Sponsor": 6000, "Wristband Sponsor": 3000
   };
   var exhibitorSpacePrices = {
     "Garage Space - reduced size with power - £599 + VAT": 599,
@@ -283,6 +282,11 @@
   }
 
   function populateSystemFields(form) {
+    var typeField = form.querySelector('[data-sf-field="Web_Form_Type__c"]');
+    if (typeField && (typeField.value === "Exhibitor Application" || typeField.value === "Partner / Sponsor Application")) {
+      setPricingField(form, "Payment_Method__c", typeField.value === "Exhibitor Application" ? "Stripe" : "Manual");
+      setPricingField(form, "Invoice_Requested__c", typeField.value === "Exhibitor Application" ? "No" : "Yes");
+    }
     var eventField = form.querySelector('[data-sf-field="NTE_Event_Code__c"]');
     if (eventField) eventField.value = resolveEventCode(new Date());
     var bookingField = form.querySelector('[data-sf-field="Booking_Reference__c"]');
