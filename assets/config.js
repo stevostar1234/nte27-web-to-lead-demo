@@ -13,6 +13,11 @@ window.NTE_CONFIG = {
   logoFileRequestUrl: "https://missioncommunityorg.sharepoint.com/:f:/s/MissionCommunity/IgACqM_zXPyfQ6rpuy0q2kTJAZYM8Ny7YDP8_9OO_DGD4tg",
   supportEmail: "nte@missioncommunity.org",
   fieldLimits: {
+    Delivery_Legal_Name__c: 200,
+    Delivery_Address__c: 1000,
+    Delivery_Admin_Name__c: 200,
+    Delivery_Admin_Email__c: 80,
+    Delivery_Admin_Phone__c: 40,
     Booking_Reference__c: 80,
     Target_Booking_Reference__c: 80,
     NTE_Event_Code__c: 20,
@@ -83,6 +88,11 @@ window.NTE_CONFIG = {
     Volunteer_Form_Version__c: 80
   },
   customFieldIds: {
+    Delivery_Address__c: "00NAd00000JFMlFMAX",
+    Delivery_Admin_Email__c: "00NAd00000JFMlGMAX",
+    Delivery_Admin_Name__c: "00NAd00000JFMlHMAX",
+    Delivery_Admin_Phone__c: "00NAd00000JFMlIMAX",
+    Delivery_Legal_Name__c: "00NAd00000JFMlJMAX",
     Web_Form_Type__c: "00NAd00000HZSWDMA5",
     Booking_Reference__c: "00NAd00000Hy98JMAR",
     Target_Booking_Reference__c: "00NAd00000Hy98xMAB",
