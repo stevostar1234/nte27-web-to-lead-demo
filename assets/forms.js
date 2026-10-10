@@ -89,16 +89,21 @@
     document.querySelectorAll("[data-current-year]").forEach(function (node) {
       node.textContent = String(new Date().getFullYear());
     });
-    document.querySelectorAll('[data-config-link="terms"]').forEach(function (link) {
-      if (config.termsUrl) {
-        link.href = config.termsUrl;
-        if (config.termsLinkLabel) link.textContent = config.termsLinkLabel;
-      } else {
-        link.href = "#terms-link-required";
-        link.setAttribute("aria-disabled", "true");
-        link.title = "The terms are temporarily unavailable.";
-        link.addEventListener("click", function (event) { event.preventDefault(); });
-      }
+    ["privacy", "terms"].forEach(function (kind) {
+      document.querySelectorAll('[data-config-link="' + kind + '"]').forEach(function (link) {
+        if (config[kind + "Url"]) {
+          link.href = config[kind + "Url"];
+          if (config[kind + "LinkLabel"]) link.textContent = config[kind + "LinkLabel"];
+        } else {
+          link.removeAttribute("href");
+          link.setAttribute("aria-disabled", "true");
+          link.addEventListener("click", function (event) { event.preventDefault(); });
+        }
+      });
+    });
+    document.querySelectorAll('[data-booking-terms]').forEach(function (section) {
+      section.hidden = !config.termsUrl;
+      section.querySelectorAll("input").forEach(function (input) { input.disabled = !config.termsUrl; });
     });
     document.querySelectorAll('[data-config-link="logo"]').forEach(function (link) {
       if (config.logoFileRequestUrl) {
@@ -522,7 +527,7 @@
       var api = control.dataset.sfField;
       if (!api) return;
       if ((control.type === "checkbox" || control.type === "radio") && !control.checked) return;
-      var value = control.type === "checkbox" && api === "Terms_and_Conditions__c" ? "1" : control.value;
+      var value = control.value;
       if (typeof value === "string") value = value.trim();
       if (control.type === "date") value = formatWebToLeadDate(value);
       if (value === "") return;
@@ -686,7 +691,8 @@
     if (!config.endpoint) missing.push("Salesforce endpoint");
     if (!config.orgId) missing.push("Salesforce organisation ID");
     if (!resolveReturnUrl(form)) missing.push("post-submission return URL");
-    if (form.querySelector('[data-config-link="terms"]') && !config.termsUrl) missing.push("Terms and Conditions PDF URL");
+    if (form.querySelector('[data-config-link="privacy"]') && !config.privacyUrl) missing.push("Privacy Policy URL");
+    if (config.mode === "production" && form.querySelector('[data-booking-terms]') && !config.termsUrl) missing.push("Terms and Conditions URL");
     return missing;
   }
 
