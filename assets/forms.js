@@ -868,14 +868,22 @@
         if (event.target && event.target.type === "date") configureFieldConstraints();
       });
     });
-    if (window.addEventListener) window.addEventListener("pageshow", function () {
+    if (window.addEventListener) window.addEventListener("pageshow", function (event) {
       configureFieldConstraints();
       document.querySelectorAll("form[data-web-to-lead]").forEach(function (form) {
-        restoreSubmitControls(form);
+        var wasSubmitting = form.dataset.submitting === "true";
+        if (wasSubmitting && !event.persisted) return;
         clearRuleErrors(form);
         try {
+          // Returning to a submitted application starts a new submission. A
+          // synchronous transport failure has already cleared the busy state.
+          var bookingField = form.querySelector('input[type="hidden"][data-sf-field="Booking_Reference__c"]');
+          if (wasSubmitting && bookingField && !form.querySelector('[data-sf-field="Target_Booking_Reference__c"]')) {
+            bookingField.value = bookingReference();
+          }
           populateSystemFields(form);
           syncFormState(form);
+          restoreSubmitControls(form);
         } catch (error) {
           setStatus(form, "This form is currently unavailable. Reload the page and try again.", "error");
         }
