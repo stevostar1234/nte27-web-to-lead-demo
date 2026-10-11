@@ -11,6 +11,7 @@ window.NTE_CONFIG = {
   privacyLinkLabel: "NTE27 Privacy Policy",
   termsUrl: "",
   termsLinkLabel: "NTE27 Terms and Conditions",
+  allowUnlinkedTermsForTesting: false,
   siteNotice: "",
   logoFileRequestUrl: "https://missioncommunityorg.sharepoint.com/:f:/s/MissionCommunity/IgACqM_zXPyfQ6rpuy0q2kTJAZYM8Ny7YDP8_9OO_DGD4tg",
   supportEmail: "nte@missioncommunity.org",

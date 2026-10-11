@@ -200,3 +200,5 @@ input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="
 }
 
 [data-estimate], [data-package-total], [data-top-up-estimate] { display: block; white-space: pre-line; line-height: 1.7; }
+
+[data-config-link="terms"]:not([href]) { color: inherit; text-decoration: none; cursor: inherit; }

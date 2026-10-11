@@ -102,8 +102,9 @@
       });
     });
     document.querySelectorAll('[data-booking-terms]').forEach(function (section) {
-      section.hidden = !config.termsUrl;
-      section.querySelectorAll("input").forEach(function (input) { input.disabled = !config.termsUrl; });
+      var available = !!config.termsUrl || config.allowUnlinkedTermsForTesting === true;
+      section.hidden = !available;
+      section.querySelectorAll("input").forEach(function (input) { input.disabled = !available; });
     });
     document.querySelectorAll('[data-config-link="logo"]').forEach(function (link) {
       if (config.logoFileRequestUrl) {
@@ -692,7 +693,7 @@
     if (!config.orgId) missing.push("Salesforce organisation ID");
     if (!resolveReturnUrl(form)) missing.push("post-submission return URL");
     if (form.querySelector('[data-config-link="privacy"]') && !config.privacyUrl) missing.push("Privacy Policy URL");
-    if (config.mode === "production" && form.querySelector('[data-booking-terms]') && !config.termsUrl) missing.push("Terms and Conditions URL");
+    if (config.mode === "production" && form.querySelector('[data-booking-terms]') && !config.termsUrl && config.allowUnlinkedTermsForTesting !== true) missing.push("Terms and Conditions URL");
     return missing;
   }
 
